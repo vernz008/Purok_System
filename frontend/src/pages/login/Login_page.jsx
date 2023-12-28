@@ -163,6 +163,7 @@ const Login_page = () => {
                   monitor_md:h-[3.5rem] 
 
                   monitor_xxl:mt-5
+                  monitor_xxl:h-[4.5rem]
                 "
                 >
                   <div className="flex justify-start items-center w-full h-[2rem]">
@@ -189,7 +190,7 @@ const Login_page = () => {
                   monitor_md:h-[2.5rem]
 
                   monitor_xxl:text-[18px]
-                  monitor_xxl:h-[3rem]
+                  monitor_xxl:h-[4rem]
                   "
                   >
                     Sign in
