@@ -9,9 +9,15 @@ const Login_page = () => {
         <div className="w-full h-full flex justify-center items-center">
           <form
             action=""
-            className="w-[65%] h-[75%] bg-white flex rounded-lg shadow-lg shadow-gray-400
+            className="bg-white flex rounded-lg shadow-lg shadow-gray-400
+            monitor_sm:w-[55%]
+            monitor_sm:h-[70%]
+
             monitor_md:w-[55%]
             monitor_md:h-[70%]
+
+            monitor_xxl:w-[65%]
+            monitor_xxl:h-[75%]
             "
           >
             {/* Right */}
@@ -28,28 +34,39 @@ const Login_page = () => {
             <div className="w-[50%] flex flex-col justify-center items-center">
               {/* Logo Container */}
               <div
-                className="w-[65%] h-[25%] flex justify-center items-center
+                className="flex justify-center items-center
+              monitor_sm:h-[20%]  
+              monitor_sm:w-[80%]  
+              
               monitor_md:h-[25%]
               monitor_md:w-[80%]
 
 
-              monitor_xxl:h-[25%]
+              monitor_xxl:h-[28%]
+              monitor_xxl:w-[80%]
               "
               >
                 <img
                   src={LoginLogoImg}
                   alt=""
                   className="
+                monitor_sm:w-[25%]  
+
                 monitor_md:w-[35%]
 
-                monitor_xxl:w-[45%]
+                monitor_xxl:w-[42%]
                 "
                 />
               </div>
 
               {/* Container of input fields */}
               <div
-                className="w-[65%] flex flex-col justify-evenly items-center border-[1px] border-gray-300 
+                className="flex flex-col justify-evenly items-center border-[1px] border-gray-300 
+              monitor_sm:mt-2 
+              monitor_sm:p-2  
+              monitor_sm:w-[80%]  
+              monitor_sm:h-[45%]  
+             
               monitor_md:h-[50%]
               monitor_md:w-[80%]
               monitor_md:mt-2
@@ -63,6 +80,8 @@ const Login_page = () => {
                 {/* Input Fields */}
                 <div
                   className="
+                monitor_sm:w-full 
+
                 monitor_md:w-full 
                 "
                 >
@@ -70,6 +89,8 @@ const Login_page = () => {
                     <label
                       htmlFor=""
                       className="
+                  monitor_sm:text-[12px]
+
                   monitor_md:text-[12px]
 
                   monitor_xxl:text-[14px]
@@ -81,7 +102,10 @@ const Login_page = () => {
                       type="text"
                       required
                       placeholder="Enter username . . ."
-                      className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
+                      className="w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
+                    monitor_sm:h-[2rem]
+                    monitor_sm:text-[12px]
+
                     monitor_md:h-[2rem]
                     monitor_md:text-[12px]
 
@@ -92,6 +116,8 @@ const Login_page = () => {
                   </div>
                   <div
                     className="flex flex-col justify-start items-start w-full
+                 monitor_sm:mt-2
+
                  monitor_md:mt-2
                  monitor_md:h-[auto] 
 
@@ -101,6 +127,8 @@ const Login_page = () => {
                     <label
                       htmlFor=""
                       className="
+                  monitor_sm:text-[12px]
+
                   monitor_md:text-[12px]
                   
                   monitor_xxl:text-[14px]
@@ -114,6 +142,9 @@ const Login_page = () => {
                       required
                       placeholder="Enter password . . ."
                       className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
+                    monitor_sm:h-[2rem]
+                    monitor_sm:text-[12px]
+
                     monitor_md:h-[2rem]
                     monitor_md:text-[12px]
 
@@ -126,6 +157,8 @@ const Login_page = () => {
 
                 <div
                   className="flex flex-col justify-center items-center w-full
+                  monitor_sm:mt-2
+
                   monitor_md:mt-3
                   monitor_md:h-[3.5rem] 
 
@@ -137,6 +170,8 @@ const Login_page = () => {
                     <label
                       htmlFor=""
                       className="
+                      monitor_sm:text-[11px]
+
                       monitor_md:text-[11px]
 
                       monitor_xxl:text-[14px]
@@ -147,8 +182,11 @@ const Login_page = () => {
                   </div>
                   <button
                     className="w-full font-bold bg-blue-500 text-white rounded-sm transition duration-300 cursor-pointer hover:opacity-80
-                    monitor_md:text-[14px]
-                    monitor_md:h-[2.5rem]
+                  monitor_sm:h-[2rem]
+                  monitor_sm:text-[12px]
+
+                  monitor_md:text-[14px]
+                  monitor_md:h-[2.5rem]
 
                   monitor_xxl:text-[18px]
                   monitor_xxl:h-[3rem]
@@ -163,6 +201,9 @@ const Login_page = () => {
               </div>
               <div
                 className="h-[10%] w-[65%] flex items-center justify-center mt-5 border-[1px] border-gray-300 p-5
+                monitor_sm:w-[80%] 
+                monitor_sm:mt-2 
+
                 monitor_md:mt-2
                 monitor_md:w-[80%]
               "
@@ -171,6 +212,8 @@ const Login_page = () => {
                   <span className="flex">
                     <p
                       className="
+                      monitor_sm:text-[12px]
+
                       monitor_md:text-[12px]
 
                       monitor_xxl:text-[14px] 
@@ -181,6 +224,8 @@ const Login_page = () => {
                     <a
                       href="/#"
                       className="ml-2 hover:underline text-blue-500 font-bold hover:text-blue-400
+                      monitor_sm:text-[12px]
+                     
                       monitor_md:text-[12px]
 
                       monitor_xxl:text-[14px] 

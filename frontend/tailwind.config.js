@@ -4,8 +4,9 @@ export default {
   theme: {
     extend: {},
     screens: {
-      monitor_xsm: "1024px",
-      monitor_sm: "1280px",
+      monitor_xxsm: "1024px",
+      monitor_xsm: "1280px",
+      monitor_sm: "1360px",
       monitor_md: "1366px",
       monitor_xl: "1440px",
       monitor_xxl: "1680px",
