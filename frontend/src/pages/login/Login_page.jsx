@@ -23,10 +23,25 @@ const Login_page = () => {
 
             {/* Left */}
             <div className="w-[50%] flex flex-col justify-center items-center">
-              <div className="w-[65%] h-[25%] flex justify-center items-center">
-                <img src={LoginLogoImg} alt="" className="w-[12rem] h-auto" />
+              <div
+                className="w-[65%] h-[25%] flex justify-center items-center
+            xl:h-[20%]
+              "
+              >
+                <img
+                  src={LoginLogoImg}
+                  alt=""
+                  className="w-[12rem] h-auto
+                xl:w-[30%]
+                "
+                />
               </div>
-              <div className="w-[65%] h-[40%] flex flex-col justify-start items-center p-5 border-[1px] border-gray-300 mt-5">
+              <div
+                className="w-[65%] h-[40%] flex flex-col justify-start items-center p-5 border-[1px] border-gray-300 mt-5 
+              xl:h-[60%]
+              xl:mt-2
+              "
+              >
                 {/* Input Fields */}
                 <div className="flex flex-col justify-start items-start w-full h-[5rem]">
                   <label htmlFor="">Username:</label>
@@ -34,7 +49,9 @@ const Login_page = () => {
                     type="text"
                     required
                     placeholder="Enter username . . ."
-                    className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none"
+                    className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
+                    xl:h-[2rem]
+                    "
                   />
                 </div>
                 <div className="flex flex-col justify-start items-start w-full h-[5rem] mt-2">
@@ -43,14 +60,25 @@ const Login_page = () => {
                     type="password"
                     required
                     placeholder="Your password . . ."
-                    className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none"
+                    className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
+                    xl:h-[2rem]
+                    "
                   />
                 </div>
 
-                <div className="flex flex-col justify-center items-center h-[30%] w-full mt-5">
+                <div
+                  className="flex flex-col justify-center items-center h-[30%] w-full mt-5
+                xl:mt-2
+                "
+                >
                   <div className="flex justify-start items-center w-full h-[2rem]">
                     <input type="checkbox" name="" id="" className="mr-2" />
-                    <label htmlFor="" className="text-[14px]">
+                    <label
+                      htmlFor=""
+                      className="text-[14px]
+                    xl:text-[12px]
+                    "
+                    >
                       Remember me
                     </label>
                   </div>
