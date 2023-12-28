@@ -1,0 +1,23 @@
+Information Gathered:
+1. Masterlist (MT & members)
+2. Attendance
+3. Dalaw Form
+4. R2 01 Monthly Report
+
+
+Entities:
+1. Purok Leader
+2. Secretary
+
+Processes:
+1. Add member to masterlist. 
+2. Prepare dalaw form.
+3. Prepare attendance.
+
+Data Store:
+1. Member
+2. Dalaw Card
+3. Attendance Sheet
+
+
+
