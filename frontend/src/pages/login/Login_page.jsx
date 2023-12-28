@@ -117,9 +117,9 @@ const Login_page = () => {
                 </div>
 
                 <div
-                  className="flex flex-col justify-center items-center h-[30%] w-full
-                  monitor_md:mt-4
-                  monitor_md:h-auto 
+                  className="flex flex-col justify-center items-center w-full
+                  monitor_md:mt-3
+                  monitor_md:h-[3.5rem] 
 
                   monitor_xxl:mt-5
                 "
@@ -140,9 +140,9 @@ const Login_page = () => {
                   <button
                     className="w-full font-bold bg-blue-500 text-white rounded-sm transition duration-300 cursor-pointer hover:opacity-80
                     monitor_md:text-[14px]
-                    monitor_md:h-[2rem]
+                    monitor_md:h-[2.5rem]
 
-                    monitor_xxl:text-[18px]
+                  monitor_xxl:text-[18px]
                   monitor_xxl:h-[3rem]
                   "
                   >
