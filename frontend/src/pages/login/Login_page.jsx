@@ -9,7 +9,10 @@ const Login_page = () => {
         <div className="w-full h-full flex justify-center items-center">
           <form
             action=""
-            className="w-[65%] h-[75%] bg-white flex rounded-lg shadow-lg shadow-gray-400"
+            className="w-[65%] h-[75%] bg-white flex rounded-lg shadow-lg shadow-gray-400
+            monitor_md:w-[55%]
+            monitor_md:h-[70%]
+            "
           >
             {/* Right */}
             <div className="w-[50%] border-r-[2px] border-r-slate-300 flex justify-center items-center ">
@@ -27,6 +30,8 @@ const Login_page = () => {
               <div
                 className="w-[65%] h-[25%] flex justify-center items-center
               monitor_md:h-[25%]
+              monitor_md:w-[80%]
+
 
               monitor_xxl:h-[25%]
               "
@@ -34,8 +39,8 @@ const Login_page = () => {
                 <img
                   src={LoginLogoImg}
                   alt=""
-                  className="w-[12rem] h-auto
-                monitor_md:w-[40%]
+                  className="
+                monitor_md:w-[35%]
 
                 monitor_xxl:w-[45%]
                 "
@@ -44,8 +49,9 @@ const Login_page = () => {
 
               {/* Container of input fields */}
               <div
-                className="w-[65%] flex flex-col justify-start items-center border-[1px] border-gray-300 
-              monitor_md:h-[45%]
+                className="w-[65%] flex flex-col justify-evenly items-center border-[1px] border-gray-300 
+              monitor_md:h-[50%]
+              monitor_md:w-[80%]
               monitor_md:mt-2
               monitor_md:p-3
 
@@ -56,64 +62,66 @@ const Login_page = () => {
               >
                 {/* Input Fields */}
                 <div
-                  className="flex flex-col justify-start items-start w-full 
-                xl:h-[auto] 
+                  className="
+                monitor_md:w-full 
                 "
                 >
-                  <label
-                    htmlFor=""
-                    className="
+                  <div className="flex flex-col justify-start items-start">
+                    <label
+                      htmlFor=""
+                      className="
                   monitor_md:text-[12px]
 
                   monitor_xxl:text-[14px]
                   monitor_xxl:font-bold"
-                  >
-                    Username:
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Enter username . . ."
-                    className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
+                    >
+                      Username:
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Enter username . . ."
+                      className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
                     monitor_md:h-[2rem]
                     monitor_md:text-[12px]
 
                     monitor_xxl:h-[3rem]
                     monitor_xxl:text-[14px]
                     "
-                  />
-                </div>
-                <div
-                  className="flex flex-col justify-start items-start w-full
-                monitor_md:mt-2
-                monitor_md:h-[auto] 
+                    />
+                  </div>
+                  <div
+                    className="flex flex-col justify-start items-start w-full
+                 monitor_md:mt-2
+                 monitor_md:h-[auto] 
 
-                monitor_xxl:mt-5
+                 monitor_xxl:mt-5
                 "
-                >
-                  <label
-                    htmlFor=""
-                    className="
+                  >
+                    <label
+                      htmlFor=""
+                      className="
                   monitor_md:text-[12px]
                   
                   monitor_xxl:text-[14px]
                   monitor_xxl:font-bold
                   "
-                  >
-                    Password:
-                  </label>
-                  <input
-                    type="password"
-                    required
-                    placeholder="Enter password . . ."
-                    className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
+                    >
+                      Password:
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      placeholder="Enter password . . ."
+                      className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
                     monitor_md:h-[2rem]
                     monitor_md:text-[12px]
 
                     monitor_xxl:h-[3rem]
                     monitor_xxl:text-[14px]
                     "
-                  />
+                    />
+                  </div>
                 </div>
 
                 <div
@@ -156,6 +164,7 @@ const Login_page = () => {
               <div
                 className="h-[10%] w-[65%] flex items-center justify-center mt-5 border-[1px] border-gray-300 p-5
                 monitor_md:mt-2
+                monitor_md:w-[80%]
               "
               >
                 <div className="">
