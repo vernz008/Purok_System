@@ -102,7 +102,7 @@ const Login_page = () => {
                   <button
                     className="h-[3rem] w-full bg-blue-500 text-white rounded-sm text-[18px] font-bold transition duration-300 cursor-pointer hover:opacity-80
                   xl:text-[16px]
-                  xl:h-[2.5rem]
+                  xl:h-[2rem]
                   "
                   >
                     Sign in
