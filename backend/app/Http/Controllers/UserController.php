@@ -35,7 +35,40 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            //1. Validate
+            $request->validate([
+                'firstname' => "required",
+                'middlename' => "required",
+                'lastname' => "required",
+                'username' => "required",
+                'email' => "required",
+                'password' => "required",
+                'role' => "required",
+            ]);
+
+             //2. Execute the Query
+             $user = User::create([
+                'firstname' => $request->firstname,
+                'middlename' => $request->middlename,
+                'lastname' => $request->lastname,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => $request->password,
+                'role' => $request->role,
+            ]);
+
+            //3. Process the Result
+            if ($user) {
+                $user_all = User::all();
+                return response()->json($user_all, 201);
+            }else {
+                return response()->json(['message' => 'Failed to add data'], 500);
+            }
+
+        } catch (\Throwable $error) {
+            throw $error;
+        }
     }
 
     /**
