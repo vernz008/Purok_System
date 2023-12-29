@@ -5,24 +5,25 @@ import {
   FaSortAlphaDown,
   FaSortAlphaUp,
   FaArrowAltCircleLeft,
+  FaClipboardList,
 } from "react-icons/fa";
 import { BsMenuButtonWideFill, BsFillMenuAppFill } from "react-icons/bs";
 import { IoMdArrowDropleft, IoMdArrowDropdown } from "react-icons/io";
 
-const MasterlList_Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
+const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
   const [sort_toggle, setSort_Toggle] = useState(false);
   return (
-    <div className="w-full h-full flex flex-col justify-between border-r-[1px] bg-green-900 text-white">
+    <div className="w-full h-full flex flex-col justify-between border-r-[1px] bg-blue-500 text-white">
       {/* Side Bar Title */}
       <div className="w-full flex justify-between h-[80px] border-b-[2px]">
         <span
-          className={`${
+          className={`cursor-default  ${
             sidebar_toggle === false
               ? "w-[0%] opacity-0"
               : "w-[80%] flex justify-center items-center text-[20px] font-bold"
           } `}
         >
-          Master List
+          Masterlist
         </span>
         <button
           onClick={() => {
@@ -35,14 +36,18 @@ const MasterlList_Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
           }}
           className={`${
             sidebar_toggle === false
-              ? "w-[100%] flex justify-center items-center"
-              : "w-[35%] flex justify-center items-center"
+              ? "w-[100%] flex justify-center items-center "
+              : "w-[35%] flex justify-center items-center "
           } `}
         >
           {sidebar_toggle === true ? (
-            <BsFillMenuAppFill size={25} />
+            <span className="w-[70%] h-[60%] flex justify-center items-center  transition ease-in-out rounded-md duration-300 hover:bg-blue-400">
+              <BsFillMenuAppFill size={25} />
+            </span>
           ) : (
-            <BsMenuButtonWideFill size={25} />
+            <span className="w-[70%] h-[60%] flex justify-center items-center  transition ease-in-out rounded-md duration-300 hover:bg-blue-400">
+              <BsMenuButtonWideFill size={25} />
+            </span>
           )}
         </button>
       </div>
@@ -51,7 +56,13 @@ const MasterlList_Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
       {/* Sidebar Function Buttons */}
       <div className="w-full h-[70%]">
         <div className="w-full h-[10%] flex justify-center items-center">
-          <div className="w-[90%] h-[60%] flex justify-between items-center">
+          <div
+            className={`${
+              sidebar_toggle === false
+                ? "w-[90%] h-[70%] flex justify-between items-center"
+                : "w-[90%] h-[60%] flex justify-between items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300"
+            } `}
+          >
             <button
               onClick={() => {
                 setSort_Toggle(false);
@@ -59,27 +70,31 @@ const MasterlList_Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                   ? setSort_Toggle(true)
                   : setSort_Toggle(false);
               }}
-              className="flex justify-between items-center w-full h-[3rem] px-2 font-extrabold transition ease-in-out rounded-md duration-300 hover:bg-green-500"
+              className={`${
+                sidebar_toggle === false
+                  ? "flex justify-center items-center w-full h-full"
+                  : "flex justify-between items-center w-full h-[2.5rem] font-extrabold"
+              } `}
             >
               <span
                 className={`${
                   sidebar_toggle === false
-                    ? "w-full flex justify-center items-center"
+                    ? "w-[80%] h-[90%] flex justify-center items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300"
                     : "w-[20%] flex justify-center items-center h-full"
                 } `}
               >
-                <GrSort size={25} />
+                <FaClipboardList size={25} />
               </span>
               <p
                 className={`${
                   sidebar_toggle === false
                     ? "hidden"
-                    : " w-[70%] text-[25px] flex items-center h-full ml-2"
+                    : " w-[70%] text-[20px] flex items-center h-full"
                 }`}
               >
-                Sort
+                Masterlist
               </p>
-              {sort_toggle === false ? (
+              {/* {sort_toggle === false ? (
                 <span
                   className={`${
                     sidebar_toggle === false
@@ -99,7 +114,7 @@ const MasterlList_Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                 >
                   <IoMdArrowDropdown size={25} />
                 </span>
-              )}
+              )} */}
             </button>
           </div>
         </div>
@@ -120,7 +135,9 @@ const MasterlList_Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
               src={PurokLogoImg}
               alt=""
               className={`${
-                sidebar_toggle === false ? "w-[4rem]" : "w-[4rem]"
+                sidebar_toggle === false
+                  ? "w-[3.5rem] bg-white rounded-full"
+                  : "w-[3.5rem] bg-white rounded-full"
               } `}
             />
           </div>
@@ -140,7 +157,7 @@ const MasterlList_Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
   );
 };
 
-export default MasterlList_Sidebar;
+export default Sidebar;
 
 // <div className="w-full h-full flex flex-col border-r-[1px] bg-green-900">
 //   <div className="w-full h-[15rem] flex justify-center items-center border-b-[2px] ">
