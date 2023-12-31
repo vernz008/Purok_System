@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login_page from "./pages/login/Login_page";
-import Masterlist_Page from "./pages/admin/Masterlist_Page";
+import Admin_Dashboard from "./pages/admin/Admin_Dashboard";
 const App = () => {
   return (
     <>
@@ -9,7 +9,7 @@ const App = () => {
         <div>
           <Routes>
             <Route path="/" element={<Login_page />} />
-            <Route path="/1" element={<Masterlist_Page />} />
+            <Route path="/1" element={<Admin_Dashboard />} />
           </Routes>
         </div>
       </section>

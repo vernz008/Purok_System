@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../../components/admin/sidebar/Sidebar";
 import Masterlist_Content from "../../components/admin/content/Masterlist_Content";
 
-const Masterlist_Page = () => {
+const Admin_Dashboard = () => {
   const [sidebar_toggle, setSidebar_Toggle] = useState(false);
   const [tabs_pages, setTab_Pages] = useState(0);
   return (
@@ -32,4 +32,4 @@ const Masterlist_Page = () => {
   );
 };
 
-export default Masterlist_Page;
+export default Admin_Dashboard;
