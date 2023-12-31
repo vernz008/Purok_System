@@ -5,9 +5,24 @@ import { MdAssignmentAdd } from "react-icons/md";
 const Masterlist_Content = () => {
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
-      <div className="w-full h-[15%] p-6">
-        <div className="w-full h-auto border-b-[5px] border-b-gray-400 border-t-[1px] border-r-[1px] border-l-[1px] shadow-lg shadow-slate-300 p-3 flex justify-start items-center">
-          <div className="w-[12%] h-[3rem]">
+      {/* Top container */}
+      <div
+        className="w-full h-[15%] p-6
+      monitor_md:p-4
+      monitor_md:h-[18%]
+      "
+      >
+        <div
+          className="w-full h-auto border-b-[5px] border-b-gray-400 border-t-[1px] border-r-[1px] border-l-[1px] shadow-lg shadow-slate-300 p-3 flex justify-start items-center
+        monitor_md:h-[4.5rem]
+        "
+        >
+          <div
+            className="w-[12%] h-[3rem]
+          monitor_md:w-[15%]
+          monitor_md:h-[2.5rem]
+          "
+          >
             <button className="w-full h-full flex justify-center items-center rounded-md transition-all ease-in-out duration-300 bg-green-600 text-white hover:bg-green-500">
               <MdAssignmentAdd className="mr-4" size={20} />
               <p className="font-bold text-[16px]">Add Member</p>
@@ -15,8 +30,10 @@ const Masterlist_Content = () => {
           </div>
         </div>
       </div>
+      {/* Top container */}
+
+      {/* Table */}
       <div className="w-full h-[90%] p-2">
-        {/* Table */}
         <h1 className="px-5 text-[25px] font-bold">Masterlist</h1>
         <table className="w-[100%] h-[10%] overflow-hidden justify-evenly border-separate border-spacing-4">
           <thead className="">
