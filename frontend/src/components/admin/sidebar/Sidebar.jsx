@@ -154,7 +154,9 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                 sidebar_toggle === false
                   ? "w-[3.5rem] bg-white rounded-full"
                   : "w-[3.5rem] bg-white rounded-full"
-              } `}
+              }
+              monitor_md:w-[2.2rem]
+              `}
             />
           </div>
           <span
@@ -162,7 +164,10 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
               sidebar_toggle === false
                 ? "hidden"
                 : "w-[70%] flex justify-start items-center px-3 font-bold text-[16px]"
-            } `}
+            } 
+            monitor_md:text-[14px]
+            monitor_md:px-1
+            `}
           >
             User Admin
           </span>
