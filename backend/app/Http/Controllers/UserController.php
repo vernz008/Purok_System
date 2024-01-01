@@ -79,7 +79,17 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                return response()->json($user, 200);
+            }else{
+                return response()->json(['message' => 'User Not Found'], 404);
+            }
+        } catch (\Throwable $error) {
+            throw $error;
+        }
     }
 
     /**
@@ -91,7 +101,40 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            //1. Validate
+            $request->validate([
+                'firstname' => "required",
+                'middlename' => "required",
+                'lastname' => "required",
+                'username' => "required",
+                'email' => "required",
+                'password' => "required",
+                'role' => "required",
+            ]);
+
+           //2. Execute the Query
+           $user = User::find($id);
+
+           //3. Process the Result
+           if ($user) {
+           $user->firstname = $request->firstname;
+           $user->middlename = $request->middlename;
+           $user->lastname = $request->lastname;
+           $user->username = $request->username;
+           $user->email = $request->email;
+           $user->password = $request->password;
+           $user->role = $request->role;
+           $user->save();
+           
+               $user_all = User::all();
+               return response()->json($user_all, 201);
+           }else {
+               return response()->json(['message' => 'Failed to update data'], 500);
+           }
+   } catch (\Throwable $error) {
+       throw $error;
+   }
     }
 
     /**
@@ -102,6 +145,19 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                $user->delete();
+
+                $user_all = User::all();
+                return response()->json($user_all, 200);
+            }else{
+                return response()->json(['message'=>'User not found'],404);
+            }
+        } catch (\Throwable $error) {
+            throw $error;
+        }
     }
 }
