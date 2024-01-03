@@ -21,9 +21,14 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
             sidebar_toggle === false
               ? "w-[0%] opacity-0"
               : "w-[80%] flex justify-center items-center text-[20px] font-bold"
-          } `}
+          } 
+          monitor_md:text-[18px]
+
+          monitor_xxl:text-[25px]
+          monitor_xxsm:font-extrabold 
+          `}
         >
-          Masterlist
+          Dashboard
         </span>
         <button
           onClick={() => {
@@ -42,11 +47,23 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
         >
           {sidebar_toggle === true ? (
             <span className="w-[70%] h-[60%] flex justify-center items-center  transition ease-in-out rounded-md duration-300 hover:bg-blue-400">
-              <BsFillMenuAppFill size={25} />
+              <BsFillMenuAppFill
+                className="
+              monitor_md:text-[22px]
+
+              monitor_xxl:text-[25px]
+              "
+              />
             </span>
           ) : (
             <span className="w-[70%] h-[60%] flex justify-center items-center  transition ease-in-out rounded-md duration-300 hover:bg-blue-400">
-              <BsMenuButtonWideFill size={25} />
+              <BsMenuButtonWideFill
+                className="
+              monitor_md:text-[22px]
+
+              monitor_xxl:text-[25px] 
+              "
+              />
             </span>
           )}
         </button>
@@ -60,7 +77,7 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
             className={`${
               sidebar_toggle === false
                 ? "w-[90%] h-[70%] flex justify-between items-center"
-                : "w-[90%] h-[60%] flex justify-between items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300"
+                : "w-[90%] h-[60%] flex justify-between items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300 monitor_md:h-[70%] monitor_md:w-[80%]"
             } `}
           >
             <button
@@ -83,14 +100,22 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                     : "w-[20%] flex justify-center items-center h-full"
                 } `}
               >
-                <FaClipboardList size={25} />
+                <FaClipboardList
+                  className="text-[25px]
+              monitor_md:text-[20px]
+
+              monitor_xxl:text-[25px]
+              "
+                />
               </span>
               <p
                 className={`${
                   sidebar_toggle === false
                     ? "hidden"
                     : " w-[70%] text-[20px] flex items-center h-full"
-                }`}
+                } 
+                monitor_md:text-[18px]
+                `}
               >
                 Masterlist
               </p>
@@ -138,7 +163,11 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                 sidebar_toggle === false
                   ? "w-[3.5rem] bg-white rounded-full"
                   : "w-[3.5rem] bg-white rounded-full"
-              } `}
+              }
+              monitor_md:w-[2.2rem]
+
+              monitor_xxl:w-[3rem]
+              `}
             />
           </div>
           <span
@@ -146,7 +175,13 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
               sidebar_toggle === false
                 ? "hidden"
                 : "w-[70%] flex justify-start items-center px-3 font-bold text-[16px]"
-            } `}
+            } 
+            monitor_md:text-[14px]
+            monitor_md:px-1
+
+            monitor_xxl:text-[18px]
+            monitor_xxl:font-bold
+            `}
           >
             User Admin
           </span>
