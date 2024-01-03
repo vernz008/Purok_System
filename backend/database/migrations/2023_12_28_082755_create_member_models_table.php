@@ -17,19 +17,18 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('orgid');
             $table->unsignedBigInteger('purokid');
-            $table->unsignedBigInteger('statid');
             $table->string("firstname");
             $table->string("middlename");
             $table->string("lastname");
             $table->string("gender");
             $table->string("birthday");
             $table->string("address");
+            $table->string("status");
            
             $table->timestamps();
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('orgid')->references('id')->on('organizations')->onDelete('cascade')->onUpdate("cascade");
             $table->foreign('purokid')->references('id')->on('purok')->onDelete('cascade')->onUpdate("cascade");
-            $table->foreign('statid')->references('id')->on('transfer')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 
