@@ -22,7 +22,7 @@ class MemberModel extends Model
         'address',
         'orgid',
         'purokid',
-        'statid',
+        'status',
     ];
 
     public function organization()
@@ -33,11 +33,6 @@ class MemberModel extends Model
     public function purok()
     {
         return $this->belongsTo(PurokModel::class,"purokid");
-    }
-
-    public function transfer()
-    {
-        return $this->belongsTo(TransferModel::class,"statid");
     }
 
 }

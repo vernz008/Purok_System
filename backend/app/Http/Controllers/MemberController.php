@@ -15,11 +15,10 @@ class MemberController extends Controller
     public function index()
     {
         try {
-            $member = MemberModel::with('organization', 'purok', 'transfer')
+            $member = MemberModel::with('organization', 'purok')
             ->join('organization', 'organization.id', '=', 'members.orgid')
             ->join('purok', 'members.purokid', '=', 'purok.id')
-            ->join('transfer', 'members.statid', '=', 'transfer.id')
-            ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'transfer.status')
+            ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'members.status')
             ->get();
 
             if (count($member) > 0) {
