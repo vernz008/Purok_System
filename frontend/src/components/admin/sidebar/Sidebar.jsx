@@ -23,6 +23,9 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
               : "w-[80%] flex justify-center items-center text-[20px] font-bold"
           } 
           monitor_md:text-[18px]
+
+          monitor_xxl:text-[25px]
+          monitor_xxsm:font-extrabold 
           `}
         >
           Dashboard
@@ -45,16 +48,20 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
           {sidebar_toggle === true ? (
             <span className="w-[70%] h-[60%] flex justify-center items-center  transition ease-in-out rounded-md duration-300 hover:bg-blue-400">
               <BsFillMenuAppFill
-                className="text-[25px]
+                className="
               monitor_md:text-[22px]
+
+              monitor_xxl:text-[25px]
               "
               />
             </span>
           ) : (
             <span className="w-[70%] h-[60%] flex justify-center items-center  transition ease-in-out rounded-md duration-300 hover:bg-blue-400">
               <BsMenuButtonWideFill
-                className="text-[25px]
+                className="
               monitor_md:text-[22px]
+
+              monitor_xxl:text-[25px] 
               "
               />
             </span>
@@ -96,6 +103,8 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                 <FaClipboardList
                   className="text-[25px]
               monitor_md:text-[20px]
+
+              monitor_xxl:text-[25px]
               "
                 />
               </span>
@@ -156,6 +165,8 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                   : "w-[3.5rem] bg-white rounded-full"
               }
               monitor_md:w-[2.2rem]
+
+              monitor_xxl:w-[3rem]
               `}
             />
           </div>
@@ -167,6 +178,9 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
             } 
             monitor_md:text-[14px]
             monitor_md:px-1
+
+            monitor_xxl:text-[18px]
+            monitor_xxl:font-bold
             `}
           >
             User Admin

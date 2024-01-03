@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger("memberid");
             $table->unsignedBigInteger("actid");
             $table->string("notes");
-            $rable-
             $table->timestamps();
 
             $table->foreign('memberid')->references('id')->on('members')->onDelete('cascade')->onUpdate("cascade");
