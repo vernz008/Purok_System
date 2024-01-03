@@ -111,19 +111,19 @@ const Masterlist_Content = () => {
             "
             >
               <th className="w-[20%] h-full flex justify-center items-center">
-                ID
+                No.
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                ID
+                Given Name
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                ID
+                Lastname
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                ID
+                Birthday
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                ID
+                Gender
               </th>
               <th className="w-[20%] h-full flex justify-center items-center"></th>
             </tr>
@@ -138,6 +138,8 @@ const Masterlist_Content = () => {
                 className="w-full h-[10%] flex justify-between items-center  text-center shadow-md border-[2px] border-gray-300
               monitor_md:h-[13.5%] 
               monitor_md:text-[14px] 
+
+              monitor_xxl:h-[16%] 
               "
               >
                 <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
