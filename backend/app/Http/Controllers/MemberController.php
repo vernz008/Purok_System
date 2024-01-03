@@ -50,7 +50,7 @@ class MemberController extends Controller
                 'address' => "required",
                 'orgid' => "required|numeric",
                 'purokid' => "required|numeric",
-                'statid' => "required|numeric",
+                'status' => "required",
             ]);
 
             //2. Execute the Query
@@ -63,16 +63,15 @@ class MemberController extends Controller
                 'address' => $request->address,
                 'orgid' => $request->orgid,
                 'purokid' => $request->purokid,
-                'statid' => $request->statid,
+                'status' => $request->status,
             ]);
 
             //3. Process the Result
             if ($member) {
-                $member_all = MemberModel::with('organization', 'purok', 'transfer')
+                $member_all = MemberModel::with('organization', 'purok')
                 ->join('organization', 'organization.id', '=', 'members.orgid')
                 ->join('purok', 'members.purokid', '=', 'purok.id')
-                ->join('transfer', 'members.statid', '=', 'transfer.id')
-                ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'transfer.status')
+                ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'members.status')
                 ->get();
                 return response()->json($member_all, 201);
             }else {
@@ -124,7 +123,7 @@ class MemberController extends Controller
                 'address' => "required",
                 'orgid' => "required|numeric",
                 'purokid' => "required|numeric",
-                'statid' => "required|numeric",
+                'status' => "required",
            ]);
 
            //2. Execute the Query
@@ -140,14 +139,13 @@ class MemberController extends Controller
            $member->address = $request->address;
            $member->orgid = $request->orgid;
            $member->purokid = $request->purokid;
-           $member->statid = $request->statid;
+           $member->status = $request->status;
            $member->save();
            
-           $member_all = MemberModel::with('organization', 'purok', 'transfer')
+           $member_all = MemberModel::with('organization', 'purok')
            ->join('organization', 'organization.id', '=', 'members.orgid')
            ->join('purok', 'members.purokid', '=', 'purok.id')
-           ->join('transfer', 'members.statid', '=', 'transfer.id')
-           ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'transfer.status')
+           ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'members.status')
            ->get();
                return response()->json($member_all, 201);
            }else {
@@ -172,11 +170,10 @@ class MemberController extends Controller
             if ($member) {
                 $member->delete();
 
-                $member_all = MemberModel::with('organization', 'purok', 'transfer')
+                $member_all = MemberModel::with('organization', 'purok')
                 ->join('organization', 'organization.id', '=', 'members.orgid')
                 ->join('purok', 'members.purokid', '=', 'purok.id')
-                ->join('transfer', 'members.statid', '=', 'transfer.id')
-                ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'transfer.status')
+                ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'members.status')
                 ->get();
                 return response()->json($member_all, 200);
             }else{
