@@ -12,6 +12,5 @@ class OrganizationModel extends Model
     protected $table = "organizations";
     protected $fillable = [
         'kapisanan',
-        'year',
     ];
 }

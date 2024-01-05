@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
+import axiosClient from "../../../../utils/axios/axios-client";
+import { API_MEMBER } from "../../../../utils/urls/api_url";
 
 const Create_MasterList = ({
   setMasterList_Modal,
@@ -7,6 +9,22 @@ const Create_MasterList = ({
   purok_data,
   org_data,
 }) => {
+  const [] = useState({
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    gender: "",
+    birthday: "",
+    address: "",
+    orgid: 0,
+    purokid: 0,
+    status: "",
+  });
+  const submit_create_member = (e) => {
+    e.prevenDefault();
+
+    axiosClient.post(API_MEMBER, {});
+  };
   return (
     <div className="absolute !top-0 !left-0 w-screen h-screen z-999 bg-black/50 flex justify-center items-center overflow-hidden">
       <div
@@ -57,7 +75,7 @@ const Create_MasterList = ({
         monitor_md:px-5
         "
         >
-          <form action="" className="w-full">
+          <form action="" onSubmit={submit_create_member} className="w-full">
             <div className="w-full">
               <div className="w-full">
                 <fieldset

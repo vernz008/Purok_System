@@ -50,12 +50,6 @@ Route::get("/purok/{id}", [PurokController::class, 'show']);
 Route::put("/purok/{id}", [PurokController::class, 'update']);
 Route::delete("/purok/{id}", [PurokController::class, 'destroy']);
 
-Route::get("/transfer", [TransferController::class, 'index']);
-Route::post("/transfer", [TransferController::class, 'store']);
-Route::get("/transfer/{id}", [TransferController::class, 'show']);
-Route::put("/transfer/{id}", [TransferController::class, 'update']);
-Route::delete("/transfer/{id}", [TransferController::class, 'destroy']);
-
 Route::get("/member", [MemberController::class, 'index']);
 Route::post("/member", [MemberController::class, 'store']);
 Route::get("/member/{id}", [MemberController::class, 'show']);
