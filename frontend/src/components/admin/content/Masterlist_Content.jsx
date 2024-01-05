@@ -6,8 +6,10 @@ import axiosClient from "../../../utils/axios/axios-client";
 import {
   API_ORGANIZATION,
   API_PUROK,
-  API_TRANSFER,
+  API_MEMBER,
 } from "../../../utils/urls/api_url";
+import Update_MasterList from "../modal/MasterList/Update_MasterList";
+import { data } from "autoprefixer";
 
 const Masterlist_Content = () => {
   const [masterList, setMasterList] = useState([]);
@@ -15,6 +17,10 @@ const Masterlist_Content = () => {
   const [purok_data, setPurok_Data] = useState([]);
   const [transfer_data, setTransfer_Data] = useState([]);
   const [masterList_Modal, setMasterList_Modal] = useState(false);
+  const [update_masterList_Modal, setUpdate_MasterList_Modal] = useState({
+    id: 0,
+    activator: false,
+  });
 
   useEffect(() => {
     axiosClient
@@ -30,15 +36,6 @@ const Masterlist_Content = () => {
       .get(API_PUROK)
       .then((res) => {
         setPurok_Data(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axiosClient
-      .get(API_TRANSFER)
-      .then((res) => {
-        setTransfer_Data(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -160,6 +157,13 @@ const Masterlist_Content = () => {
                 <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
                   <div className="w-full h-full flex justify-center items-center">
                     <button
+                      onClick={() =>
+                        setUpdate_MasterList_Modal({
+                          ...update_masterList_Modal,
+                          id: data.id,
+                          activator: true,
+                        })
+                      }
                       className="mr-10 h-[2.5rem] w-[2.5rem] transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-black flex justify-center items-center
                      monitor_md:h-[1.8rem]
                      monitor_md:w-[1.8rem]
@@ -197,6 +201,21 @@ const Masterlist_Content = () => {
       {masterList_Modal === true ? (
         <Create_MasterList
           setMasterList_Modal={setMasterList_Modal}
+          setOrg_Data={setOrg_Data}
+          org_data={org_data}
+          setPurok_Data={setPurok_Data}
+          purok_data={purok_data}
+          setTransfer_Data={setTransfer_Data}
+          transfer_data={transfer_data}
+        />
+      ) : (
+        ""
+      )}
+
+      {update_masterList_Modal.activator === true ? (
+        <Update_MasterList
+          setUpdate_MasterList_Modal={setUpdate_MasterList_Modal}
+          update_masterList_Modal={update_masterList_Modal}
           setOrg_Data={setOrg_Data}
           org_data={org_data}
           setPurok_Data={setPurok_Data}

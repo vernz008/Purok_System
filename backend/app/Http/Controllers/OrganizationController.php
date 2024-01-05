@@ -39,13 +39,11 @@ class OrganizationController extends Controller
             //1. Validate
             $request->validate([
                 'kapisanan' => "required",
-                'year' => "required",
             ]);
 
             //2. Execute the Query
             $organization = OrganizationModel::create([
                 'kapisanan' => $request->kapisanan,
-                'year' => $request->year,
             ]);
 
             //3. Process the Result

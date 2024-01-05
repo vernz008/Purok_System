@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string("kapisanan");
-            $table->integer("year");
             $table->timestamps();
         });
     }
