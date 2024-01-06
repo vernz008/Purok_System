@@ -9,7 +9,7 @@ const Create_MasterList = ({
   purok_data,
   org_data,
 }) => {
-  const [] = useState({
+  const [createMember_inputData, setCreateMember_InputData] = useState({
     firstname: "",
     middlename: "",
     lastname: "",
@@ -20,6 +20,8 @@ const Create_MasterList = ({
     purokid: 0,
     status: "",
   });
+
+  console.log(createMember_inputData);
   const submit_create_member = (e) => {
     e.prevenDefault();
 
@@ -110,6 +112,12 @@ const Create_MasterList = ({
                         name=""
                         id=""
                         required
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            orgid: parseInt(e.target.value),
+                          });
+                        }}
                         className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
@@ -142,6 +150,12 @@ const Create_MasterList = ({
                         name=""
                         id=""
                         required
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            purokid: parseInt(e.target.value),
+                          });
+                        }}
                         className="border-[1px] shadow-md shadow-slate-400 w-full h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]

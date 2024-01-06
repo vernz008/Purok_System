@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
+import axiosClient from "../../../../utils/axios/axios-client";
+import { API_MEMBER } from "../../../../utils/urls/api_url";
 
 const Update_MasterList = ({
   setUpdate_MasterList_Modal,
   update_masterList_Modal,
-  transfer_data,
   purok_data,
   org_data,
 }) => {
+  const [memberById_data, setMemberByID_Data] = useState([]);
+  const [toggle_update, setToggle_Update] = useState({
+    update_org: false,
+    update_purok: false,
+  });
+
+  console.log(update_masterList_Modal.id);
+
+  useEffect(() => {
+    axiosClient
+      .get(API_MEMBER + `/${update_masterList_Modal.id}`)
+      .then((res) => {
+        setMemberByID_Data(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const submit_update_member = (e) => {
     e.prevenDefault();
   };
@@ -99,28 +119,48 @@ const Update_MasterList = ({
                         >
                           Organization
                         </label>
-                        <select
-                          name=""
-                          id=""
-                          required
-                          className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
+                        {/* 
+                        
+                        Update Condition Here 
+                        
+                        */}
+                        {toggle_update.update_org === false ? (
+                          <>
+                            <span>
+                              <p>Org Data</p>
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <select
+                              name=""
+                              id=""
+                              required
+                              className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         "
-                        >
-                          <option value="" disabled selected>
-                            Select Organization . . . .
-                          </option>
-                          {org_data.map((data) => {
-                            return (
-                              <>
-                                <option key={data.id} value={data.id}>
-                                  {data.kapisanan}
-                                </option>
-                              </>
-                            );
-                          })}
-                        </select>
+                            >
+                              <option value="" disabled selected>
+                                Select Organization . . . .
+                              </option>
+                              {org_data.map((data) => {
+                                return (
+                                  <>
+                                    <option key={data.id} value={data.id}>
+                                      {data.kapisanan}
+                                    </option>
+                                  </>
+                                );
+                              })}
+                            </select>
+                          </>
+                        )}
+                        {/* 
+                        
+                        Update Condition Here 
+                        
+                        */}
                       </div>
                       <div className="flex flex-col w-[25%]">
                         <label
@@ -154,6 +194,27 @@ const Update_MasterList = ({
                           })}
                         </select>
                       </div>
+                      {/* <div className="flex flex-col w-[25%]">
+                      <label htmlFor="" className="text-[16px] font-semibold">
+                        Transfer
+                      </label>
+                      <select
+                        name=""
+                        id=""
+                        className="border-[1px] shadow-md shadow-slate-400 w-full h-[2.5rem] outline-none cursor-pointer text-[14px] px-1"
+                      >
+                        <option value="" disabled selected>
+                          Select Transfer . . . .
+                        </option>
+                        {transfer_data.map((data) => {
+                          return (
+                            <>
+                              <option value={data.id}>{data.status}</option>
+                            </>
+                          );
+                        })}
+                      </select>
+                    </div> */}
                     </div>
 
                     {/* Assignments */}
