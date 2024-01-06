@@ -129,10 +129,10 @@ const Masterlist_Content = () => {
                 Lastname
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                Birthday
+                Association
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                Gender
+                District
               </th>
               <th className="w-[20%] h-full flex justify-center items-center"></th>
             </tr>
@@ -143,67 +143,75 @@ const Masterlist_Content = () => {
             monitor_md:h-[18rem]
             "
             >
-              <tr
-                className="w-full h-[10%] flex justify-between items-center  text-center shadow-md border-[2px] border-gray-300
+              {masterList_data?.map((data, index) => {
+                return (
+                  <>
+                    <tr
+                      className="w-full h-[10%] flex justify-between items-center text-center shadow-md border-[2px] border-gray-300
               monitor_md:h-[13.5%] 
               monitor_md:text-[14px] 
 
               monitor_xxl:h-[16%] 
               "
-              >
-                <td className="w-[20%] h-[3.5rem] flex justify-center items-center"></td>
-                <td1 className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                  data
-                </td1>
-                <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                  data
-                </td>
-                <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                  data
-                </td>
-                <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                  data
-                </td>
-                <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                  <div className="w-full h-full flex justify-center items-center">
-                    <button
-                      onClick={() =>
-                        setUpdate_MasterList_Modal({
-                          ...update_masterList_Modal,
-                          id: data.id,
-                          activator: true,
-                        })
-                      }
-                      className="mr-10 h-[2.5rem] w-[2.5rem] transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-black flex justify-center items-center
+                    >
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {index + 1}
+                      </td>
+                      <td1 className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.firstname}
+                      </td1>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.lastname}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.kapisanan}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.purok}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        <div className="w-full h-full flex justify-center items-center">
+                          <button
+                            onClick={() =>
+                              setUpdate_MasterList_Modal({
+                                ...update_masterList_Modal,
+                                id: data.id,
+                                activator: true,
+                              })
+                            }
+                            className="mr-10 h-[2.5rem] w-[2.5rem] transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-black flex justify-center items-center
                      monitor_md:h-[1.8rem]
                      monitor_md:w-[1.8rem]
                      monitor_md:hover:border-[1px]
                     "
-                    >
-                      <FaEye
-                        className="text-[20px]
+                          >
+                            <FaEye
+                              className="text-[20px]
                       monitor_md:text-[16px]
                       "
-                        color="#ffc93c"
-                      />
-                    </button>
-                    <button
-                      className="h-[2.5rem] w-[2.5rem] transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-black flex justify-center items-center
+                              color="#ffc93c"
+                            />
+                          </button>
+                          <button
+                            className="h-[2.5rem] w-[2.5rem] transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-black flex justify-center items-center
                     monitor_md:h-[1.8rem]
                     monitor_md:w-[1.8rem]
                     monitor_md:hover:border-[1px]
                     "
-                    >
-                      <FaTrash
-                        className="text-[20px]
+                          >
+                            <FaTrash
+                              className="text-[20px]
                         monitor_md:text-[16px]
                       "
-                        color="#dc2f2f"
-                      />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                              color="#dc2f2f"
+                            />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
             </div>
           </tbody>
         </table>
