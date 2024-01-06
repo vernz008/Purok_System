@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import axiosClient from "../../../../utils/axios/axios-client";
 import { API_MEMBER } from "../../../../utils/urls/api_url";
+import moment from "moment";
 
 const Create_MasterList = ({
   setMasterList_Modal,
-  transfer_data,
+  setMasterList_Data,
   purok_data,
   org_data,
 }) => {
@@ -15,17 +16,57 @@ const Create_MasterList = ({
     lastname: "",
     gender: "",
     birthday: "",
-    address: "",
+    street: "",
+    barangay: "",
+    home_number: "",
     orgid: 0,
     purokid: 0,
     status: "",
   });
 
   console.log(createMember_inputData);
-  const submit_create_member = (e) => {
-    e.prevenDefault();
 
-    axiosClient.post(API_MEMBER, {});
+  const submit_create_member = (e) => {
+    e.preventDefault();
+
+    axiosClient
+      .post(API_MEMBER, {
+        firstname: createMember_inputData.firstname,
+        middlename: createMember_inputData.middlename,
+        lastname: createMember_inputData.lastname,
+        gender: createMember_inputData.gender,
+        birthday: createMember_inputData.birthday,
+        address:
+          createMember_inputData.home_number +
+          "/" +
+          createMember_inputData.street +
+          "/" +
+          createMember_inputData.barangay,
+        orgid: createMember_inputData.orgid,
+        purokid: createMember_inputData.purokid,
+        status: "IN",
+      })
+      .then((res) => {
+        setMasterList_Data(res.data);
+        alert("Created");
+        setCreateMember_InputData({
+          ...createMember_inputData,
+          firstname: "",
+          middlename: "",
+          lastname: "",
+          gender: "",
+          birthday: "",
+          street: "",
+          barangay: "",
+          home_number: "",
+          orgid: 0,
+          purokid: 0,
+          status: "",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="absolute !top-0 !left-0 w-screen h-screen z-999 bg-black/50 flex justify-center items-center overflow-hidden">
@@ -230,6 +271,12 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            firstname: e.target.value,
+                          });
+                        }}
                         className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
@@ -248,6 +295,12 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            middlename: e.target.value,
+                          });
+                        }}
                         className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
@@ -266,6 +319,12 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            lastname: e.target.value,
+                          });
+                        }}
                         className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
@@ -296,6 +355,12 @@ const Create_MasterList = ({
                           name=""
                           id=""
                           required
+                          onChange={(e) => {
+                            setCreateMember_InputData({
+                              ...createMember_inputData,
+                              birthday: e.target.value,
+                            });
+                          }}
                           className="h-[2.5rem] w-[66%] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                           monitor_md:h-[1.5rem]
                           monitor_md:text-[12px]
@@ -320,6 +385,12 @@ const Create_MasterList = ({
                           name=""
                           id=""
                           required
+                          onChange={(e) => {
+                            setCreateMember_InputData({
+                              ...createMember_inputData,
+                              gender: e.target.value,
+                            });
+                          }}
                           className="border-[1px] shadow-md shadow-slate-400 w-[40%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
                           monitor_md:h-[1.5rem]
                           monitor_md:text-[12px]
@@ -365,11 +436,41 @@ const Create_MasterList = ({
                          monitor_md:text-[14px]
                       "
                       >
+                        House No. / Lot No.
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            home_number: e.target.value,
+                          });
+                        }}
+                        className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                        monitor_md:h-[1.5rem]
+                        monitor_md:text-[12px]
+                        "
+                      />
+                    </div>
+                    <div className="flex flex-col w-[25%]">
+                      <label
+                        htmlFor=""
+                        className="text-[16px] font-semibold
+                         monitor_md:text-[14px]
+                      "
+                      >
                         Street
                       </label>
                       <input
                         type="text"
                         required
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            street: e.target.value,
+                          });
+                        }}
                         className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
@@ -388,23 +489,12 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
-                        className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
-                        monitor_md:h-[1.5rem]
-                        monitor_md:text-[12px]
-                        "
-                      />
-                    </div>
-                    <div className="flex flex-col w-[25%]">
-                      <label
-                        htmlFor=""
-                        className="text-[16px] font-semibold
-                         monitor_md:text-[14px]
-                      "
-                      >
-                        Municipality
-                      </label>
-                      <input
-                        type="text"
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            barangay: e.target.value,
+                          });
+                        }}
                         className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]

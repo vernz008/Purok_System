@@ -15,10 +15,13 @@ class MemberController extends Controller
     public function index()
     {
         try {
-            $member = MemberModel::with('organization', 'purok')
-            ->join('organization', 'organization.id', '=', 'members.orgid')
+            $member = MemberModel::with('organizations', 'purok')
+            ->join('organizations', 'organizations.id', '=', 'members.orgid')
             ->join('purok', 'members.purokid', '=', 'purok.id')
-            ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'members.status')
+            ->select('members.firstname', 'members.middlename', 'members.lastname',
+             'members.gender', 'members.birthday', 'members.address',
+             'organizations.kapisanan',
+              'purok.purok', 'purok.group', 'members.status')
             ->get();
 
             if (count($member) > 0) {
@@ -68,11 +71,14 @@ class MemberController extends Controller
 
             //3. Process the Result
             if ($member) {
-                $member_all = MemberModel::with('organization', 'purok')
-                ->join('organization', 'organization.id', '=', 'members.orgid')
-                ->join('purok', 'members.purokid', '=', 'purok.id')
-                ->select('members.firstname', 'members.middlename', 'members.lastname', 'members.gender', 'members.birthday', 'members.address', 'organization.kapisanan', 'purok.purok', 'purok.group', 'members.status')
-                ->get();
+                $member_all = MemberModel::with('organizations', 'purok')
+            ->join('organizations', 'organizations.id', '=', 'members.orgid')
+            ->join('purok', 'members.purokid', '=', 'purok.id')
+            ->select('members.firstname', 'members.middlename', 'members.lastname',
+             'members.gender', 'members.birthday', 'members.address',
+             'organizations.kapisanan',
+              'purok.purok', 'purok.group', 'members.status')
+            ->get();
                 return response()->json($member_all, 201);
             }else {
                 return response()->json(['message' => 'Failed to add data'], 500);
