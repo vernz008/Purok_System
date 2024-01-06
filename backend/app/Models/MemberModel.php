@@ -25,7 +25,7 @@ class MemberModel extends Model
         'status',
     ];
 
-    public function organization()
+    public function organizations()
     {
         return $this->belongsTo(OrganizationModel::class,"orgid");
     }

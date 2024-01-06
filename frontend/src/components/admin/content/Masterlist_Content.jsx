@@ -12,7 +12,7 @@ import Update_MasterList from "../modal/MasterList/Update_MasterList";
 import { data } from "autoprefixer";
 
 const Masterlist_Content = () => {
-  const [masterList, setMasterList] = useState([]);
+  const [masterList_data, setMasterList_Data] = useState([]);
   const [org_data, setOrg_Data] = useState([]);
   const [purok_data, setPurok_Data] = useState([]);
   const [transfer_data, setTransfer_Data] = useState([]);
@@ -22,6 +22,7 @@ const Masterlist_Content = () => {
     activator: false,
   });
 
+  console.log(masterList_data);
   console.log(update_masterList_Modal);
 
   useEffect(() => {
@@ -38,6 +39,15 @@ const Masterlist_Content = () => {
       .get(API_PUROK)
       .then((res) => {
         setPurok_Data(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axiosClient
+      .get(API_MEMBER)
+      .then((res) => {
+        setMasterList_Data(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -141,12 +151,10 @@ const Masterlist_Content = () => {
               monitor_xxl:h-[16%] 
               "
               >
-                <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                <td className="w-[20%] h-[3.5rem] flex justify-center items-center"></td>
+                <td1 className="w-[20%] h-[3.5rem] flex justify-center items-center">
                   data
-                </td>
-                <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                  data
-                </td>
+                </td1>
                 <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
                   data
                 </td>
@@ -207,8 +215,7 @@ const Masterlist_Content = () => {
           org_data={org_data}
           setPurok_Data={setPurok_Data}
           purok_data={purok_data}
-          setTransfer_Data={setTransfer_Data}
-          transfer_data={transfer_data}
+          setMasterList_Data={setMasterList_Data}
         />
       ) : (
         ""
