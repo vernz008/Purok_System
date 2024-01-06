@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../../components/admin/sidebar/Sidebar";
 import Masterlist_Content from "../../components/admin/content/Masterlist_Content";
+import Assignments_Content from "../../components/admin/content/Assignments_Content";
 
 const Admin_Dashboard = () => {
   const [sidebar_toggle, setSidebar_Toggle] = useState(false);
@@ -16,6 +17,7 @@ const Admin_Dashboard = () => {
           <Sidebar
             setSidebar_Toggle={setSidebar_Toggle}
             sidebar_toggle={sidebar_toggle}
+            setTab_Pages={setTab_Pages}
           />
         </div>
         <div
@@ -25,7 +27,13 @@ const Admin_Dashboard = () => {
               : "w-[96%] flex justify-center items-center"
           }`}
         >
-          <Masterlist_Content />
+          {tabs_pages === 1 ? (
+            <Assignments_Content />
+          ) : tabs_pages === 2 ? (
+            <Masterlist_Content />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </section>

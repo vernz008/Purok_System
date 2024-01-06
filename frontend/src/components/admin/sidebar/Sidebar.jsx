@@ -6,16 +6,21 @@ import {
   FaSortAlphaUp,
   FaArrowAltCircleLeft,
   FaClipboardList,
+  FaMapPin,
 } from "react-icons/fa";
 import { BsMenuButtonWideFill, BsFillMenuAppFill } from "react-icons/bs";
 import { IoMdArrowDropleft, IoMdArrowDropdown } from "react-icons/io";
 
-const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
+const Sidebar = ({ sidebar_toggle, setSidebar_Toggle, setTab_Pages }) => {
   const [sort_toggle, setSort_Toggle] = useState(false);
   return (
     <div className="w-full h-full flex flex-col justify-between border-r-[1px] bg-blue-500 text-white">
       {/* Side Bar Title */}
-      <div className="w-full flex justify-between h-[80px] border-b-[2px]">
+      <div
+        className="w-full flex justify-between h-[80px] border-b-[2px]
+      monitor_md:h-[65px]
+      "
+      >
         <span
           className={`cursor-default  ${
             sidebar_toggle === false
@@ -72,13 +77,20 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
 
       {/* Sidebar Function Buttons */}
       <div className="w-full h-[70%]">
+        {/* 
+        
+        
+        Assignmenets Button
+        
+        
+        */}
         <div className="w-full h-[10%] flex justify-center items-center">
           <div
             className={`${
               sidebar_toggle === false
                 ? "w-[90%] h-[70%] flex justify-between items-center"
-                : "w-[90%] h-[60%] flex justify-between items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300 monitor_md:h-[70%] monitor_md:w-[80%]"
-            } `}
+                : "w-[90%] h-[60%] flex justify-between items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300"
+            } monitor_md:h-[90%] monitor_md:w-[80%]`}
           >
             <button
               onClick={() => {
@@ -86,6 +98,7 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                 sort_toggle === false
                   ? setSort_Toggle(true)
                   : setSort_Toggle(false);
+                setTab_Pages(1);
               }}
               className={`${
                 sidebar_toggle === false
@@ -96,7 +109,66 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
               <span
                 className={`${
                   sidebar_toggle === false
-                    ? "w-[80%] h-[90%] flex justify-center items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300"
+                    ? "w-[80%] h-[90%] flex justify-center items-center transition ease-in-out rounded-full duration-300 hover:bg-blue-300"
+                    : "w-[20%] flex justify-center items-center h-full"
+                } `}
+              >
+                <FaMapPin
+                  className="text-[25px]
+              monitor_md:text-[20px]
+
+              monitor_xxl:text-[25px]
+              "
+                />
+              </span>
+              <p
+                className={`${
+                  sidebar_toggle === false
+                    ? "hidden"
+                    : " w-[75%] text-[20px] flex items-center h-full"
+                } 
+                monitor_md:text-[16px]
+                `}
+              >
+                Assignments
+              </p>
+            </button>
+          </div>
+        </div>
+
+        {/* 
+        
+        
+        Masterlist Button Sidebar
+        
+        
+        */}
+        <div className="w-full h-[10%] flex justify-center items-center">
+          <div
+            className={`${
+              sidebar_toggle === false
+                ? "w-[90%] h-[70%] flex justify-between items-center"
+                : "w-[90%] h-[60%] flex justify-between items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300"
+            } monitor_md:h-[90%] monitor_md:w-[80%]`}
+          >
+            <button
+              onClick={() => {
+                setSort_Toggle(false);
+                sort_toggle === false
+                  ? setSort_Toggle(true)
+                  : setSort_Toggle(false);
+                setTab_Pages(2);
+              }}
+              className={`${
+                sidebar_toggle === false
+                  ? "flex justify-center items-center w-full h-full"
+                  : "flex justify-between items-center w-full h-[2.5rem] font-extrabold"
+              } `}
+            >
+              <span
+                className={`${
+                  sidebar_toggle === false
+                    ? "w-[80%] h-[90%] flex justify-center items-center transition ease-in-out rounded-full duration-300 hover:bg-blue-300"
                     : "w-[20%] flex justify-center items-center h-full"
                 } `}
               >
@@ -112,9 +184,9 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle }) => {
                 className={`${
                   sidebar_toggle === false
                     ? "hidden"
-                    : " w-[70%] text-[20px] flex items-center h-full"
+                    : " w-[75%] text-[20px] flex items-center h-full"
                 } 
-                monitor_md:text-[18px]
+                monitor_md:text-[16px]
                 `}
               >
                 Masterlist
