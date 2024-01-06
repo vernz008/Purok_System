@@ -22,6 +22,8 @@ const Masterlist_Content = () => {
     activator: false,
   });
 
+  console.log(update_masterList_Modal);
+
   useEffect(() => {
     axiosClient
       .get(API_ORGANIZATION)
