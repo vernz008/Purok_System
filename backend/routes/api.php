@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::post("/login", [AuthenticationController::class, 'login']);
 
-// Route::group(["middleware"=>["auth:sanctum"]],function() {
+Route::group(["middleware"=>["auth:sanctum"]],function() {
 Route::get("/users", [UserController::class, 'index']);
 Route::post("/users", [UserController::class, 'store']);
 Route::get("/users/{id}", [UserController::class, 'show']);
@@ -93,4 +93,4 @@ Route::put("/memberactivity/{id}", [MemberActivityController::class, 'update']);
 Route::delete("/memberactivity/{id}", [MemberActivityController::class, 'destroy']);
 
 Route::post("/logout", [AuthenticationController::class, 'logout']);
-// });
+});

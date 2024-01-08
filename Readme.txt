@@ -26,3 +26,12 @@ memberid -> member_id
 
 }
 
+January 8 Updates = {
+    Login system Done *
+    Backend AuthenticationController is now functional,
+    middleware is now in use in the API.
+
+    note: Need to create a user in database,
+    registration is still WIP. Token is now required, loggin in.
+    Logout function is still work in progress.
+}
