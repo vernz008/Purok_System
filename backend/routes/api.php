@@ -12,6 +12,7 @@ use App\Http\Controllers\TungkulinController;
 use App\Http\Controllers\MemberDutyController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\MemberActivityController;
+use App\Http\Controllers\GroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -91,6 +92,12 @@ Route::post("/memberactivity", [MemberActivityController::class, 'store']);
 Route::get("/memberactivity/{id}", [MemberActivityController::class, 'show']);
 Route::put("/memberactivity/{id}", [MemberActivityController::class, 'update']);
 Route::delete("/memberactivity/{id}", [MemberActivityController::class, 'destroy']);
+
+Route::get("/group", [GroupController::class, 'index']);
+Route::post("/group", [GroupController::class, 'store']);
+Route::get("/group/{id}", [GroupController::class, 'show']);
+Route::put("/group/{id}", [GroupController::class, 'update']);
+Route::delete("/group/{id}", [GroupController::class, 'destroy']);
 
 Route::post("/logout", [AuthenticationController::class, 'logout']);
 // });

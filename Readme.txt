@@ -26,3 +26,11 @@ memberid -> member_id
 
 }
 
+
+Vernie: 
+1. Fixed the Join Statements for the member table for msaterlist information also fixed all the controllers function for api.
+2. Fixed the Purok Table and Group Table.
+3. Fixed ERD.
+
+note: Okay na master Ja.
+
