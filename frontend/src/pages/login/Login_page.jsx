@@ -5,6 +5,7 @@ import axiosClient from "../../utils/axios/axios-client";
 import { API_LOGIN } from "../../utils/urls/api_url";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Check_User from "../../components/auth/Check_User";
 
 const Login_page = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const Login_page = () => {
   };
   return (
     <>
+      <Check_User />
       <section className="h-screen w-screen bg-[#f4f3f3]">
         <div className="w-full h-full flex justify-center items-center">
           <form

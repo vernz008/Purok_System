@@ -20,7 +20,7 @@ class UserController extends Controller
             if (count($users) > 0) {
             return response()->json($users, 200);
             }else{
-            return response()->json(['message'=>'No User Found'], 400);
+            return response()->json(['message'=>'No User Found'], 401);
             }
         } catch (\Throwable $error) {
             throw $error;

@@ -30,11 +30,15 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+// This is Login User (Public Route) No need for token when accessing a request
 Route::post("/login", [AuthenticationController::class, 'login']);
 
-Route::group(["middleware"=>["auth:sanctum"]],function() {
-Route::get("/users", [UserController::class, 'index']);
+// This is Register User (Public Route) No need for token when accessing a request
 Route::post("/users", [UserController::class, 'store']);
+Route::get("/users", [UserController::class, 'index']);
+
+Route::group(["middleware"=>["auth:sanctum"]],function() {
 Route::get("/users/{id}", [UserController::class, 'show']);
 Route::put("/users/{id}", [UserController::class, 'update']);
 Route::delete("/users/{id}", [UserController::class, 'destroy']);
