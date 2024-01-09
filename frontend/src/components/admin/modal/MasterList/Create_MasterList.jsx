@@ -209,7 +209,7 @@ const Create_MasterList = ({
                           return (
                             <>
                               <option key={data.id} value={data.id}>
-                                {data.purok} - {data.group}
+                                {data.purok}
                               </option>
                             </>
                           );

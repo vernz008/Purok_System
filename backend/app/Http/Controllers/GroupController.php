@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PurokModel;
+use App\Models\GroupModel;
 use Illuminate\Http\Request;
 
-class PurokController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,17 +14,17 @@ class PurokController extends Controller
      */
     public function index()
     {
-        try {
-            $purok = PurokModel::all();
+try {
+    $groups = GroupModel::all();
 
-            if (count($purok) > 0) {
-                return response()->json($purok, 200);
-            }else {
-                return response()->json(['message' => 'No purok found'], 404);
-            }
-        } catch (\Throwable $error) {
-            throw $error;
-        }
+    if (count($groups) > 0) {
+        return response()->json($groups, 200);
+    }else{
+        return response()->json(['message' => 'No group found'], 404);
+    }
+} catch (\Throwable $error) {
+    throw $error;
+}
     }
 
     /**
@@ -35,27 +35,28 @@ class PurokController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            //1. Validate
-            $request->validate([
-                'purok' => "required",
-            ]);
+       try {
+         //1. Validate the request
+         $request->validate([
+            "group" => "required",
+        ]);
 
-            //2. Execute the Query
-            $purok = PurokModel::create([
-                'purok' => $request->purok,
+        //2. Execute the Query
+    
+            $group = GroupModel::create([
+                'group'=>$request->group,
             ]);
-
-            //3. Process the Result
-            if ($purok) {
-                $purok_all = PurokModel::all();
-                return response()->json($purok_all, 201);
-            }else {
-                return response()->json(['message' => 'Failed to add data'], 500);
-            }
-        } catch (\Throwable $error) {
-            throw $error;
+       
+        //3. Process the Result
+        if ($group) {
+            $group_all = GroupModel::all();
+            return response()->json($group_all, 201);
+        }else {
+            return response()->json(['message' => 'Failed to add data'], 500);
         }
+       } catch (\Throwable $error) {
+        throw $error;
+       }
     }
 
     /**
@@ -67,10 +68,10 @@ class PurokController extends Controller
     public function show($id)
     {
         try {
-            $purok = PurokModel::find($id);
+            $group = GroupModel::find($id);
 
-            if ($purok) {
-                return response()->json($purok, 200);
+            if ($group) {
+                return response()->json($group, 200);
             }else{
                 return response()->json(['message' => 'Purok Not Found'], 404);
             }
@@ -91,19 +92,20 @@ class PurokController extends Controller
         try {
             //1. Validate
             $request->validate([
-               'purok' => "required",
+               'group' => "required",
            ]);
 
            //2. Execute the Query
-           $purok = PurokModel::find($id);
+           $group = GroupModel::find($id);
 
            //3. Process the Result
-           if ($purok) {
-           $purok->purok = $request->purok;
-           $purok->save();
+           if ($group) {
+           $group->group = $request->group;
+        
+           $group->save();
            
-               $purok_all = PurokModel::all();
-               return response()->json($purok_all, 201);
+               $group_all = GroupModel::all();
+               return response()->json($group_all, 201);
            }else {
                return response()->json(['message' => 'Failed to update data'], 500);
            }
@@ -121,15 +123,15 @@ class PurokController extends Controller
     public function destroy($id)
     {
         try {
-            $purok = PurokModel::find($id);
+            $group = GroupModel::find($id);
 
-            if ($purok) {
-                $purok->delete();
+            if ($group) {
+                $group->delete();
 
-                $purok_all = PurokModel::all();
-                return response()->json($purok_all, 200);
+                $group_all = GroupModel::all();
+                return response()->json($group_all, 200);
             }else{
-                return response()->json(['message'=>'Purok not found'],404);
+                return response()->json(['message'=>'Group not found'],404);
             }
         } catch (\Throwable $error) {
             throw $error;

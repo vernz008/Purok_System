@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('orgid');
-            $table->unsignedBigInteger('purokid');
+            $table->unsignedBigInteger('org_id');
+            $table->unsignedBigInteger('purok_id');
+            $table->unsignedBigInteger('group_id');
             $table->string("firstname");
             $table->string("middlename");
             $table->string("lastname");
@@ -27,8 +28,9 @@ return new class extends Migration
            
             $table->timestamps();
             //FOREIGN KEY CONSTRAINTS
-            $table->foreign('orgid')->references('id')->on('organizations')->onDelete('cascade')->onUpdate("cascade");
-            $table->foreign('purokid')->references('id')->on('purok')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('org_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('purok_id')->references('id')->on('purok')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 

@@ -123,18 +123,38 @@ const Masterlist_Content = () => {
                 No.
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                Given Name
+                Firstname
+              </th>
+              <th className="w-[20%] h-full flex justify-center items-center">
+                Middlename
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
                 Lastname
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                Association
+                Gender
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                District
+                Birthday
               </th>
-              <th className="w-[20%] h-full flex justify-center items-center"></th>
+              <th className="w-[20%] h-full flex justify-center items-center">
+                Address
+              </th>
+              <th className="w-[20%] h-full flex justify-center items-center">
+                Organization
+              </th>
+              <th className="w-[20%] h-full flex justify-center items-center">
+                Purok
+              </th>
+              <th className="w-[20%] h-full flex justify-center items-center">
+                Group
+              </th>
+              <th className="w-[20%] h-full flex justify-center items-center">
+                Status
+              </th>
+              <th className="w-[20%] h-full flex justify-center items-center">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -161,13 +181,31 @@ const Masterlist_Content = () => {
                         {data.firstname}
                       </td1>
                       <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.middlename}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
                         {data.lastname}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.gender}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.birthday}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.address}
                       </td>
                       <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
                         {data.kapisanan}
                       </td>
                       <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
                         {data.purok}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.group}
+                      </td>
+                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                        {data.status}
                       </td>
                       <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
                         <div className="w-full h-full flex justify-center items-center">
