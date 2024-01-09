@@ -1,14 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import PurokCommunityImg from "../../assets/gifs/Community.gif";
 import LoginLogoImg from "../../assets/images/INC_logo_img.png";
+import axiosClient from "../../utils/axios/axios-client";
+import { API_LOGIN } from "../../utils/urls/api_url";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Login_page = () => {
+  const navigate = useNavigate();
+
+  const [login_input, setLogin_Input] = useState({
+    username: "",
+    password: "",
+  });
+
+  const Login_User = (e) => {
+    e.preventDefault();
+
+    axiosClient
+      .post(API_LOGIN, {
+        username: login_input.username,
+        password: login_input.password,
+      })
+      .then((res) => {
+        const token = res.data.split("|")[1];
+        Cookies.set("access_token", token);
+
+        navigate("/admin-dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <section className="h-screen w-screen bg-[#f4f3f3]">
         <div className="w-full h-full flex justify-center items-center">
           <form
             action=""
+            onSubmit={Login_User}
             className="bg-white flex rounded-lg shadow-lg shadow-gray-400
             monitor_sm:w-[55%]
             monitor_sm:h-[70%]
@@ -101,6 +131,12 @@ const Login_page = () => {
                     <input
                       type="text"
                       required
+                      onChange={(e) =>
+                        setLogin_Input({
+                          ...login_input,
+                          username: e.target.value,
+                        })
+                      }
                       placeholder="Enter username . . ."
                       className="w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
                     monitor_sm:h-[2rem]
@@ -140,6 +176,12 @@ const Login_page = () => {
                     <input
                       type="password"
                       required
+                      onChange={(e) =>
+                        setLogin_Input({
+                          ...login_input,
+                          password: e.target.value,
+                        })
+                      }
                       placeholder="Enter password . . ."
                       className="h-[3rem] w-full border-[1px] border-gray-300 shadow-md shadow-gray-300 px-[1rem] outline-none
                     monitor_sm:h-[2rem]
@@ -182,6 +224,7 @@ const Login_page = () => {
                     </label>
                   </div>
                   <button
+                    type="submit"
                     className="w-full font-bold bg-blue-500 text-white rounded-sm transition duration-300 cursor-pointer hover:opacity-80
                   monitor_sm:h-[2rem]
                   monitor_sm:text-[12px]
