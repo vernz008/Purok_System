@@ -20,7 +20,7 @@ class PurokController extends Controller
             if (count($purok) > 0) {
                 return response()->json($purok, 200);
             }else {
-                return response()->json(['message' => 'No purok found'], 404);
+                return response()->json(['message' => 'Purok Data is empty'], 404);
             }
         } catch (\Throwable $error) {
             throw $error;

@@ -25,12 +25,12 @@ class AuthenticationController extends Controller
             $user = User::where('username', $fields['username'])->first();
     
             if (!$user){
-                return response()->json(['message' => 'No user found'], 404);
+                return response()->json(['message' => 'User Data is empty'], 404);
             }
             // Check Credentials
             if ($user->username == $request->username && $user->password == $request->password){
                 $token = $user->createToken('authentication_key_00001')->plainTextToken;
-                return response()->json($token,200);
+                return response()->json(["access_token"=>$token,"user_role"=>$user->role,200]);
 
             }else{
 

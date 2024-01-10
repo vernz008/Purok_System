@@ -27,10 +27,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 // This is Login User (Public Route) No need for token when accessing a request
 Route::post("/login", [AuthenticationController::class, 'login']);
 
