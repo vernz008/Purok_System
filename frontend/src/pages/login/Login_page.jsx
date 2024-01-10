@@ -24,10 +24,16 @@ const Login_page = () => {
         password: login_input.password,
       })
       .then((res) => {
-        const token = res.data.split("|")[1];
+        const user_role = res.data.user_role;
+        const token = res.data.access_token.split("|")[1];
         Cookies.set("access_token", token);
+        console.log(user_role);
 
-        navigate("/admin-dashboard");
+        if (user_role === "Admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/user-dashboard");
+        }
       })
       .catch((error) => {
         console.log(error);
