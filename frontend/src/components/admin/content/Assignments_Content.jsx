@@ -7,28 +7,35 @@ import {
   API_PUROK,
 } from "../../../utils/urls/api_url";
 
-const Assignments_Content = () => {
+const Assignments_Content = ({
+  purok_data,
+  setPurok_Data,
+  organization_data,
+  setOrganization_Data,
+  group_data,
+  setGroup_Data,
+  sidebar_buttons,
+  setSidebar_Buttons,
+  setPurok_Count,
+  purok_count,
+  setOrg_Count,
+  org_count,
+  setGroup_Count,
+  group_count,
+}) => {
   const [assignment_input, setAssignment_Input] = useState({
     purok: "",
     organization: "",
     group: "",
   });
-  const [assignments_data, setAssisgnments_Data] = useState({
-    purok: [],
-    organization: [],
-    group: [],
-  });
 
   useEffect(() => {
-    axiosClient
-      .get(API_PUROK)
-      .then((res) => {
-        setAssisgnments_Data({ ...assignments_data, purok: res.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (purok_count > 0 && org_count > 0 && group_count > 0) {
+      setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
+    } else {
+      setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
+    }
+  }, [purok_count, org_count, group_count]);
 
   const Submit_Purok = (e) => {
     e.preventDefault();
@@ -41,10 +48,14 @@ const Assignments_Content = () => {
           ...assignment_input,
           purok: "",
         });
-        setAssisgnments_Data({ ...assignments_data, purok: res.data });
+        setPurok_Data(res.data);
+        setPurok_Count(res.data.length);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
   const Submit_Organization = (e) => {
     e.preventDefault();
     axiosClient
@@ -56,12 +67,14 @@ const Assignments_Content = () => {
           ...assignment_input,
           organization: "",
         });
-        setAssisgnments_Data({ ...assignments_data, organization: res.data });
+        setOrganization_Data(res.data);
+        setOrg_Count(res.data.length);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const Submit_Group = (e) => {
     e.preventDefault();
     axiosClient
@@ -73,9 +86,22 @@ const Assignments_Content = () => {
           ...assignment_input,
           group: "",
         });
-        setAssisgnments_Data({ ...assignments_data, group: res.data });
+        setGroup_Data(res.data);
+        setGroup_Count(res.data.length);
       });
   };
+
+  useEffect(() => {
+    if (
+      purok_data.length > 0 &&
+      organization_data.length > 0 &&
+      group_data.length > 0
+    ) {
+      setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
+    } else {
+      setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
+    }
+  }, []);
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
       <div
@@ -171,7 +197,7 @@ const Assignments_Content = () => {
                 monitor_md:mt-2
                 "
                 >
-                  {assignments_data?.purok?.map((data, index) => {
+                  {purok_data?.map((data, index) => {
                     return (
                       <>
                         <tr
@@ -200,10 +226,8 @@ const Assignments_Content = () => {
                                   axiosClient
                                     .delete(API_PUROK + `/${data.id}`)
                                     .then((res) => {
-                                      setAssisgnments_Data({
-                                        ...assignments_data,
-                                        purok: res.data,
-                                      });
+                                      setPurok_Data(res.data);
+                                      setPurok_Count(res.data.length);
                                     })
                                     .catch((error) => {
                                       console.log(error);
@@ -293,12 +317,12 @@ const Assignments_Content = () => {
               </thead>
               <tbody className="w-full">
                 <div
-                  className="w-full overflow-auto border-[1px] shadow-md
+                  className="w-full overflow-auto
                 monitor_md:h-[11.5rem]
                 monitor_md:mt-2
                 "
                 >
-                  {assignments_data?.organization?.map((data, index) => {
+                  {organization_data?.map((data, index) => {
                     return (
                       <>
                         <tr
@@ -327,10 +351,8 @@ const Assignments_Content = () => {
                                   axiosClient
                                     .delete(API_ORGANIZATION + `/${data.id}`)
                                     .then((res) => {
-                                      setAssisgnments_Data({
-                                        ...assignments_data,
-                                        organization: res.data,
-                                      });
+                                      setOrganization_Data(res.data);
+                                      setOrg_Count(res.data.length);
                                     })
                                     .catch((error) => {
                                       console.log(error);
@@ -421,12 +443,12 @@ const Assignments_Content = () => {
               </thead>
               <tbody className="w-full">
                 <div
-                  className="w-full overflow-auto border-[1px] shadow-md
+                  className="w-full overflow-auto
                 monitor_md:h-[11.5rem]
                 monitor_md:mt-2
                 "
                 >
-                  {assignments_data?.group?.map((data, index) => {
+                  {group_data?.map((data, index) => {
                     return (
                       <>
                         <tr
@@ -455,10 +477,8 @@ const Assignments_Content = () => {
                                   axiosClient
                                     .delete(API_GROUP + `/${data.id}`)
                                     .then((res) => {
-                                      setAssisgnments_Data({
-                                        ...assignments_data,
-                                        group: res.data,
-                                      });
+                                      setGroup_Data(res.data);
+                                      setGroup_Count(res.data.length);
                                     })
                                     .catch((error) => {
                                       console.log(error);
