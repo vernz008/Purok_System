@@ -11,7 +11,7 @@ import {
 import Update_MasterList from "../modal/MasterList/Update_MasterList";
 import { data } from "autoprefixer";
 
-const Masterlist_Content = () => {
+const Masterlist_Content = ({ assignment_data, setAssignment_Data }) => {
   const [masterList_data, setMasterList_Data] = useState([]);
   const [org_data, setOrg_Data] = useState([]);
   const [purok_data, setPurok_Data] = useState([]);
@@ -25,34 +25,34 @@ const Masterlist_Content = () => {
   console.log(masterList_data);
   console.log(update_masterList_Modal);
 
-  useEffect(() => {
-    axiosClient
-      .get(API_ORGANIZATION)
-      .then((res) => {
-        setOrg_Data(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  // useEffect(() => {
+  //   axiosClient
+  //     .get(API_ORGANIZATION)
+  //     .then((res) => {
+  //       setOrg_Data(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
 
-    axiosClient
-      .get(API_PUROK)
-      .then((res) => {
-        setPurok_Data(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  //   axiosClient
+  //     .get(API_PUROK)
+  //     .then((res) => {
+  //       setPurok_Data(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
 
-    axiosClient
-      .get(API_MEMBER)
-      .then((res) => {
-        setMasterList_Data(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  //   axiosClient
+  //     .get(API_MEMBER)
+  //     .then((res) => {
+  //       setMasterList_Data(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
@@ -123,22 +123,10 @@ const Masterlist_Content = () => {
                 No.
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                Firstname
-              </th>
-              <th className="w-[20%] h-full flex justify-center items-center">
-                Middlename
-              </th>
-              <th className="w-[20%] h-full flex justify-center items-center">
-                Lastname
+                Member Name
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
                 Gender
-              </th>
-              <th className="w-[20%] h-full flex justify-center items-center">
-                Birthday
-              </th>
-              <th className="w-[20%] h-full flex justify-center items-center">
-                Address
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
                 Organization
@@ -147,14 +135,9 @@ const Masterlist_Content = () => {
                 Purok
               </th>
               <th className="w-[20%] h-full flex justify-center items-center">
-                Group
-              </th>
-              <th className="w-[20%] h-full flex justify-center items-center">
                 Status
               </th>
-              <th className="w-[20%] h-full flex justify-center items-center">
-                Actions
-              </th>
+              <th className="w-[20%] h-full flex justify-center items-center"></th>
             </tr>
           </thead>
           <tbody>

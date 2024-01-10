@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PurokLogoImg from "../../../assets/images/INC_logo_img.png";
 import { GrSort } from "react-icons/gr";
 import {
@@ -10,9 +10,28 @@ import {
 } from "react-icons/fa";
 import { BsMenuButtonWideFill, BsFillMenuAppFill } from "react-icons/bs";
 import { IoMdArrowDropleft, IoMdArrowDropdown } from "react-icons/io";
+import axiosClient from "../../../utils/axios/axios-client";
+import {
+  API_GROUP,
+  API_ORGANIZATION,
+  API_PUROK,
+} from "../../../utils/urls/api_url";
 
-const Sidebar = ({ sidebar_toggle, setSidebar_Toggle, setTab_Pages }) => {
+const Sidebar = ({
+  sidebar_toggle,
+  setSidebar_Toggle,
+  setTab_Pages,
+  purok_data,
+  setPurok_Data,
+  organization_data,
+  setOrganization_Data,
+  group_data,
+  setGroup_Data,
+  sidebar_buttons,
+  setSidebar_Buttons,
+}) => {
   const [sort_toggle, setSort_Toggle] = useState(false);
+
   return (
     <div className="w-full h-full flex flex-col justify-between border-r-[1px] bg-blue-500 text-white">
       {/* Side Bar Title */}
@@ -93,6 +112,7 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle, setTab_Pages }) => {
             } monitor_md:h-[90%] monitor_md:w-[80%]`}
           >
             <button
+              disabled={sidebar_buttons.assignments}
               onClick={() => {
                 setSort_Toggle(false);
                 sort_toggle === false
@@ -152,6 +172,7 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle, setTab_Pages }) => {
             } monitor_md:h-[90%] monitor_md:w-[80%]`}
           >
             <button
+              disabled={sidebar_buttons.masterlist}
               onClick={() => {
                 setSort_Toggle(false);
                 sort_toggle === false
@@ -159,11 +180,17 @@ const Sidebar = ({ sidebar_toggle, setSidebar_Toggle, setTab_Pages }) => {
                   : setSort_Toggle(false);
                 setTab_Pages(2);
               }}
-              className={`${
+              className={`
+              ${
+                sidebar_buttons.masterlist === true
+                  ? "rounded-md bg-gray-300 opacity-80"
+                  : ""
+              }
+              ${
                 sidebar_toggle === false
                   ? "flex justify-center items-center w-full h-full"
                   : "flex justify-between items-center w-full h-[2.5rem] font-extrabold"
-              } `}
+              } disabled:cursor-not-allowed`}
             >
               <span
                 className={`${
