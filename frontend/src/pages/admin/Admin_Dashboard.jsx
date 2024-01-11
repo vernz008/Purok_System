@@ -4,37 +4,19 @@ import Masterlist_Content from "../../components/admin/content/Masterlist_Conten
 import Assignments_Content from "../../components/admin/content/Assignments_Content";
 import {
   API_GROUP,
+  API_MEMBER,
   API_ORGANIZATION,
   API_PUROK,
 } from "../../utils/urls/api_url";
 import axiosClient from "../../utils/axios/axios-client";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  check_group,
-  check_origanization,
-  check_purok,
-  reset_assignment,
-} from "../../utils/redux/assignment/assignmentSlice";
+import Loading_Screen_Big from "../../components/Loading_Screen_Big";
 
 const Admin_Dashboard = () => {
-  const dispatch = useDispatch();
-  const {
-    is_purokSuccess,
-    is_purokLoading,
-    is_purokError,
-    purok_response,
-    is_organizationSuccess,
-    is_organizationLoading,
-    is_organizationError,
-    organiaztion_response,
-    is_groupSuccess,
-    is_groupLoading,
-    is_groupError,
-    group_response,
-  } = useSelector((state) => state.Assignment);
   const [sidebar_toggle, setSidebar_Toggle] = useState(false);
+  const [loading_screen, setLoading_Screen] = useState(true);
   const [tabs_pages, setTab_Pages] = useState(0);
   const [purok_data, setPurok_Data] = useState([]);
+  const [masterList_data, setMasterList_Data] = useState([]);
   const [organization_data, setOrganization_Data] = useState([]);
   const [group_data, setGroup_Data] = useState([]);
   const [sidebar_buttons, setSidebar_Buttons] = useState({
@@ -45,42 +27,16 @@ const Admin_Dashboard = () => {
   const [org_count, setOrg_Count] = useState(0);
   const [group_count, setGroup_Count] = useState(0);
 
-  // useEffect(() => {
-  //   if (
-  //     purok_response?.data?.length > 0 &&
-  //     organiaztion_response?.data?.length > 0 &&
-  //     group_response?.data?.length > 0
-  //   ) {
-  //     setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
-  //   }
-  //   dispatch(check_purok());
-  // }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     purok_response?.data?.length > 0 &&
-  //     organiaztion_response?.data?.length > 0 &&
-  //     group_response?.data?.length > 0
-  //   ) {
-  //     setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
-  //   }
-  //   dispatch(reset_assignment());
-  // }, [
-  //   is_purokSuccess,
-  //   is_purokLoading,
-  //   is_purokError,
-  //   purok_response,
-  //   is_organizationSuccess,
-  //   is_organizationLoading,
-  //   is_organizationError,
-  //   organiaztion_response,
-  //   is_groupSuccess,
-  //   is_groupLoading,
-  //   is_groupError,
-  //   group_response,
-  // ]);
-
   useEffect(() => {
+    axiosClient
+      .get(API_MEMBER)
+      .then((res) => {
+        setMasterList_Data(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     axiosClient
       .get(API_PUROK)
       .then((res) => {
@@ -110,6 +66,29 @@ const Admin_Dashboard = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    if (
+      purok_data.length > 0 &&
+      organization_data.length > 0 &&
+      group_data.length > 0
+    ) {
+      setLoading_Screen(false);
+      setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
+    } else {
+      setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
+    }
+
+    return () => {
+      if (
+        purok_data.length > 0 &&
+        organization_data.length > 0 &&
+        group_data.length > 0
+      ) {
+        setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
+      } else {
+        setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
+      }
+    };
   }, [purok_count, org_count, group_count]);
 
   return (
@@ -132,6 +111,9 @@ const Admin_Dashboard = () => {
             setGroup_Data={setGroup_Data}
             sidebar_buttons={sidebar_buttons}
             setSidebar_Buttons={setSidebar_Buttons}
+            org_count={org_count}
+            group_count={group_count}
+            purok_count={purok_count}
           />
         </div>
         <div
@@ -168,12 +150,15 @@ const Admin_Dashboard = () => {
               setGroup_Data={setGroup_Data}
               sidebar_buttons={sidebar_buttons}
               setSidebar_Buttons={setSidebar_Buttons}
+              setMasterList_Data={setMasterList_Data}
+              masterList_data={masterList_data}
             />
           ) : (
             ""
           )}
         </div>
       </div>
+      {loading_screen === true ? <Loading_Screen_Big /> : ""}
     </section>
   );
 };

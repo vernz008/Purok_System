@@ -8,23 +8,23 @@ const Create_MasterList = ({
   setMasterList_Modal,
   setMasterList_Data,
   purok_data,
-  org_data,
+  organization_data,
+  group_data,
 }) => {
   const [createMember_inputData, setCreateMember_InputData] = useState({
     firstname: "",
     middlename: "",
     lastname: "",
-    gender: "",
+    gender: null,
     birthday: "",
     street: "",
     barangay: "",
     home_number: "",
-    orgid: 0,
-    purokid: 0,
+    org_id: null,
+    purok_id: null,
+    group_id: null,
     status: "",
   });
-
-  console.log(createMember_inputData);
 
   const submit_create_member = (e) => {
     e.preventDefault();
@@ -42,8 +42,9 @@ const Create_MasterList = ({
           createMember_inputData.street +
           "/" +
           createMember_inputData.barangay,
-        orgid: createMember_inputData.orgid,
-        purokid: createMember_inputData.purokid,
+        org_id: createMember_inputData.org_id,
+        purok_id: createMember_inputData.purok_id,
+        group_id: createMember_inputData.group_id,
         status: "IN",
       })
       .then((res) => {
@@ -54,13 +55,14 @@ const Create_MasterList = ({
           firstname: "",
           middlename: "",
           lastname: "",
-          gender: "",
+          gender: null,
           birthday: "",
           street: "",
           barangay: "",
           home_number: "",
-          orgid: 0,
-          purokid: 0,
+          org_id: null,
+          purok_id: null,
+          group_id: null,
           status: "",
         });
       })
@@ -73,7 +75,7 @@ const Create_MasterList = ({
       <div
         className="h-[75%] w-[65%] bg-white rounded-md
       monitor_md:h-[75%]
-      monitor_md:w-[60%]
+      monitor_md:w-[55%]
       "
       >
         {/* Headers */}
@@ -136,48 +138,17 @@ const Create_MasterList = ({
 
                   {/* Assignments */}
                   <div
-                    className="w-full h-[5.5rem] flex justify-start items-center
+                    className="w-full h-[5.5rem] flex justify-between items-center
                   monitor_md:h-[2.8rem]
                   "
                   >
-                    <div className="flex flex-col w-[37%]">
-                      <label
-                        htmlFor=""
-                        className="text-[16px] font-semibold
-                        monitor_md:text-[14px]
-                      "
-                      >
-                        Organization
-                      </label>
-                      <select
-                        name=""
-                        id=""
-                        required
-                        onChange={(e) => {
-                          setCreateMember_InputData({
-                            ...createMember_inputData,
-                            orgid: parseInt(e.target.value),
-                          });
-                        }}
-                        className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
-                        monitor_md:h-[1.5rem]
-                        monitor_md:text-[12px]
-                        "
-                      >
-                        <option value="" disabled selected>
-                          Select Organization . . . .
-                        </option>
-                        {org_data.map((data) => {
-                          return (
-                            <>
-                              <option key={data.id} value={data.id}>
-                                {data.kapisanan}
-                              </option>
-                            </>
-                          );
-                        })}
-                      </select>
-                    </div>
+                    {/* 
+                    
+                    
+                    Purok
+                    
+                    
+                    */}
                     <div className="flex flex-col w-[25%]">
                       <label
                         htmlFor=""
@@ -191,19 +162,21 @@ const Create_MasterList = ({
                         name=""
                         id=""
                         required
+                        value={createMember_inputData.purok_id}
                         onChange={(e) => {
                           setCreateMember_InputData({
                             ...createMember_inputData,
-                            purokid: parseInt(e.target.value),
+                            purok_id: parseInt(e.target.value),
                           });
                         }}
-                        className="border-[1px] shadow-md shadow-slate-400 w-full h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
+                        className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
+                        monitor_md:w-full
                         "
                       >
                         <option value="" disabled selected>
-                          Select Purok . . . .
+                          Select Purok / District . . . .
                         </option>
                         {purok_data.map((data) => {
                           return (
@@ -216,27 +189,96 @@ const Create_MasterList = ({
                         })}
                       </select>
                     </div>
-                    {/* <div className="flex flex-col w-[25%]">
-                      <label htmlFor="" className="text-[16px] font-semibold">
-                        Transfer
+
+                    {/* 
+                    
+                    
+                    Organozation
+                    
+                    
+                    */}
+                    <div className="flex flex-col w-[25%]">
+                      <label
+                        htmlFor=""
+                        className="text-[16px] font-semibold
+                        monitor_md:text-[14px]
+                      "
+                      >
+                        Organization
                       </label>
                       <select
                         name=""
                         id=""
-                        className="border-[1px] shadow-md shadow-slate-400 w-full h-[2.5rem] outline-none cursor-pointer text-[14px] px-1"
+                        required
+                        value={createMember_inputData.org_id}
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            org_id: parseInt(e.target.value),
+                          });
+                        }}
+                        className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
+                        monitor_md:h-[1.5rem]
+                        monitor_md:text-[12px]
+                        monitor_md:w-full
+                        "
                       >
                         <option value="" disabled selected>
-                          Select Transfer . . . .
+                          Select Organization . . . .
                         </option>
-                        {transfer_data.map((data) => {
+                        {organization_data.map((data) => {
                           return (
                             <>
-                              <option value={data.id}>{data.status}</option>
+                              <option key={data.id} value={data.id}>
+                                {data.kapisanan}
+                              </option>
                             </>
                           );
                         })}
                       </select>
-                    </div> */}
+                    </div>
+
+                    {/* Group */}
+                    <div className="flex flex-col w-[25%]">
+                      <label
+                        htmlFor=""
+                        className="text-[16px] font-semibold
+                        monitor_md:text-[14px]
+                      "
+                      >
+                        Group
+                      </label>
+                      <select
+                        name=""
+                        id=""
+                        required
+                        value={createMember_inputData.group_id}
+                        onChange={(e) => {
+                          setCreateMember_InputData({
+                            ...createMember_inputData,
+                            group_id: parseInt(e.target.value),
+                          });
+                        }}
+                        className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
+                        monitor_md:h-[1.5rem]
+                        monitor_md:text-[12px]
+                        monitor_md:w-full
+                        "
+                      >
+                        <option value="" disabled selected>
+                          Select Group . . . .
+                        </option>
+                        {group_data.map((data) => {
+                          return (
+                            <>
+                              <option key={data.id} value={data.id}>
+                                {data.group}
+                              </option>
+                            </>
+                          );
+                        })}
+                      </select>
+                    </div>
                   </div>
                   {/* Assignments */}
                 </fieldset>
@@ -271,6 +313,8 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        value={createMember_inputData.firstname}
+                        placeholder="Your Given Name. . ."
                         onChange={(e) => {
                           setCreateMember_InputData({
                             ...createMember_inputData,
@@ -295,6 +339,8 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        value={createMember_inputData.middlename}
+                        placeholder="Your Middle Initial. . ."
                         onChange={(e) => {
                           setCreateMember_InputData({
                             ...createMember_inputData,
@@ -319,6 +365,8 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        value={createMember_inputData.lastname}
+                        placeholder="Your Lastname. . ."
                         onChange={(e) => {
                           setCreateMember_InputData({
                             ...createMember_inputData,
@@ -355,6 +403,7 @@ const Create_MasterList = ({
                           name=""
                           id=""
                           required
+                          value={createMember_inputData.birthday}
                           onChange={(e) => {
                             setCreateMember_InputData({
                               ...createMember_inputData,
@@ -385,6 +434,7 @@ const Create_MasterList = ({
                           name=""
                           id=""
                           required
+                          value={createMember_inputData.gender}
                           onChange={(e) => {
                             setCreateMember_InputData({
                               ...createMember_inputData,
@@ -441,6 +491,8 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        value={createMember_inputData.home_number}
+                        placeholder="House No. / Lot No."
                         onChange={(e) => {
                           setCreateMember_InputData({
                             ...createMember_inputData,
@@ -465,6 +517,8 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        value={createMember_inputData.street}
+                        placeholder="Street. . ."
                         onChange={(e) => {
                           setCreateMember_InputData({
                             ...createMember_inputData,
@@ -489,6 +543,8 @@ const Create_MasterList = ({
                       <input
                         type="text"
                         required
+                        value={createMember_inputData.barangay}
+                        placeholder="Barangay. . ."
                         onChange={(e) => {
                           setCreateMember_InputData({
                             ...createMember_inputData,

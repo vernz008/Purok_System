@@ -11,48 +11,18 @@ import {
 import Update_MasterList from "../modal/MasterList/Update_MasterList";
 import { data } from "autoprefixer";
 
-const Masterlist_Content = ({ assignment_data, setAssignment_Data }) => {
-  const [masterList_data, setMasterList_Data] = useState([]);
-  const [org_data, setOrg_Data] = useState([]);
-  const [purok_data, setPurok_Data] = useState([]);
-  const [transfer_data, setTransfer_Data] = useState([]);
+const Masterlist_Content = ({
+  purok_data,
+  organization_data,
+  group_data,
+  setMasterList_Data,
+  masterList_data,
+}) => {
   const [masterList_Modal, setMasterList_Modal] = useState(false);
   const [update_masterList_Modal, setUpdate_MasterList_Modal] = useState({
     id: 0,
     activator: false,
   });
-
-  console.log(masterList_data);
-  console.log(update_masterList_Modal);
-
-  // useEffect(() => {
-  //   axiosClient
-  //     .get(API_ORGANIZATION)
-  //     .then((res) => {
-  //       setOrg_Data(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   axiosClient
-  //     .get(API_PUROK)
-  //     .then((res) => {
-  //       setPurok_Data(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   axiosClient
-  //     .get(API_MEMBER)
-  //     .then((res) => {
-  //       setMasterList_Data(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
@@ -150,47 +120,45 @@ const Masterlist_Content = ({ assignment_data, setAssignment_Data }) => {
                 return (
                   <>
                     <tr
-                      className="w-full h-[10%] flex justify-between items-center text-center shadow-md border-[2px] border-gray-300
-              monitor_md:h-[13.5%] 
-              monitor_md:text-[14px] 
-
-              monitor_xxl:h-[16%] 
-              "
+                      className="flex justify-center items-center w-full
+                  monitor_md:h-[3rem]
+                  monitor_md:p-1
+                  monitor_md:text-[12px]
+                  "
                     >
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                      <td
+                        className="w-[20%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
+                          monitor_md:h-[2.5rem]
+                          "
+                      >
                         {index + 1}
                       </td>
-                      <td1 className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.firstname}
-                      </td1>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.middlename}
+                      <td className="w-[20%] h-full border-t-[2px] border-b-[2px]">
+                        <p className="w-full h-full flex justify-center items-center">
+                          {data.firstname + " " + data.lastname}
+                        </p>
                       </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.lastname}
+                      <td className="w-[20%] h-full border-t-[2px] border-b-[2px]">
+                        <p className="w-full h-full flex justify-center items-center">
+                          {data.gender}
+                        </p>
                       </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.gender}
+                      <td className="w-[20%] h-full border-t-[2px] border-b-[2px]">
+                        <p className="w-full h-full flex justify-center items-center">
+                          {data.kapisanan}
+                        </p>
                       </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.birthday}
+                      <td className="w-[20%] h-full border-t-[2px] border-b-[2px]">
+                        <p className="w-full h-full flex justify-center items-center">
+                          {data.purok}
+                        </p>
                       </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.address}
+                      <td className="w-[20%] h-full border-t-[2px] border-b-[2px]">
+                        <p className="w-full h-full flex justify-center items-center">
+                          {data.status}
+                        </p>
                       </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.kapisanan}
-                      </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.purok}
-                      </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.group}
-                      </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
-                        {data.status}
-                      </td>
-                      <td className="w-[20%] h-[3.5rem] flex justify-center items-center">
+                      <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
                         <div className="w-full h-full flex justify-center items-center">
                           <button
                             onClick={() =>
@@ -214,6 +182,16 @@ const Masterlist_Content = ({ assignment_data, setAssignment_Data }) => {
                             />
                           </button>
                           <button
+                            onClick={() => {
+                              axiosClient
+                                .delete(API_MEMBER + `/${data.id}`)
+                                .then((res) => {
+                                  setMasterList_Data(res.data);
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            }}
                             className="h-[2.5rem] w-[2.5rem] transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-black flex justify-center items-center
                     monitor_md:h-[1.8rem]
                     monitor_md:w-[1.8rem]
@@ -240,11 +218,10 @@ const Masterlist_Content = ({ assignment_data, setAssignment_Data }) => {
       {masterList_Modal === true ? (
         <Create_MasterList
           setMasterList_Modal={setMasterList_Modal}
-          setOrg_Data={setOrg_Data}
-          org_data={org_data}
-          setPurok_Data={setPurok_Data}
-          purok_data={purok_data}
           setMasterList_Data={setMasterList_Data}
+          organization_data={organization_data}
+          purok_data={purok_data}
+          group_data={group_data}
         />
       ) : (
         ""
@@ -254,12 +231,9 @@ const Masterlist_Content = ({ assignment_data, setAssignment_Data }) => {
         <Update_MasterList
           setUpdate_MasterList_Modal={setUpdate_MasterList_Modal}
           update_masterList_Modal={update_masterList_Modal}
-          setOrg_Data={setOrg_Data}
-          org_data={org_data}
-          setPurok_Data={setPurok_Data}
+          organization_data={organization_data}
           purok_data={purok_data}
-          setTransfer_Data={setTransfer_Data}
-          transfer_data={transfer_data}
+          group_data={group_data}
         />
       ) : (
         ""

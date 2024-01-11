@@ -91,17 +91,6 @@ const Assignments_Content = ({
       });
   };
 
-  useEffect(() => {
-    if (
-      purok_data.length > 0 &&
-      organization_data.length > 0 &&
-      group_data.length > 0
-    ) {
-      setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
-    } else {
-      setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
-    }
-  }, []);
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
       <div
