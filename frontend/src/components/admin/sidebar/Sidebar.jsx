@@ -29,8 +29,15 @@ const Sidebar = ({
   setGroup_Data,
   sidebar_buttons,
   setSidebar_Buttons,
+  org_count,
+  group_count,
+  purok_count,
 }) => {
   const [sort_toggle, setSort_Toggle] = useState(false);
+
+  console.log(org_count);
+  console.log(group_count);
+  console.log(purok_count);
 
   return (
     <div className="w-full h-full flex flex-col justify-between border-r-[1px] bg-blue-500 text-white">
