@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import axiosClient from "../../../../utils/axios/axios-client";
-import { API_MEMBER } from "../../../../utils/urls/api_url";
+import { API_MEMBER, API_PUROK } from "../../../../utils/urls/api_url";
 import { MdEditDocument } from "react-icons/md";
+import { IoIosSave } from "react-icons/io";
+
 const Update_MasterList = ({
   setUpdate_MasterList_Modal,
   update_masterList_Modal,
@@ -12,23 +14,56 @@ const Update_MasterList = ({
 }) => {
   const [memberById_data, setMemberByID_Data] = useState([]);
   const [update_inputData, setUpdate_InputData] = useState({
-    purok_id: "",
-    org_id: "",
-    group_id: "",
+    purok_id: 0,
+    org_id: 0,
+    group_id: 0,
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    birtday: "",
+    gender: "",
+    house_no: "",
+    street: "",
+    barangay: "",
+    status: "",
   });
   const [toggle_update, setToggle_Update] = useState({
     update_org: false,
     update_purok: false,
     update_group: false,
+    update_firstname: false,
+    update_middlename: false,
+    update_lastname: false,
+    update_birtday: false,
+    update_gender: false,
+    update_house_no: false,
+    update_street: false,
+    update_barangay: false,
   });
-
+  console.log(update_inputData);
   console.log(update_masterList_Modal.id);
+  console.log(memberById_data);
 
   useEffect(() => {
     axiosClient
       .get(API_MEMBER + `/${update_masterList_Modal.id}`)
       .then((res) => {
-        setMemberByID_Data(res.data);
+        setMemberByID_Data(res.data.member_info);
+        setUpdate_InputData({
+          ...update_inputData,
+          purok_id: res.data.member_info_raw.purok_id,
+          org_id: res.data.member_info_raw.org_id,
+          group_id: res.data.member_info_raw.group_id,
+          firstname: res.data.member_info_raw.firstname,
+          middlename: res.data.member_info_raw.middlename,
+          lastname: res.data.member_info_raw.lastname,
+          birtday: res.data.member_info_raw.birthday,
+          gender: res.data.member_info_raw.gender,
+          house_no: res.data.member_info_raw.address.split("/")[0],
+          street: res.data.member_info_raw.address.split("/")[1],
+          barangay: res.data.member_info_raw.address.split("/")[2],
+          status: res.data.member_info_raw.status,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -36,7 +71,37 @@ const Update_MasterList = ({
   }, []);
 
   const submit_update_member = (e) => {
-    e.prevenDefault();
+    e.preventDefault();
+
+    axiosClient
+      .put(API_MEMBER + `/${update_masterList_Modal.id}`, {
+        firstname: update_inputData.firstname,
+        middlename: update_inputData.middlename,
+        lastname: update_inputData.lastname,
+        gender: update_inputData.gender,
+        birthday: update_inputData.birtday,
+        address:
+          update_inputData.house_no +
+          "/" +
+          update_inputData.street +
+          "/" +
+          update_inputData.barangay,
+        purok_id: update_inputData.purok_id,
+        group_id: update_inputData.group_id,
+        org_id: update_inputData.org_id,
+        status: update_inputData.status,
+      })
+      .then((res) => {
+        setMemberByID_Data(res.data.member_info);
+        setToggle_Update({
+          ...toggle_update,
+          update_purok: false,
+        });
+        alert("good");
+      })
+      .catch((error) => {
+        alert("bad");
+      });
   };
   return (
     <>
@@ -95,7 +160,7 @@ const Update_MasterList = ({
         monitor_md:px-5
         "
           >
-            <form action="" onSubmit={submit_update_member} className="w-full">
+            <div action="" className="w-full">
               <div className="w-full">
                 <div className="w-full">
                   <fieldset
@@ -125,46 +190,76 @@ const Update_MasterList = ({
                     
                     */}
                       {toggle_update.update_purok === true ? (
-                        <div className="flex flex-col  w-[25%]">
-                          <label
-                            htmlFor=""
-                            className="text-[16px] font-semibold
+                        <form
+                          className="flex w-[32%]"
+                          onSubmit={submit_update_member}
+                        >
+                          <div className="flex flex-col w-[60%]">
+                            <label
+                              htmlFor=""
+                              className="text-[16px] font-semibold
                         monitor_md:text-[14px]
                       "
-                          >
-                            Purok / District
-                          </label>
-                          <select
-                            name=""
-                            id=""
-                            required
-                            value={update_inputData.purok_id}
-                            onChange={(e) => {
-                              setUpdate_InputData({
-                                ...update_inputData,
-                                purok_id: parseInt(e.target.value),
-                              });
-                            }}
-                            className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
+                            >
+                              Purok / District
+                            </label>
+                            <select
+                              name=""
+                              id=""
+                              required
+                              value={update_inputData.purok_id}
+                              onChange={(e) => {
+                                setUpdate_InputData({
+                                  ...update_inputData,
+                                  purok_id: parseInt(e.target.value),
+                                });
+                              }}
+                              className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         monitor_md:w-full
                         "
-                          >
-                            <option value="" disabled selected>
-                              Select Purok / District . . . .
-                            </option>
-                            {purok_data.map((data) => {
-                              return (
-                                <>
-                                  <option key={data.id} value={data.id}>
-                                    {data.purok}
-                                  </option>
-                                </>
-                              );
-                            })}
-                          </select>
-                        </div>
+                            >
+                              <option value="" disabled selected>
+                                Select Purok / District . . . .
+                              </option>
+                              {purok_data.map((data) => {
+                                return (
+                                  <>
+                                    <option key={data.id} value={data.id}>
+                                      {data.purok}
+                                    </option>
+                                  </>
+                                );
+                              })}
+                            </select>
+                          </div>
+                          <div className="w-[40%] flex justify-evenly items-center">
+                            <button
+                              type="submit"
+                              className="w-[50%] flex justify-center items-center border-[2px] rounded-full border-green-600 text-green-600 transition-all ease-in-out duration-500 hover:bg-green-600 hover:text-white
+                            monitor_md:h-[2rem]
+                            monitor_md:w-[2rem]
+                            "
+                            >
+                              <IoIosSave />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_purok: false,
+                                });
+                              }}
+                              className="w-[50%] flex justify-center items-center border-[2px] rounded-full border-red-600 text-red-600 transition-all ease-in-out duration-500 hover:bg-red-600 hover:text-white
+                               monitor_md:h-[2rem]
+                               monitor_md:w-[2rem]
+                               "
+                            >
+                              <FaTimesCircle />
+                            </button>
+                          </div>
+                        </form>
                       ) : (
                         <>
                           {/* Update toggle true */}
@@ -181,15 +276,21 @@ const Update_MasterList = ({
                               <span>
                                 <p
                                   className="text-[16px] font-semibold
-                        monitor_md:text-[16px]
-                      "
+                                  monitor_md:text-[16px]
+                                "
                                 >
-                                  Data
+                                  {memberById_data.purok}
                                 </p>
                               </span>
                             </div>
                             <div className="w-[20%] flex justify-center items-center">
                               <button
+                                onClick={() => {
+                                  setToggle_Update({
+                                    ...toggle_update,
+                                    update_purok: true,
+                                  });
+                                }}
                                 className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
                               monitor_md:w-[2rem]
                               monitor_md:h-[2rem]
@@ -210,40 +311,156 @@ const Update_MasterList = ({
                     
                     */}
                       {toggle_update.update_org === true ? (
+                        <form
+                          className="flex w-[32%]"
+                          onSubmit={submit_update_member}
+                        >
+                          <div className="flex flex-col w-[60%]">
+                            <label
+                              htmlFor=""
+                              className="text-[16px] font-semibold
+                        monitor_md:text-[14px]
+                      "
+                            >
+                              Organization
+                            </label>
+                            <select
+                              name=""
+                              id=""
+                              required
+                              value={update_inputData.org_id}
+                              onChange={(e) => {
+                                setUpdate_InputData({
+                                  ...update_inputData,
+                                  org_id: parseInt(e.target.value),
+                                });
+                              }}
+                              className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
+                        monitor_md:h-[1.5rem]
+                        monitor_md:text-[12px]
+                        monitor_md:w-full
+                        "
+                            >
+                              <option value="" disabled selected>
+                                Select Organization . . . .
+                              </option>
+                              {organization_data.map((data) => {
+                                return (
+                                  <>
+                                    <option key={data.id} value={data.id}>
+                                      {data.kapisanan}
+                                    </option>
+                                  </>
+                                );
+                              })}
+                            </select>
+                          </div>
+
+                          <div className="w-[40%] flex justify-evenly items-center">
+                            <button
+                              type="submit"
+                              className="w-[50%] flex justify-center items-center border-[2px] rounded-full border-green-600 text-green-600 transition-all ease-in-out duration-500 hover:bg-green-600 hover:text-white
+                            monitor_md:h-[2rem]
+                            monitor_md:w-[2rem]
+                            "
+                            >
+                              <IoIosSave />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_purok: false,
+                                });
+                              }}
+                              className="w-[50%] flex justify-center items-center border-[2px] rounded-full border-red-600 text-red-600 transition-all ease-in-out duration-500 hover:bg-red-600 hover:text-white
+                               monitor_md:h-[2rem]
+                               monitor_md:w-[2rem]
+                               "
+                            >
+                              <FaTimesCircle />
+                            </button>
+                          </div>
+                        </form>
+                      ) : (
+                        <>
+                          {/* Update toggle true */}
+                          <div className="flex  w-[25%]">
+                            <div className="w-[80%] ">
+                              <label
+                                htmlFor=""
+                                className="text-[16px] font-semibold underline
+                                monitor_md:text-[14px]
+                              "
+                              >
+                                Organization
+                              </label>
+                              <span>
+                                <p
+                                  className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                >
+                                  {memberById_data.kapisanan}
+                                </p>
+                              </span>
+                            </div>
+                            <div className="w-[20%] flex justify-center items-center">
+                              <button
+                                onClick={() => {
+                                  setToggle_Update({
+                                    ...toggle_update,
+                                    update_org: true,
+                                  });
+                                }}
+                                className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                              >
+                                <MdEditDocument />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {/* Group */}
+                      {toggle_update.update_group === true ? (
                         <div className="flex flex-col w-[25%]">
                           <label
                             htmlFor=""
                             className="text-[16px] font-semibold
-                        monitor_md:text-[14px]
-                      "
+                          monitor_md:text-[14px]
+                        "
                           >
-                            Organization
+                            Group
                           </label>
                           <select
                             name=""
                             id=""
                             required
-                            value={update_inputData.org_id}
+                            value={update_inputData.group_id}
                             onChange={(e) => {
                               setUpdate_InputData({
                                 ...update_inputData,
-                                org_id: parseInt(e.target.value),
+                                group_id: parseInt(e.target.value),
                               });
                             }}
                             className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
-                        monitor_md:h-[1.5rem]
-                        monitor_md:text-[12px]
-                        monitor_md:w-full
-                        "
+                            monitor_md:h-[1.5rem]
+                            monitor_md:text-[12px]
+                            monitor_md:w-full
+                            "
                           >
                             <option value="" disabled selected>
-                              Select Organization . . . .
+                              Select Group . . . .
                             </option>
-                            {organization_data.map((data) => {
+                            {group_data.map((data) => {
                               return (
                                 <>
                                   <option key={data.id} value={data.id}>
-                                    {data.kapisanan}
+                                    {data.group}
                                   </option>
                                 </>
                               );
@@ -258,27 +475,27 @@ const Update_MasterList = ({
                               <label
                                 htmlFor=""
                                 className="text-[16px] font-semibold underline
-                        monitor_md:text-[14px]
-                      "
+                      monitor_md:text-[14px]
+                    "
                               >
-                                Organization
+                                Group
                               </label>
                               <span>
                                 <p
                                   className="text-[16px] font-semibold
-                        monitor_md:text-[16px]
-                      "
+                      monitor_md:text-[16px]
+                    "
                                 >
-                                  Data
+                                  {memberById_data.group}
                                 </p>
                               </span>
                             </div>
                             <div className="w-[20%] flex justify-center items-center">
                               <button
                                 className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
-                              monitor_md:w-[2rem]
-                              monitor_md:h-[2rem]
-                              "
+                            monitor_md:w-[2rem]
+                            monitor_md:h-[2rem]
+                            "
                               >
                                 <MdEditDocument className="" />
                               </button>
@@ -286,48 +503,6 @@ const Update_MasterList = ({
                           </div>
                         </>
                       )}
-
-                      {/* Group */}
-                      <div className="flex flex-col w-[25%]">
-                        <label
-                          htmlFor=""
-                          className="text-[16px] font-semibold
-                        monitor_md:text-[14px]
-                      "
-                        >
-                          Group
-                        </label>
-                        <select
-                          name=""
-                          id=""
-                          required
-                          value={update_inputData.group_id}
-                          onChange={(e) => {
-                            setUpdate_InputData({
-                              ...update_inputData,
-                              group_id: parseInt(e.target.value),
-                            });
-                          }}
-                          className="border-[1px] shadow-md shadow-slate-400 w-[67%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
-                        monitor_md:h-[1.5rem]
-                        monitor_md:text-[12px]
-                        monitor_md:w-full
-                        "
-                        >
-                          <option value="" disabled selected>
-                            Select Group . . . .
-                          </option>
-                          {group_data.map((data) => {
-                            return (
-                              <>
-                                <option key={data.id} value={data.id}>
-                                  {data.group}
-                                </option>
-                              </>
-                            );
-                          })}
-                        </select>
-                      </div>
                     </div>
                     {/* Assignments */}
                   </fieldset>
@@ -350,60 +525,171 @@ const Update_MasterList = ({
                   monitor_md:h-[3rem]
                   "
                     >
-                      <div className="flex flex-col w-[25%]">
-                        <label
-                          htmlFor=""
-                          className="text-[16px] font-semibold
+                      {toggle_update.firstname === true ? (
+                        <div className="flex flex-col w-[25%]">
+                          <label
+                            htmlFor=""
+                            className="text-[16px] font-semibold
                         monitor_md:text-[14px]
                       "
-                        >
-                          Firstname
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                          >
+                            Firstname
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         "
-                        />
-                      </div>
-                      <div className="flex flex-col w-[25%]">
-                        <label
-                          htmlFor=""
-                          className="text-[16px] font-semibold
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          {/* Update Toggle */}
+                          <div className="flex  w-[25%]">
+                            <div className="w-[80%] ">
+                              <label
+                                htmlFor=""
+                                className="text-[16px] font-semibold underline
                         monitor_md:text-[14px]
                       "
-                        >
-                          Middlename
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                              >
+                                Firstname
+                              </label>
+                              <span>
+                                <p
+                                  className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                >
+                                  {memberById_data.firstname}
+                                </p>
+                              </span>
+                            </div>
+                            <div className="w-[20%] flex justify-center items-center">
+                              <button
+                                className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                              >
+                                <MdEditDocument className="" />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {toggle_update.update_middlename === true ? (
+                        <div className="flex flex-col w-[25%]">
+                          <label
+                            htmlFor=""
+                            className="text-[16px] font-semibold
+                        monitor_md:text-[14px]
+                      "
+                          >
+                            Middlename
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         "
-                        />
-                      </div>
-                      <div className="flex flex-col w-[25%]">
-                        <label
-                          htmlFor=""
-                          className="text-[16px] font-semibold
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          {/* Update toggle */}
+                          <div className="flex  w-[25%]">
+                            <div className="w-[80%] ">
+                              <label
+                                htmlFor=""
+                                className="text-[16px] font-semibold underline
                         monitor_md:text-[14px]
                       "
-                        >
-                          Lastname
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                              >
+                                Middlename
+                              </label>
+                              <span>
+                                <p
+                                  className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                >
+                                  {memberById_data.middlename}
+                                </p>
+                              </span>
+                            </div>
+                            <div className="w-[20%] flex justify-center items-center">
+                              <button
+                                className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                              >
+                                <MdEditDocument className="" />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {toggle_update.update_lastname === true ? (
+                        <div className="flex flex-col w-[25%]">
+                          <label
+                            htmlFor=""
+                            className="text-[16px] font-semibold
+                        monitor_md:text-[14px]
+                      "
+                          >
+                            Lastname
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         "
-                        />
-                      </div>
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          {/* Update toggle */}
+                          <div className="flex  w-[25%]">
+                            <div className="w-[80%] ">
+                              <label
+                                htmlFor=""
+                                className="text-[16px] font-semibold underline
+                        monitor_md:text-[14px]
+                      "
+                              >
+                                Lastname
+                              </label>
+                              <span>
+                                <p
+                                  className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                >
+                                  {memberById_data.lastname}
+                                </p>
+                              </span>
+                            </div>
+                            <div className="w-[20%] flex justify-center items-center">
+                              <button
+                                className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                              >
+                                <MdEditDocument className="" />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                     {/* Full name */}
 
@@ -413,59 +699,143 @@ const Update_MasterList = ({
                   "
                     >
                       {/* Birthdate */}
+
                       <div className="w-[50%]">
-                        <div className="flex flex-col">
-                          <label
-                            htmlFor=""
-                            className="text-[16px] font-semibold
+                        {toggle_update.birtday === true ? (
+                          <div className="flex flex-col">
+                            <label
+                              htmlFor=""
+                              className="text-[16px] font-semibold
                           monitor_md:text-[14px]
                         "
-                          >
-                            Birth Date
-                          </label>
-                          <input
-                            type="date"
-                            name=""
-                            id=""
-                            required
-                            className="h-[2.5rem] w-[66%] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                            >
+                              Birth Date
+                            </label>
+                            <input
+                              type="date"
+                              name=""
+                              id=""
+                              required
+                              value={update_inputData.barangay}
+                              className="h-[2.5rem] w-[66%] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                           monitor_md:h-[1.5rem]
                           monitor_md:text-[12px]
                           "
-                          />
-                        </div>
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            {/* Update toggle */}
+                            <div
+                              className="flex  
+                            monitor_md:w-[67%]
+                            "
+                            >
+                              <div className="w-[80%] ">
+                                <label
+                                  htmlFor=""
+                                  className="text-[16px] font-semibold underline
+                                  monitor_md:text-[14px]
+                                "
+                                >
+                                  Birthday
+                                </label>
+                                <span>
+                                  <p
+                                    className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                  >
+                                    {memberById_data.birthday}
+                                  </p>
+                                </span>
+                              </div>
+                              <div className="w-[20%] flex justify-center items-center">
+                                <button
+                                  className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                                >
+                                  <MdEditDocument className="" />
+                                </button>
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
                       {/* Birthdate */}
 
                       {/* Gender */}
                       <div className="w-[83%]">
-                        <div className="flex flex-col">
-                          <label
-                            htmlFor=""
-                            className="text-[16px] font-semibold
+                        {toggle_update.gender === true ? (
+                          <div className="flex flex-col">
+                            <label
+                              htmlFor=""
+                              className="text-[16px] font-semibold
                         monitor_md:text-[14px]
                         "
-                          >
-                            Gender
-                          </label>
-                          <select
-                            name=""
-                            id=""
-                            required
-                            className="border-[1px] shadow-md shadow-slate-400 w-[40%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
+                            >
+                              Gender
+                            </label>
+                            <select
+                              name=""
+                              id=""
+                              required
+                              className="border-[1px] shadow-md shadow-slate-400 w-[40%] h-[2.5rem] outline-none cursor-pointer text-[14px] px-1
                           monitor_md:h-[1.5rem]
                           monitor_md:text-[12px]
                           "
-                          >
-                            <option value="" selected disabled>
-                              Select Gender . . . .
-                            </option>
-                            <option value="Male" className="">
-                              Male
-                            </option>
-                            <option value="Female">Female</option>
-                          </select>
-                        </div>
+                            >
+                              <option value="" selected disabled>
+                                Select Gender . . . .
+                              </option>
+                              <option value="Male" className="">
+                                Male
+                              </option>
+                              <option value="Female">Female</option>
+                            </select>
+                          </div>
+                        ) : (
+                          <>
+                            {/* Update Toggle */}
+                            <div
+                              className="flex  
+                            monitor_md:w-[40%]
+                            "
+                            >
+                              <div className="w-[80%] ">
+                                <label
+                                  htmlFor=""
+                                  className="text-[16px] font-semibold underline
+                                  monitor_md:text-[14px]
+                                "
+                                >
+                                  Gender
+                                </label>
+                                <span>
+                                  <p
+                                    className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                  >
+                                    {memberById_data.gender}
+                                  </p>
+                                </span>
+                              </div>
+                              <div className="w-[20%] flex justify-center items-center">
+                                <button
+                                  className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                                >
+                                  <MdEditDocument className="" />
+                                </button>
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
                       {/* Gender */}
                     </div>
@@ -490,59 +860,170 @@ const Update_MasterList = ({
                   monitor_md:h-[2.6rem]
                   "
                     >
-                      <div className="flex flex-col w-[25%]">
-                        <label
-                          htmlFor=""
-                          className="text-[16px] font-semibold
+                      {toggle_update.house_no === true ? (
+                        <div className="flex flex-col w-[25%]">
+                          <label
+                            htmlFor=""
+                            className="text-[16px] font-semibold
                          monitor_md:text-[14px]
                       "
-                        >
-                          Street
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                          >
+                            House No. / Lot No.
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         "
-                        />
-                      </div>
-                      <div className="flex flex-col w-[25%]">
-                        <label
-                          htmlFor=""
-                          className="text-[16px] font-semibold
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          {/* Update toggle true */}
+                          <div className="flex  w-[25%]">
+                            <div className="w-[80%] ">
+                              <label
+                                htmlFor=""
+                                className="text-[16px] font-semibold underline
+                        monitor_md:text-[14px]
+                      "
+                              >
+                                House No. / Lot No.
+                              </label>
+                              <span>
+                                <p
+                                  className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                >
+                                  {memberById_data.address?.split("/")[0]}
+                                </p>
+                              </span>
+                            </div>
+                            <div className="w-[20%] flex justify-center items-center">
+                              <button
+                                className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                              >
+                                <MdEditDocument className="" />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {toggle_update.update_street === true ? (
+                        <div className="flex flex-col w-[25%]">
+                          <label
+                            htmlFor=""
+                            className="text-[16px] font-semibold
                          monitor_md:text-[14px]
                       "
-                        >
-                          Barangay
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                          >
+                            Street
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         "
-                        />
-                      </div>
-                      <div className="flex flex-col w-[25%]">
-                        <label
-                          htmlFor=""
-                          className="text-[16px] font-semibold
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          {/* Update toggle true */}
+                          <div className="flex  w-[25%]">
+                            <div className="w-[80%] ">
+                              <label
+                                htmlFor=""
+                                className="text-[16px] font-semibold underline
+                        monitor_md:text-[14px]
+                      "
+                              >
+                                Street
+                              </label>
+                              <span>
+                                <p
+                                  className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                >
+                                  {memberById_data.address?.split("/")[1]}
+                                </p>
+                              </span>
+                            </div>
+                            <div className="w-[20%] flex justify-center items-center">
+                              <button
+                                className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                              >
+                                <MdEditDocument className="" />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {toggle_update.update_barangay === true ? (
+                        <div className="flex flex-col w-[25%]">
+                          <label
+                            htmlFor=""
+                            className="text-[16px] font-semibold
                          monitor_md:text-[14px]
                       "
-                        >
-                          Municipality
-                        </label>
-                        <input
-                          type="text"
-                          className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
+                          >
+                            Barangay
+                          </label>
+                          <input
+                            type="text"
+                            className="h-[2.2rem] shadow-md shadow-slate-400 outline-none px-2 border-[1px] text-[14px]
                         monitor_md:h-[1.5rem]
                         monitor_md:text-[12px]
                         "
-                        />
-                      </div>
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          {/* Update toggle true */}
+                          <div className="flex  w-[25%]">
+                            <div className="w-[80%] ">
+                              <label
+                                htmlFor=""
+                                className="text-[16px] font-semibold underline
+                        monitor_md:text-[14px]
+                      "
+                              >
+                                Barangay
+                              </label>
+                              <span>
+                                <p
+                                  className="text-[16px] font-semibold
+                                  monitor_md:text-[16px]
+                                "
+                                >
+                                  {memberById_data.address?.split("/")[2]}
+                                </p>
+                              </span>
+                            </div>
+                            <div className="w-[20%] flex justify-center items-center">
+                              <button
+                                className=" rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-500 hover:bg-yellow-500 hover:text-white
+                              monitor_md:w-[2rem]
+                              monitor_md:h-[2rem]
+                              "
+                              >
+                                <MdEditDocument className="" />
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                     {/*Address */}
                   </fieldset>
@@ -564,7 +1045,7 @@ const Update_MasterList = ({
                   </button>
                 </div> */}
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
