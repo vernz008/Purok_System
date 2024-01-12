@@ -291,7 +291,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -452,7 +452,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -615,7 +615,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -801,7 +801,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -953,7 +953,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -1108,7 +1108,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -1286,7 +1286,7 @@ const Update_MasterList = ({
                               status: memberById_data.status,
                             });
                           }}
-                          className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                          className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -1444,7 +1444,7 @@ const Update_MasterList = ({
                               status: memberById_data.status,
                             });
                           }}
-                          className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                          className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -1602,7 +1602,7 @@ const Update_MasterList = ({
                               status: memberById_data.status,
                             });
                           }}
-                          className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                          className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -1805,7 +1805,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -1965,7 +1965,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
@@ -2130,7 +2130,7 @@ const Update_MasterList = ({
                             status: memberById_data.status,
                           });
                         }}
-                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-500 text-yellow-500 transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white
+                        className="rounded-full flex justify-center items-center border-[2px] border-yellow-400 text-yellow-400 transition-all ease-in-out duration-300 hover:bg-yellow-400 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
