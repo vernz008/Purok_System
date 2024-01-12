@@ -153,17 +153,6 @@ class MemberController extends Controller
 
            //3. Process the Result
            if ($member) {
-        //    $member->firstname = $request->firstname;
-        //    $member->middlename = $request->middlename;
-        //    $member->lastname = $request->lastname;
-        //    $member->gender = $request->gender;
-        //    $member->birthday = $request->birthday;
-        //    $member->address = $request->address;
-        //    $member->org_id = $request->org_id;
-        //    $member->purok_id = $request->purok_id;
-        //    $member->group_id = $request->group_id;
-        //    $member->status = $request->status;
-        //    $member->save();
         $member->update([
             'firstname' => $fields["firstname"],
             'middlename' => $fields["middlename"],
@@ -177,26 +166,16 @@ class MemberController extends Controller
             'status' => $fields["status"],
         ]);
 
+        $member_all = MemberModel::with('organizations', 'puroks', 'groups')
+        ->join('organizations', 'organizations.id', '=', 'members.org_id')
+        ->join('purok', 'purok.id', '=', 'members.purok_id')
+         ->join('groups', 'members.group_id', '=', 'groups.id')
+        ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
+         'members.gender', 'members.birthday', 'members.address',
+         'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+        ->find($id);
 
-           
-        //    $member_all = MemberModel::with('organizations', 'purok')
-        //    ->join('organizations', 'organizations.id', '=', 'members.org_id')
-        //     ->join('purok', 'purok.id', '=', 'members.purok_id')
-        //      ->join('groups', 'members.group_id', '=', 'groups.id')
-        //     ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-        //      'members.gender', 'members.birthday', 'members.address',
-        //      'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
-        //     ->get();
-            $member_all = MemberModel::with('organizations', 'puroks', 'groups')
-            ->join('organizations', 'organizations.id', '=', 'members.org_id')
-            ->join('purok', 'purok.id', '=', 'members.purok_id')
-            ->join('groups', 'members.group_id', '=', 'groups.id')
-            ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-            'members.gender', 'members.birthday', 'members.address',
-            'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
-            ->find($id);
-
-            $member_raw = MemberModel::find($id);
+        $member_raw = MemberModel::find($id);
 
 
             return response()->json(["member_info"=>$member_all,"member_info_raw"=>$member_raw, 200]);
