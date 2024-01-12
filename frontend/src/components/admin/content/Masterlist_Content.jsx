@@ -121,16 +121,12 @@ const Masterlist_Content = ({
                   <>
                     <tr
                       className="flex justify-center items-center w-full
-                  monitor_md:h-[3rem]
+                  monitor_md:h-[3.5rem]
                   monitor_md:p-1
                   monitor_md:text-[12px]
                   "
                     >
-                      <td
-                        className="w-[20%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
-                          monitor_md:h-[2.5rem]
-                          "
-                      >
+                      <td className="w-[20%] h-full flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]">
                         {index + 1}
                       </td>
                       <td className="w-[20%] h-full border-t-[2px] border-b-[2px]">
@@ -178,7 +174,7 @@ const Masterlist_Content = ({
                               className="text-[20px]
                       monitor_md:text-[16px]
                       "
-                              color="#ffc93c"
+                              color="#6DB9EF"
                             />
                           </button>
                           <button
