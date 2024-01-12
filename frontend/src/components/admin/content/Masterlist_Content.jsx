@@ -232,6 +232,7 @@ const Masterlist_Content = ({
           setUpdate_MasterList_Modal={setUpdate_MasterList_Modal}
           update_masterList_Modal={update_masterList_Modal}
           setMasterList_Data={setMasterList_Data}
+          masterList_data={masterList_data}
           organization_data={organization_data}
           purok_data={purok_data}
           group_data={group_data}
