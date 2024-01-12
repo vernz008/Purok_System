@@ -177,8 +177,17 @@ class MemberController extends Controller
 
         $member_raw = MemberModel::find($id);
 
+        $member_list = MemberModel::with('organizations', 'puroks', 'groups')
+        ->join('organizations', 'organizations.id', '=', 'members.org_id')
+        ->join('purok', 'purok.id', '=', 'members.purok_id')
+         ->join('groups', 'members.group_id', '=', 'groups.id')
+        ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
+         'members.gender', 'members.birthday', 'members.address',
+         'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+        ->get();
 
-            return response()->json(["member_info"=>$member_all,"member_info_raw"=>$member_raw, 200]);
+
+            return response()->json(["member_info"=>$member_all,"member_info_raw"=>$member_raw,"masterList_data"=>$member_list, 200]);
            }else {
                return response()->json(['message' => 'Failed to update data'], 500);
            }

@@ -9,6 +9,7 @@ import moment from "moment";
 const Update_MasterList = ({
   setUpdate_MasterList_Modal,
   setMasterList_Data,
+  masterList_data,
   update_masterList_Modal,
   purok_data,
   organization_data,
@@ -64,40 +65,10 @@ const Update_MasterList = ({
       });
   }, []);
 
-  const submit_update_member = (e) => {
-    e.preventDefault();
-    alert("GG");
-
-    // axiosClient
-    //   .put(API_MEMBER + `/${update_masterList_Modal.id}`, {
-    //     firstname: update_inputData.firstname,
-    //     middlename: update_inputData.middlename,
-    //     lastname: update_inputData.lastname,
-    //     gender: update_inputData.gender,
-    //     birthday: update_inputData.birthday,
-    //     address:
-    //       update_inputData.house_no +
-    //       "/" +
-    //       update_inputData.street +
-    //       "/" +
-    //       update_inputData.barangay,
-    //     purok_id: update_inputData.purok_id,
-    //     group_id: update_inputData.group_id,
-    //     org_id: update_inputData.org_id,
-    //     status: update_inputData.status,
-    //   })
-    //   .then((res) => {
-    //     setMemberByID_Data(res.data.member_info_raw);
-    //     setMemberByID_Data_View(res.data.member_info);
-    //     setToggle_Update({
-    //       ...toggle_update,
-    //       update_firstname: false,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  };
+  // const submit_update_member = (e) => {
+  //   e.preventDefault();
+  //   alert("GG");
+  // };
   return (
     <>
       <div className="absolute !top-0 !left-0 w-screen h-screen z-999 bg-black/50 flex justify-center items-center overflow-hidden">
@@ -238,6 +209,41 @@ const Update_MasterList = ({
                     {toggle_update.update_purok === true ? (
                       <>
                         <button
+                          onClick={() => {
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_purok: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
                           className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
@@ -364,6 +370,41 @@ const Update_MasterList = ({
                     {toggle_update.update_org === true ? (
                       <>
                         <button
+                          onClick={() => {
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_org: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
                           className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
@@ -492,6 +533,41 @@ const Update_MasterList = ({
                     {toggle_update.update_group === true ? (
                       <>
                         <button
+                          onClick={() => {
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_group: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
                           className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
@@ -588,7 +664,7 @@ const Update_MasterList = ({
                     
                     
                     */}
-                <form onSubmit={submit_update_member} className="flex  w-[32%]">
+                <div className="flex  w-[32%]">
                   <div className="flex flex-col w-[80%]">
                     <label
                       htmlFor=""
@@ -606,6 +682,7 @@ const Update_MasterList = ({
                       <input
                         type="text"
                         required
+                        form="form-firstname"
                         value={update_inputData.firstname}
                         onChange={(e) => {
                           setUpdate_InputData({
@@ -631,32 +708,74 @@ const Update_MasterList = ({
                   <div className="w-[40%] flex justify-evenly items-center">
                     {toggle_update.update_firstname === true ? (
                       <>
-                        <button
-                          type="submit"
-                          className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
+                        <form
+                          action=""
+                          id="form-firstname"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_firstname: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
+                          className="w-full flex justify-evenly items-center"
+                        >
+                          <button
+                            type="submit"
+                            className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <IoIosSave />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setToggle_Update({
-                              ...toggle_update,
-                              update_firstname: false,
-                            })
-                          }
-                          className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
+                          >
+                            <IoIosSave />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setToggle_Update({
+                                ...toggle_update,
+                                update_firstname: false,
+                              })
+                            }
+                            className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <FaTimesCircle />
-                        </button>
+                          >
+                            <FaTimesCircle />
+                          </button>
+                        </form>
                       </>
                     ) : (
                       <button
@@ -692,7 +811,7 @@ const Update_MasterList = ({
                       </button>
                     )}
                   </div>
-                </form>
+                </div>
 
                 {/* 
                     
@@ -701,12 +820,7 @@ const Update_MasterList = ({
                     
                     
                     */}
-                <form
-                  className="flex  w-[32%]"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                  }}
-                >
+                <div className="flex  w-[32%]">
                   <div className="flex flex-col w-[80%]">
                     <label
                       htmlFor=""
@@ -724,6 +838,7 @@ const Update_MasterList = ({
                       <input
                         type="text"
                         required
+                        form="form-middlename"
                         value={update_inputData.middlename}
                         onChange={(e) => {
                           setUpdate_InputData({
@@ -749,30 +864,71 @@ const Update_MasterList = ({
                   <div className="w-[40%] flex justify-evenly items-center">
                     {toggle_update.update_middlename === true ? (
                       <>
-                        <button
-                          className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
+                        <form
+                          id="form-middlename"
+                          className="w-full flex justify-evenly items-center"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_middlename: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
+                        >
+                          <button
+                            className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <IoIosSave />
-                        </button>
-                        <button
-                          onClick={() =>
-                            setToggle_Update({
-                              ...toggle_update,
-                              update_middlename: false,
-                            })
-                          }
-                          className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
+                          >
+                            <IoIosSave />
+                          </button>
+                          <button
+                            onClick={() =>
+                              setToggle_Update({
+                                ...toggle_update,
+                                update_middlename: false,
+                              })
+                            }
+                            className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <FaTimesCircle />
-                        </button>
+                          >
+                            <FaTimesCircle />
+                          </button>
+                        </form>
                       </>
                     ) : (
                       <button
@@ -807,7 +963,7 @@ const Update_MasterList = ({
                       </button>
                     )}
                   </div>
-                </form>
+                </div>
 
                 {/* 
                 
@@ -818,12 +974,7 @@ const Update_MasterList = ({
                 
                 
                 */}
-                <form
-                  className="flex  w-[32%]"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                  }}
-                >
+                <div className="flex  w-[32%]">
                   <div className="flex flex-col w-[80%]">
                     <label
                       htmlFor=""
@@ -841,6 +992,7 @@ const Update_MasterList = ({
                       <input
                         type="text"
                         required
+                        form="form-lastname"
                         value={update_inputData.lastname}
                         onChange={(e) => {
                           setUpdate_InputData({
@@ -866,30 +1018,72 @@ const Update_MasterList = ({
                   <div className="w-[40%] flex justify-evenly items-center">
                     {toggle_update.update_lastname === true ? (
                       <>
-                        <button
-                          className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
+                        <form
+                          id="form-lastname"
+                          className="w-full flex justify-evenly items-center"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_lastname: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
+                        >
+                          <button
+                            type="submit"
+                            className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <IoIosSave />
-                        </button>
-                        <button
-                          onClick={() =>
-                            setToggle_Update({
-                              ...toggle_update,
-                              update_lastname: false,
-                            })
-                          }
-                          className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
+                          >
+                            <IoIosSave />
+                          </button>
+                          <button
+                            onClick={() =>
+                              setToggle_Update({
+                                ...toggle_update,
+                                update_lastname: false,
+                              })
+                            }
+                            className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <FaTimesCircle />
-                        </button>
+                          >
+                            <FaTimesCircle />
+                          </button>
+                        </form>
                       </>
                     ) : (
                       <button
@@ -924,7 +1118,7 @@ const Update_MasterList = ({
                       </button>
                     )}
                   </div>
-                </form>
+                </div>
                 {/* 
                 
                 
@@ -955,12 +1149,7 @@ const Update_MasterList = ({
                     
                     
                     */}
-                  <form
-                    className="flex  w-[32%]"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
+                  <div className="flex  w-[32%]">
                     <div className="flex flex-col w-[80%]">
                       <label
                         htmlFor=""
@@ -978,6 +1167,7 @@ const Update_MasterList = ({
                         <input
                           type="date"
                           required
+                          form="form-birthday"
                           value={update_inputData.birthday}
                           onChange={(e) => {
                             setUpdate_InputData({
@@ -995,8 +1185,9 @@ const Update_MasterList = ({
                         <>
                           <span className="text-[16px] font-bold w-full">
                             <h1>
+                              {/* {memberById_data_view.birthday} */}
                               {moment(memberById_data_view.birthday).format(
-                                "MMMM d, YYYY"
+                                "MMMM D, YYYY"
                               )}
                             </h1>
                           </span>
@@ -1006,30 +1197,71 @@ const Update_MasterList = ({
                     <div className="w-[40%] flex justify-evenly items-center">
                       {toggle_update.update_birthday === true ? (
                         <>
-                          <button
-                            className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
+                          <form
+                            id="form-birthday"
+                            className="w-full flex justify-evenly items-center"
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              axiosClient
+                                .put(
+                                  API_MEMBER + `/${update_masterList_Modal.id}`,
+                                  {
+                                    firstname: update_inputData.firstname,
+                                    middlename: update_inputData.middlename,
+                                    lastname: update_inputData.lastname,
+                                    gender: update_inputData.gender,
+                                    birthday: update_inputData.birthday,
+                                    address:
+                                      update_inputData.house_no +
+                                      "/" +
+                                      update_inputData.street +
+                                      "/" +
+                                      update_inputData.barangay,
+                                    purok_id: update_inputData.purok_id,
+                                    group_id: update_inputData.group_id,
+                                    org_id: update_inputData.org_id,
+                                    status: update_inputData.status,
+                                  }
+                                )
+                                .then((res) => {
+                                  setMemberByID_Data(res.data.member_info_raw);
+                                  setMemberByID_Data_View(res.data.member_info);
+                                  setMasterList_Data(res.data.masterList_data);
+                                  setToggle_Update({
+                                    ...toggle_update,
+                                    update_birthday: false,
+                                  });
+                                });
+                              alert("Update Successfull").catch((error) => {
+                                console.log(error);
+                              });
+                            }}
+                          >
+                            <button
+                              className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                          >
-                            <IoIosSave />
-                          </button>
-                          <button
-                            onClick={() =>
-                              setToggle_Update({
-                                ...toggle_update,
-                                update_birthday: false,
-                              })
-                            }
-                            className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
+                            >
+                              <IoIosSave />
+                            </button>
+                            <button
+                              onClick={() =>
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_birthday: false,
+                                })
+                              }
+                              className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                          >
-                            <FaTimesCircle />
-                          </button>
+                            >
+                              <FaTimesCircle />
+                            </button>
+                          </form>
                         </>
                       ) : (
                         <button
@@ -1064,7 +1296,7 @@ const Update_MasterList = ({
                         </button>
                       )}
                     </div>
-                  </form>
+                  </div>
                   {/* 
                     
                     
@@ -1130,6 +1362,41 @@ const Update_MasterList = ({
                       {toggle_update.update_gender === true ? (
                         <>
                           <button
+                            onClick={() => {
+                              axiosClient
+                                .put(
+                                  API_MEMBER + `/${update_masterList_Modal.id}`,
+                                  {
+                                    firstname: update_inputData.firstname,
+                                    middlename: update_inputData.middlename,
+                                    lastname: update_inputData.lastname,
+                                    gender: update_inputData.gender,
+                                    birthday: update_inputData.birthday,
+                                    address:
+                                      update_inputData.house_no +
+                                      "/" +
+                                      update_inputData.street +
+                                      "/" +
+                                      update_inputData.barangay,
+                                    purok_id: update_inputData.purok_id,
+                                    group_id: update_inputData.group_id,
+                                    org_id: update_inputData.org_id,
+                                    status: update_inputData.status,
+                                  }
+                                )
+                                .then((res) => {
+                                  setMemberByID_Data(res.data.member_info_raw);
+                                  setMemberByID_Data_View(res.data.member_info);
+                                  setMasterList_Data(res.data.masterList_data);
+                                  setToggle_Update({
+                                    ...toggle_update,
+                                    update_gender: false,
+                                  });
+                                });
+                              alert("Update Successfull").catch((error) => {
+                                console.log(error);
+                              });
+                            }}
                             className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
@@ -1253,6 +1520,41 @@ const Update_MasterList = ({
                       {toggle_update.update_status === true ? (
                         <>
                           <button
+                            onClick={() => {
+                              axiosClient
+                                .put(
+                                  API_MEMBER + `/${update_masterList_Modal.id}`,
+                                  {
+                                    firstname: update_inputData.firstname,
+                                    middlename: update_inputData.middlename,
+                                    lastname: update_inputData.lastname,
+                                    gender: update_inputData.gender,
+                                    birthday: update_inputData.birthday,
+                                    address:
+                                      update_inputData.house_no +
+                                      "/" +
+                                      update_inputData.street +
+                                      "/" +
+                                      update_inputData.barangay,
+                                    purok_id: update_inputData.purok_id,
+                                    group_id: update_inputData.group_id,
+                                    org_id: update_inputData.org_id,
+                                    status: update_inputData.status,
+                                  }
+                                )
+                                .then((res) => {
+                                  setMemberByID_Data(res.data.member_info_raw);
+                                  setMemberByID_Data_View(res.data.member_info);
+                                  setMasterList_Data(res.data.masterList_data);
+                                  setToggle_Update({
+                                    ...toggle_update,
+                                    update_status: false,
+                                  });
+                                });
+                              alert("Update Successfull").catch((error) => {
+                                console.log(error);
+                              });
+                            }}
                             className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
@@ -1367,12 +1669,7 @@ const Update_MasterList = ({
                     
                     
                     */}
-                <form
-                  className="flex  w-[32%]"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                  }}
-                >
+                <div className="flex  w-[32%]">
                   <div className="flex flex-col w-[80%]">
                     <label
                       htmlFor=""
@@ -1390,6 +1687,7 @@ const Update_MasterList = ({
                       <input
                         type="text"
                         required
+                        form="form-houseNo"
                         value={update_inputData.house_no}
                         onChange={(e) => {
                           setUpdate_InputData({
@@ -1417,31 +1715,72 @@ const Update_MasterList = ({
                   <div className="w-[40%] flex justify-evenly items-center">
                     {toggle_update.update_house_no === true ? (
                       <>
-                        <button
-                          type="submit"
-                          className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
+                        <form
+                          id="form-houseNo"
+                          className="w-full flex justify-evenly items-center"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_house_no: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
+                        >
+                          <button
+                            type="submit"
+                            className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <IoIosSave />
-                        </button>
-                        <button
-                          onClick={() =>
-                            setToggle_Update({
-                              ...toggle_update,
-                              update_house_no: false,
-                            })
-                          }
-                          className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
+                          >
+                            <IoIosSave />
+                          </button>
+                          <button
+                            onClick={() =>
+                              setToggle_Update({
+                                ...toggle_update,
+                                update_house_no: false,
+                              })
+                            }
+                            className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <FaTimesCircle />
-                        </button>
+                          >
+                            <FaTimesCircle />
+                          </button>
+                        </form>
                       </>
                     ) : (
                       <button
@@ -1476,7 +1815,7 @@ const Update_MasterList = ({
                       </button>
                     )}
                   </div>
-                </form>
+                </div>
                 {/* 
                     
                     
@@ -1492,12 +1831,7 @@ const Update_MasterList = ({
                     
                     
                     */}
-                <form
-                  className="flex  w-[32%]"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                  }}
-                >
+                <div className="flex  w-[32%]">
                   <div className="flex flex-col w-[80%]">
                     <label
                       htmlFor=""
@@ -1513,6 +1847,7 @@ const Update_MasterList = ({
                       <input
                         type="text"
                         required
+                        form="form-street"
                         value={update_inputData.street}
                         onChange={(e) => {
                           setUpdate_InputData({
@@ -1540,31 +1875,72 @@ const Update_MasterList = ({
                   <div className="w-[40%] flex justify-evenly items-center">
                     {toggle_update.update_street === true ? (
                       <>
-                        <button
-                          type="submit"
-                          className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
+                        <form
+                          id="form-street"
+                          className="w-full flex justify-evenly items-center"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_street: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
+                        >
+                          <button
+                            type="submit"
+                            className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <IoIosSave />
-                        </button>
-                        <button
-                          onClick={() =>
-                            setToggle_Update({
-                              ...toggle_update,
-                              update_street: false,
-                            })
-                          }
-                          className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
+                          >
+                            <IoIosSave />
+                          </button>
+                          <button
+                            onClick={() =>
+                              setToggle_Update({
+                                ...toggle_update,
+                                update_street: false,
+                              })
+                            }
+                            className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <FaTimesCircle />
-                        </button>
+                          >
+                            <FaTimesCircle />
+                          </button>
+                        </form>
                       </>
                     ) : (
                       <button
@@ -1599,7 +1975,7 @@ const Update_MasterList = ({
                       </button>
                     )}
                   </div>
-                </form>
+                </div>
                 {/* 
                     
                     
@@ -1618,12 +1994,7 @@ const Update_MasterList = ({
                 
                 
                 */}
-                <form
-                  className="flex  w-[32%]"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                  }}
-                >
+                <div className="flex  w-[32%]">
                   <div className="flex flex-col w-[80%]">
                     <label
                       htmlFor=""
@@ -1641,6 +2012,7 @@ const Update_MasterList = ({
                       <input
                         type="text"
                         required
+                        form="form-brgy"
                         value={update_inputData.barangay}
                         onChange={(e) => {
                           setUpdate_InputData({
@@ -1668,31 +2040,72 @@ const Update_MasterList = ({
                   <div className="w-[40%] flex justify-evenly items-center">
                     {toggle_update.update_barangay === true ? (
                       <>
-                        <button
-                          type="submit"
-                          className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
+                        <form
+                          id="form-brgy"
+                          className="w-full flex justify-evenly items-center"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            axiosClient
+                              .put(
+                                API_MEMBER + `/${update_masterList_Modal.id}`,
+                                {
+                                  firstname: update_inputData.firstname,
+                                  middlename: update_inputData.middlename,
+                                  lastname: update_inputData.lastname,
+                                  gender: update_inputData.gender,
+                                  birthday: update_inputData.birthday,
+                                  address:
+                                    update_inputData.house_no +
+                                    "/" +
+                                    update_inputData.street +
+                                    "/" +
+                                    update_inputData.barangay,
+                                  purok_id: update_inputData.purok_id,
+                                  group_id: update_inputData.group_id,
+                                  org_id: update_inputData.org_id,
+                                  status: update_inputData.status,
+                                }
+                              )
+                              .then((res) => {
+                                setMemberByID_Data(res.data.member_info_raw);
+                                setMemberByID_Data_View(res.data.member_info);
+                                setMasterList_Data(res.data.masterList_data);
+                                setToggle_Update({
+                                  ...toggle_update,
+                                  update_barangay: false,
+                                });
+                              });
+                            alert("Update Successfull").catch((error) => {
+                              console.log(error);
+                            });
+                          }}
+                        >
+                          <button
+                            type="submit"
+                            className="rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-300 hover:bg-green-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <IoIosSave />
-                        </button>
-                        <button
-                          onClick={() =>
-                            setToggle_Update({
-                              ...toggle_update,
-                              update_barangay: false,
-                            })
-                          }
-                          className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
+                          >
+                            <IoIosSave />
+                          </button>
+                          <button
+                            onClick={() =>
+                              setToggle_Update({
+                                ...toggle_update,
+                                update_barangay: false,
+                              })
+                            }
+                            className="rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-300 hover:bg-red-600 hover:text-white
                     monitor_md:h-[2rem]
                     monitor_md:w-[2rem]
                     monitor_md:text-[18px]
                     "
-                        >
-                          <FaTimesCircle />
-                        </button>
+                          >
+                            <FaTimesCircle />
+                          </button>
+                        </form>
                       </>
                     ) : (
                       <button
@@ -1727,7 +2140,7 @@ const Update_MasterList = ({
                       </button>
                     )}
                   </div>
-                </form>
+                </div>
                 {/* 
                 
                 
