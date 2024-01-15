@@ -157,13 +157,23 @@ const Masterlist_Content = ({
                       <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
                         <div className="w-full h-full flex justify-center items-center">
                           <button
-                            onClick={() =>
+                            onClick={() => {
                               setUpdate_MasterList_Modal({
                                 ...update_masterList_Modal,
                                 id: data.id,
                                 activator: true,
-                              })
-                            }
+                              });
+                              axiosClient
+                                .get(
+                                  API_MEMBER + `/${update_masterList_Modal.id}`
+                                )
+                                .then((res) => {
+                                  setTes_Data(res.data.member_info);
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            }}
                             className="mr-10 h-[2.5rem] w-[2.5rem] transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-black flex justify-center items-center
                      monitor_md:h-[1.8rem]
                      monitor_md:w-[1.8rem]
