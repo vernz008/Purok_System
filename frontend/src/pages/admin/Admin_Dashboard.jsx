@@ -67,29 +67,16 @@ const Admin_Dashboard = () => {
         console.log(error);
       });
 
-    if (
-      purok_data.length > 0 &&
-      organization_data.length > 0 &&
-      group_data.length > 0
-    ) {
-      setLoading_Screen(false);
+    if (purok_count > 0 && org_count > 0 && group_count > 0) {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
     } else {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
     }
 
-    return () => {
-      if (
-        purok_data.length > 0 &&
-        organization_data.length > 0 &&
-        group_data.length > 0
-      ) {
-        setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
-      } else {
-        setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
-      }
-    };
-  }, [purok_count, org_count, group_count]);
+    if (sidebar_buttons.masterlist === false) {
+      setLoading_Screen(false);
+    }
+  }, [purok_count, org_count, group_count, sidebar_buttons.masterlist]);
 
   return (
     <section className="h-screen w-screen bg-[#f4f3f3] overflow-hidden">
