@@ -10,10 +10,12 @@ import {
 } from "../../utils/urls/api_url";
 import axiosClient from "../../utils/axios/axios-client";
 import Loading_Screen_Big from "../../components/Loading_Screen_Big";
+import Attendance_Content from "../../components/admin/content/Attendance_Content";
 
 const Admin_Dashboard = () => {
   const [sidebar_toggle, setSidebar_Toggle] = useState(false);
   const [loading_screen, setLoading_Screen] = useState(true);
+  const [loading_data, setLoading_Data] = useState(true);
   const [tabs_pages, setTab_Pages] = useState(0);
   const [purok_data, setPurok_Data] = useState([]);
   const [masterList_data, setMasterList_Data] = useState([]);
@@ -28,15 +30,6 @@ const Admin_Dashboard = () => {
   const [group_count, setGroup_Count] = useState(0);
 
   useEffect(() => {
-    axiosClient
-      .get(API_MEMBER)
-      .then((res) => {
-        setMasterList_Data(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     axiosClient
       .get(API_PUROK)
       .then((res) => {
@@ -139,7 +132,11 @@ const Admin_Dashboard = () => {
               setSidebar_Buttons={setSidebar_Buttons}
               setMasterList_Data={setMasterList_Data}
               masterList_data={masterList_data}
+              setLoading_Data={setLoading_Data}
+              loading_data={loading_data}
             />
+          ) : tabs_pages === 3 ? (
+            <Attendance_Content />
           ) : (
             ""
           )}

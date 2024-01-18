@@ -28,7 +28,8 @@ const Create_MasterList = ({
 
   const submit_create_member = (e) => {
     e.preventDefault();
-
+    // var x = 0;
+    // for (x = 0; x < 100; x++) {
     axiosClient
       .post(API_MEMBER, {
         firstname: createMember_inputData.firstname,
@@ -49,7 +50,7 @@ const Create_MasterList = ({
       })
       .then((res) => {
         setMasterList_Data(res.data);
-        alert("Created");
+        // alert("Created");
         setCreateMember_InputData({
           ...createMember_inputData,
           firstname: "",
@@ -69,6 +70,7 @@ const Create_MasterList = ({
       .catch((error) => {
         console.log(error);
       });
+    // }
   };
   return (
     <div className="absolute !top-0 !left-0 w-screen h-screen z-999 bg-black/50 flex justify-center items-center overflow-hidden">
