@@ -14,7 +14,7 @@ import Attendance_Content from "../../components/admin/content/Attendance_Conten
 
 const Admin_Dashboard = () => {
   const [sidebar_toggle, setSidebar_Toggle] = useState(false);
-  const [loading_screen, setLoading_Screen] = useState(true);
+  const [loading_screen, setLoading_Screen] = useState(true); // need to fix this logic
   const [loading_data, setLoading_Data] = useState(true);
   const [tabs_pages, setTab_Pages] = useState(0);
   const [purok_data, setPurok_Data] = useState([]);
@@ -66,7 +66,16 @@ const Admin_Dashboard = () => {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
     }
 
-    if (sidebar_buttons.masterlist === false) {
+    if (
+      sidebar_buttons.masterlist === false &&
+      purok_count > 0 &&
+      org_count > 0 &&
+      group_count > 0
+    ) {
+      setLoading_Screen(false); // need to fix this logic
+    }
+
+    if (purok_count == 0 && org_count == 0 && group_count == 0) {
       setLoading_Screen(false);
     }
   }, [purok_count, org_count, group_count, sidebar_buttons.masterlist]);
