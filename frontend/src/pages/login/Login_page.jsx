@@ -36,7 +36,16 @@ const Login_page = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.stack);
+        const error_resopnse = error.stack;
+        console.log(error_resopnse);
+        if (
+          error_resopnse ==
+          "TypeError: Cannot read properties of undefined (reading 'status')\n" +
+            "    at http://192.168.100.68:5173/src/utils/axios/axios-client.js:21:18"
+        ) {
+          navigate("/error-500");
+        }
       });
   };
   return (

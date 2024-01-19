@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
+import {
+  FaPlusCircle,
+  FaTrashAlt,
+  FaEdit,
+  FaTimesCircle,
+} from "react-icons/fa";
+import { IoIosSave } from "react-icons/io";
 import axiosClient from "../../../utils/axios/axios-client";
 import {
   API_GROUP,
@@ -27,6 +33,16 @@ const Assignments_Content = ({
     purok: "",
     organization: "",
     group: "",
+  });
+  const [update_trigger, setUpdate_trigger] = useState({
+    purok_update: false,
+    org_update: true,
+    group_update: true,
+    id: 0,
+  });
+
+  const [update_input_data, setUpdate_Input_Data] = useState({
+    purok: "",
   });
 
   useEffect(() => {
@@ -203,29 +219,115 @@ const Assignments_Content = ({
                           >
                             {index + 1}
                           </td>
-                          <td className="w-[80%] h-full border-t-[2px] border-b-[2px]">
-                            <p className="w-full h-full flex justify-center items-center">
-                              {data.purok}
-                            </p>
-                          </td>
-                          <td className="w-[10%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
-                            <div className="w-full h-full flex justify-center items-center">
-                              <button
-                                onClick={() => {
-                                  axiosClient
-                                    .delete(API_PUROK + `/${data.id}`)
-                                    .then((res) => {
-                                      setPurok_Data(res.data);
-                                      setPurok_Count(res.data.length);
-                                    })
-                                    .catch((error) => {
-                                      console.log(error);
+                          <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
+                            {update_trigger.purok_update === true ? (
+                              <div className="w-full h-full flex justify-center items-center">
+                                <input
+                                  type="text"
+                                  className="border-b-2 outline-none px-2 text-center"
+                                  placeholder="Enter Purok. . . ."
+                                  value={update_input_data.purok}
+                                  onChange={(e) => {
+                                    setUpdate_Input_Data({
+                                      ...update_input_data,
+                                      purok: e.target.value,
                                     });
-                                }}
-                                className="w-[2em] h-[2rem] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
-                              >
-                                <FaTrashAlt />
-                              </button>
+                                  }}
+                                />
+                              </div>
+                            ) : (
+                              <>
+                                <p className="w-full h-full flex justify-center items-center">
+                                  {data.purok}
+                                </p>
+                              </>
+                            )}
+                          </td>
+                          <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                            <div className="w-full h-full flex justify-evenly  items-center">
+                              {update_trigger.purok_update === true ? (
+                                <>
+                                  <button
+                                    onClick={() => {
+                                      axiosClient
+                                        .put(API_PUROK + `/${data.id}`, {
+                                          purok: update_input_data.purok,
+                                        })
+                                        .then((res) => {
+                                          setPurok_Data(res.data);
+                                          setUpdate_trigger({
+                                            ...update_trigger,
+                                            purok_update: false,
+                                          });
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        purok_update: true,
+                                      });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                  >
+                                    <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                  </button>
+                                </>
+                              ) : (
+                                <button
+                                  onClick={() => {
+                                    axiosClient
+                                      .get(API_PUROK + `/${data.id}`)
+                                      .then((res) => {
+                                        setUpdate_Input_Data({
+                                          ...update_input_data,
+                                          purok: res.data.purok,
+                                        });
+                                      });
+                                    setUpdate_trigger({
+                                      ...update_trigger,
+                                      purok_update: true,
+                                    });
+                                  }}
+                                  className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                >
+                                  <FaEdit />
+                                </button>
+                              )}
+                              {update_trigger.purok_update === true ? (
+                                <>
+                                  <button
+                                    onClick={() => {
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        purok_update: false,
+                                      });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                  >
+                                    <FaTimesCircle />
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    onClick={() => {
+                                      axiosClient
+                                        .delete(API_PUROK + `/${data.id}`)
+                                        .then((res) => {
+                                          setPurok_Data(res.data);
+                                          setPurok_Count(res.data.length);
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                  >
+                                    <FaTrashAlt />
+                                  </button>
+                                </>
+                              )}
                             </div>
                           </td>
                         </tr>
@@ -328,13 +430,29 @@ const Assignments_Content = ({
                           >
                             {index + 1}
                           </td>
-                          <td className="w-[80%] h-full border-t-[2px] border-b-[2px]">
+                          <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
                             <p className="w-full h-full flex justify-center items-center">
                               {data.kapisanan}
                             </p>
                           </td>
-                          <td className="w-[10%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
-                            <div className="w-full h-full flex justify-center items-center">
+                          <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                            <div className="w-full h-full flex justify-evenly items-center">
+                              <button
+                                // onClick={() => {
+                                //   axiosClient
+                                //     .delete(API_PUROK + `/${data.id}`)
+                                //     .then((res) => {
+                                //       setPurok_Data(res.data);
+                                //       setPurok_Count(res.data.length);
+                                //     })
+                                //     .catch((error) => {
+                                //       console.log(error);
+                                //     });
+                                // }}
+                                className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                              >
+                                <FaEdit />
+                              </button>
                               <button
                                 onClick={() => {
                                   axiosClient
@@ -347,7 +465,7 @@ const Assignments_Content = ({
                                       console.log(error);
                                     });
                                 }}
-                                className="w-[2em] h-[2rem] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
                               >
                                 <FaTrashAlt />
                               </button>
@@ -454,13 +572,29 @@ const Assignments_Content = ({
                           >
                             {index + 1}
                           </td>
-                          <td className="w-[80%] h-full border-t-[2px] border-b-[2px]">
+                          <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
                             <p className="w-full h-full flex justify-center items-center">
                               {data.group}
                             </p>
                           </td>
-                          <td className="w-[10%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                          <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
                             <div className="w-full h-full flex justify-center items-center">
+                              <button
+                                // onClick={() => {
+                                //   axiosClient
+                                //     .delete(API_PUROK + `/${data.id}`)
+                                //     .then((res) => {
+                                //       setPurok_Data(res.data);
+                                //       setPurok_Count(res.data.length);
+                                //     })
+                                //     .catch((error) => {
+                                //       console.log(error);
+                                //     });
+                                // }}
+                                className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                              >
+                                <FaEdit />
+                              </button>
                               <button
                                 onClick={() => {
                                   axiosClient
@@ -473,7 +607,7 @@ const Assignments_Content = ({
                                       console.log(error);
                                     });
                                 }}
-                                className="w-[2em] h-[2rem] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                className="w-[1.5rem] h-[1.5rem] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
                               >
                                 <FaTrashAlt />
                               </button>
