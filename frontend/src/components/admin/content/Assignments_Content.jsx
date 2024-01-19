@@ -6,6 +6,7 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import axiosClient from "../../../utils/axios/axios-client";
 import {
   API_GROUP,
@@ -36,13 +37,19 @@ const Assignments_Content = ({
   });
   const [update_trigger, setUpdate_trigger] = useState({
     purok_update: false,
-    org_update: true,
-    group_update: true,
-    id: 0,
+    org_update: false,
+    group_update: false,
+    purok_id: 0,
+    org_id: 0,
+    group_id: 0,
+    loading: true,
+    disabled: false,
   });
-
+  const [data_input_cheker, setData_Input_Checker] = useState("");
   const [update_input_data, setUpdate_Input_Data] = useState({
     purok: "",
+    kapisanan: "",
+    group: "",
   });
 
   useEffect(() => {
@@ -105,6 +112,10 @@ const Assignments_Content = ({
         setGroup_Data(res.data);
         setGroup_Count(res.data.length);
       });
+  };
+
+  const Update_Submit_Purok = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -220,20 +231,72 @@ const Assignments_Content = ({
                             {index + 1}
                           </td>
                           <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
-                            {update_trigger.purok_update === true ? (
-                              <div className="w-full h-full flex justify-center items-center">
-                                <input
-                                  type="text"
-                                  className="border-b-2 outline-none px-2 text-center"
-                                  placeholder="Enter Purok. . . ."
-                                  value={update_input_data.purok}
-                                  onChange={(e) => {
-                                    setUpdate_Input_Data({
-                                      ...update_input_data,
-                                      purok: e.target.value,
-                                    });
-                                  }}
-                                />
+                            {update_trigger.purok_update === true &&
+                            data.id === update_trigger.purok_id ? (
+                              <div
+                                key={data.id}
+                                className="w-full h-full flex justify-center items-center"
+                              >
+                                {update_input_data.purok === "" &&
+                                data_input_cheker === "" ? (
+                                  <>
+                                    <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
+                                      <AiOutlineLoading3Quarters />
+                                    </span>
+                                  </>
+                                ) : (
+                                  <div>
+                                    <input
+                                      required
+                                      type="text"
+                                      disabled={
+                                        update_trigger.loading === false
+                                          ? true
+                                          : false
+                                      }
+                                      className="border-b-2 outline-none px-2 text-center"
+                                      placeholder="Enter Purok. . . ."
+                                      value={update_input_data.purok}
+                                      onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                          axiosClient
+                                            .put(
+                                              API_PUROK +
+                                                `/${update_trigger.purok_id}`,
+                                              {
+                                                purok: update_input_data.purok,
+                                              }
+                                            )
+                                            .then((res) => {
+                                              setPurok_Data(res.data);
+                                              setUpdate_trigger({
+                                                ...update_trigger,
+                                                purok_update: false,
+                                                disabled: false,
+                                                purok_id: 0,
+                                              });
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                            });
+
+                                          setUpdate_trigger({
+                                            ...update_trigger,
+                                            purok_update: true,
+                                          });
+
+                                          setData_Input_Checker("");
+                                        }
+                                      }}
+                                      onChange={(e) => {
+                                        setUpdate_Input_Data({
+                                          ...update_input_data,
+                                          purok: e.target.value,
+                                        });
+                                      }}
+                                    />
+                                  </div>
+                                )}
                               </div>
                             ) : (
                               <>
@@ -244,64 +307,59 @@ const Assignments_Content = ({
                             )}
                           </td>
                           <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
-                            <div className="w-full h-full flex justify-evenly  items-center">
-                              {update_trigger.purok_update === true ? (
+                            <div
+                              className={`w-full h-full flex justify-evenly  items-center`}
+                            >
+                              {update_trigger.purok_update === true &&
+                              data.id === update_trigger.purok_id ? (
                                 <>
                                   <button
                                     onClick={() => {
                                       axiosClient
-                                        .put(API_PUROK + `/${data.id}`, {
-                                          purok: update_input_data.purok,
-                                        })
+                                        .put(
+                                          API_PUROK +
+                                            `/${update_trigger.purok_id}`,
+                                          {
+                                            purok: update_input_data.purok,
+                                          }
+                                        )
                                         .then((res) => {
                                           setPurok_Data(res.data);
                                           setUpdate_trigger({
                                             ...update_trigger,
                                             purok_update: false,
+                                            disabled: false,
+                                            purok_id: 0,
                                           });
                                         })
                                         .catch((error) => {
                                           console.log(error);
                                         });
+
                                       setUpdate_trigger({
                                         ...update_trigger,
                                         purok_update: true,
                                       });
+
+                                      setData_Input_Checker("");
                                     }}
                                     className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
                                   >
                                     <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
                                   </button>
-                                </>
-                              ) : (
-                                <button
-                                  onClick={() => {
-                                    axiosClient
-                                      .get(API_PUROK + `/${data.id}`)
-                                      .then((res) => {
-                                        setUpdate_Input_Data({
-                                          ...update_input_data,
-                                          purok: res.data.purok,
-                                        });
-                                      });
-                                    setUpdate_trigger({
-                                      ...update_trigger,
-                                      purok_update: true,
-                                    });
-                                  }}
-                                  className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
-                                >
-                                  <FaEdit />
-                                </button>
-                              )}
-                              {update_trigger.purok_update === true ? (
-                                <>
                                   <button
                                     onClick={() => {
                                       setUpdate_trigger({
                                         ...update_trigger,
                                         purok_update: false,
+                                        purok_id: 0,
+                                        disabled: false,
                                       });
+                                      setUpdate_Input_Data({
+                                        ...update_input_data,
+                                        purok: "",
+                                      });
+                                      setData_Input_Checker("");
                                     }}
                                     className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
                                   >
@@ -311,6 +369,35 @@ const Assignments_Content = ({
                               ) : (
                                 <>
                                   <button
+                                    type="button"
+                                    disabled={update_trigger.disabled}
+                                    onClick={() => {
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        purok_update: true,
+                                        purok_id: data.id,
+                                        disabled: true,
+                                      });
+
+                                      axiosClient
+                                        .get(API_PUROK + `/${data.id}`)
+                                        .then((res) => {
+                                          setData_Input_Checker(res.data.purok);
+                                          setUpdate_Input_Data({
+                                            ...update_input_data,
+                                            purok: res.data.purok,
+                                          });
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed  text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                  >
+                                    <FaEdit />
+                                  </button>
+                                  <button
+                                    type="button"
                                     onClick={() => {
                                       axiosClient
                                         .delete(API_PUROK + `/${data.id}`)
@@ -431,44 +518,156 @@ const Assignments_Content = ({
                             {index + 1}
                           </td>
                           <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
-                            <p className="w-full h-full flex justify-center items-center">
-                              {data.kapisanan}
-                            </p>
+                            {update_trigger.org_update === true &&
+                            data.id === update_trigger.org_id ? (
+                              <div className="w-full h-full flex justify-center items-center">
+                                {update_input_data.kapisanan === "" &&
+                                data_input_cheker === "" ? (
+                                  <>
+                                    <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
+                                      <AiOutlineLoading3Quarters />
+                                    </span>
+                                  </>
+                                ) : (
+                                  <form
+                                    id="org"
+                                    onSubmit={(e) => {
+                                      e.preventDefault();
+                                      axiosClient
+                                        .put(API_ORGANIZATION + `/${data.id}`, {
+                                          kapisanan:
+                                            update_input_data.kapisanan,
+                                        })
+                                        .then((res) => {
+                                          setOrganization_Data(res.data);
+                                          setUpdate_trigger({
+                                            ...update_trigger,
+                                            org_update: false,
+                                            disabled: false,
+                                            org_id: 0,
+                                          });
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        org_update: true,
+                                      });
+                                    }}
+                                  >
+                                    <input
+                                      type="text"
+                                      disabled={
+                                        update_trigger.loading === false
+                                          ? true
+                                          : false
+                                      }
+                                      required
+                                      className="border-b-2 outline-none px-2 text-center"
+                                      placeholder="Enter Purok. . . ."
+                                      value={update_input_data.kapisanan}
+                                      onChange={(e) => {
+                                        setUpdate_Input_Data({
+                                          ...update_input_data,
+                                          kapisanan: e.target.value,
+                                        });
+                                      }}
+                                    />
+                                  </form>
+                                )}
+                              </div>
+                            ) : (
+                              <>
+                                <p className="w-full h-full flex justify-center items-center">
+                                  {data.kapisanan}
+                                </p>
+                              </>
+                            )}
                           </td>
                           <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
                             <div className="w-full h-full flex justify-evenly items-center">
-                              <button
-                                // onClick={() => {
-                                //   axiosClient
-                                //     .delete(API_PUROK + `/${data.id}`)
-                                //     .then((res) => {
-                                //       setPurok_Data(res.data);
-                                //       setPurok_Count(res.data.length);
-                                //     })
-                                //     .catch((error) => {
-                                //       console.log(error);
-                                //     });
-                                // }}
-                                className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
-                              >
-                                <FaEdit />
-                              </button>
-                              <button
-                                onClick={() => {
-                                  axiosClient
-                                    .delete(API_ORGANIZATION + `/${data.id}`)
-                                    .then((res) => {
-                                      setOrganization_Data(res.data);
-                                      setOrg_Count(res.data.length);
-                                    })
-                                    .catch((error) => {
-                                      console.log(error);
-                                    });
-                                }}
-                                className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
-                              >
-                                <FaTrashAlt />
-                              </button>
+                              {update_trigger.org_update === true &&
+                              data.id === update_trigger.org_id ? (
+                                <>
+                                  <button
+                                    type="submit"
+                                    form="org"
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                  >
+                                    <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        org_update: false,
+                                        org_id: 0,
+                                        disabled: false,
+                                      });
+                                      setUpdate_Input_Data({
+                                        ...update_input_data,
+                                        kapisanan: "",
+                                      });
+                                      setData_Input_Checker("");
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                  >
+                                    <FaTimesCircle />
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    disabled={update_trigger.disabled}
+                                    onClick={() => {
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        org_update: true,
+                                        org_id: data.id,
+                                        disabled: true,
+                                      });
+
+                                      axiosClient
+                                        .get(API_ORGANIZATION + `/${data.id}`)
+                                        .then((res) => {
+                                          setData_Input_Checker(
+                                            res.data.kapisanan
+                                          );
+                                          setUpdate_Input_Data({
+                                            ...update_input_data,
+                                            kapisanan: res.data.kapisanan,
+                                          });
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                  >
+                                    <FaEdit />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      axiosClient
+                                        .delete(
+                                          API_ORGANIZATION + `/${data.id}`
+                                        )
+                                        .then((res) => {
+                                          setOrganization_Data(res.data);
+                                          setOrg_Count(res.data.length);
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                  >
+                                    <FaTrashAlt />
+                                  </button>
+                                </>
+                              )}
                             </div>
                           </td>
                         </tr>
@@ -628,3 +827,8 @@ const Assignments_Content = ({
 };
 
 export default Assignments_Content;
+
+// Notes:
+// Need to fix Update Organization and Groups
+// Need to add error handling when submitting a data
+// 19/01/24
