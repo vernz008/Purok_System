@@ -218,24 +218,46 @@ const Assignments_Content = ({
                       <>
                         <tr
                           className="flex justify-center items-center w-full
-                  monitor_md:h-[3rem]
+                  monitor_md:h-[3.5rem]
                   monitor_md:p-1
                   monitor_md:text-[14px]
                   "
                         >
-                          <td
-                            className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
-                          monitor_md:h-[2.5rem]
-                          "
-                          >
-                            {index + 1}
-                          </td>
-                          <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
-                            {update_trigger.purok_update === true &&
-                            data.id === update_trigger.purok_id ? (
-                              <div
-                                key={data.id}
-                                className="w-full h-full flex justify-center items-center"
+                          {update_trigger.purok_update === true &&
+                          data.id === update_trigger.purok_id ? (
+                            <div className=" w-full h-full flex justify-center items-center border-[1px] shadow-md shadow-slate-300">
+                              <form
+                                action=""
+                                className="w-full h-full flex"
+                                onSubmit={(e) => {
+                                  e.preventDefault();
+                                  axiosClient
+                                    .put(
+                                      API_PUROK + `/${update_trigger.purok_id}`,
+                                      {
+                                        purok: update_input_data.purok,
+                                      }
+                                    )
+                                    .then((res) => {
+                                      setPurok_Data(res.data);
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        purok_update: false,
+                                        disabled: false,
+                                        purok_id: 0,
+                                      });
+                                    })
+                                    .catch((error) => {
+                                      console.log(error);
+                                    });
+
+                                  setUpdate_trigger({
+                                    ...update_trigger,
+                                    purok_update: true,
+                                  });
+
+                                  setData_Input_Checker("");
+                                }}
                               >
                                 {update_input_data.purok === "" &&
                                 data_input_cheker === "" ? (
@@ -245,129 +267,96 @@ const Assignments_Content = ({
                                     </span>
                                   </>
                                 ) : (
-                                  <div>
-                                    <input
-                                      required
-                                      type="text"
-                                      disabled={
-                                        update_trigger.loading === false
-                                          ? true
-                                          : false
-                                      }
-                                      className="border-b-2 outline-none px-2 text-center"
-                                      placeholder="Enter Purok. . . ."
-                                      value={update_input_data.purok}
-                                      onKeyDown={(e) => {
-                                        if (e.key === "Enter") {
-                                          axiosClient
-                                            .put(
-                                              API_PUROK +
-                                                `/${update_trigger.purok_id}`,
-                                              {
-                                                purok: update_input_data.purok,
-                                              }
-                                            )
-                                            .then((res) => {
-                                              setPurok_Data(res.data);
-                                              setUpdate_trigger({
-                                                ...update_trigger,
-                                                purok_update: false,
-                                                disabled: false,
-                                                purok_id: 0,
-                                              });
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                            });
-
-                                          setUpdate_trigger({
-                                            ...update_trigger,
-                                            purok_update: true,
-                                          });
-
-                                          setData_Input_Checker("");
+                                  <>
+                                    <div
+                                      className="h-full  flex justify-center items-center
+                                monitor_md:w-[10%]
+                                "
+                                    >
+                                      <span
+                                        className="
+                                  monitor_md:text-[18px]
+                                  "
+                                      >
+                                        {index + 1}
+                                      </span>
+                                    </div>
+                                    <div
+                                      className=" flex justify-center items-center h-full
+                                monitor_md:w-[70%]
+                                "
+                                    >
+                                      <input
+                                        required
+                                        type="text"
+                                        disabled={
+                                          update_trigger.loading === false
+                                            ? true
+                                            : false
                                         }
-                                      }}
-                                      onChange={(e) => {
-                                        setUpdate_Input_Data({
-                                          ...update_input_data,
-                                          purok: e.target.value,
-                                        });
-                                      }}
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            ) : (
-                              <>
-                                <p className="w-full h-full flex justify-center items-center">
-                                  {data.purok}
-                                </p>
-                              </>
-                            )}
-                          </td>
-                          <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
-                            <div
-                              className={`w-full h-full flex justify-evenly  items-center`}
-                            >
-                              {update_trigger.purok_update === true &&
-                              data.id === update_trigger.purok_id ? (
-                                <>
-                                  <button
-                                    onClick={() => {
-                                      axiosClient
-                                        .put(
-                                          API_PUROK +
-                                            `/${update_trigger.purok_id}`,
-                                          {
-                                            purok: update_input_data.purok,
-                                          }
-                                        )
-                                        .then((res) => {
-                                          setPurok_Data(res.data);
+                                        className="border-b-2 outline-none px-2 text-center h-[2rem] disabled:cursor-not-allowed"
+                                        placeholder="Enter Purok. . . ."
+                                        value={update_input_data.purok}
+                                        onChange={(e) => {
+                                          setUpdate_Input_Data({
+                                            ...update_input_data,
+                                            purok: e.target.value,
+                                          });
+                                        }}
+                                      />
+                                    </div>
+                                    <div
+                                      className="flex justify-evenly items-center
+                                monitor_md:w-[20%]
+                                "
+                                    >
+                                      <button
+                                        type="submit"
+                                        className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                      >
+                                        <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                      </button>
+                                      <button
+                                        onClick={() => {
                                           setUpdate_trigger({
                                             ...update_trigger,
                                             purok_update: false,
-                                            disabled: false,
                                             purok_id: 0,
+                                            disabled: false,
                                           });
-                                        })
-                                        .catch((error) => {
-                                          console.log(error);
-                                        });
-
-                                      setUpdate_trigger({
-                                        ...update_trigger,
-                                        purok_update: true,
-                                      });
-
-                                      setData_Input_Checker("");
-                                    }}
-                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
-                                  >
-                                    <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      setUpdate_trigger({
-                                        ...update_trigger,
-                                        purok_update: false,
-                                        purok_id: 0,
-                                        disabled: false,
-                                      });
-                                      setUpdate_Input_Data({
-                                        ...update_input_data,
-                                        purok: "",
-                                      });
-                                      setData_Input_Checker("");
-                                    }}
-                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
-                                  >
-                                    <FaTimesCircle />
-                                  </button>
-                                </>
-                              ) : (
-                                <>
+                                          setUpdate_Input_Data({
+                                            ...update_input_data,
+                                            purok: "",
+                                          });
+                                          setData_Input_Checker("");
+                                        }}
+                                        className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                      >
+                                        <FaTimesCircle />
+                                      </button>
+                                    </div>
+                                  </>
+                                )}
+                              </form>
+                            </div>
+                          ) : (
+                            <>
+                              <td
+                                className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
+                          monitor_md:h-[3rem]
+                          "
+                              >
+                                {index + 1}
+                              </td>
+                              <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
+                                <p className="w-full h-full flex justify-center items-center">
+                                  {data.purok}
+                                </p>
+                              </td>
+                              <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                                <div
+                                  className={`w-full h-full flex justify-evenly  items-center`}
+                                >
                                   <button
                                     type="button"
                                     disabled={update_trigger.disabled}
@@ -413,10 +402,10 @@ const Assignments_Content = ({
                                   >
                                     <FaTrashAlt />
                                   </button>
-                                </>
-                              )}
-                            </div>
-                          </td>
+                                </div>
+                              </td>
+                            </>
+                          )}
                         </tr>
                       </>
                     );
@@ -832,3 +821,188 @@ export default Assignments_Content;
 // Need to fix Update Organization and Groups
 // Need to add error handling when submitting a data
 // 19/01/24
+
+{
+  /* {update_trigger.purok_update === true &&
+                            data.id === update_trigger.purok_id ? (
+                              <div
+                                key={data.id}
+                                className="w-full h-full flex justify-center items-center"
+                              >
+                                {update_input_data.purok === "" &&
+                                data_input_cheker === "" ? (
+                                  <>
+                                    <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
+                                      <AiOutlineLoading3Quarters />
+                                    </span>
+                                  </>
+                                ) : (
+                                  <div>
+                                    <input
+                                      required
+                                      type="text"
+                                      disabled={
+                                        update_trigger.loading === false
+                                          ? true
+                                          : false
+                                      }
+                                      className="border-b-2 outline-none px-2 text-center"
+                                      placeholder="Enter Purok. . . ."
+                                      value={update_input_data.purok}
+                                      onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                          axiosClient
+                                            .put(
+                                              API_PUROK +
+                                                `/${update_trigger.purok_id}`,
+                                              {
+                                                purok: update_input_data.purok,
+                                              }
+                                            )
+                                            .then((res) => {
+                                              setPurok_Data(res.data);
+                                              setUpdate_trigger({
+                                                ...update_trigger,
+                                                purok_update: false,
+                                                disabled: false,
+                                                purok_id: 0,
+                                              });
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                            });
+
+                                          setUpdate_trigger({
+                                            ...update_trigger,
+                                            purok_update: true,
+                                          });
+
+                                          setData_Input_Checker("");
+                                        }
+                                      }}
+                                      onChange={(e) => {
+                                        setUpdate_Input_Data({
+                                          ...update_input_data,
+                                          purok: e.target.value,
+                                        });
+                                      }}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <>
+                                <p className="w-full h-full flex justify-center items-center">
+                                  {data.purok}
+                                </p>
+                              </>
+                            )} */
+
+  {
+    /* {update_trigger.purok_update === true &&
+                              data.id === update_trigger.purok_id ? (
+                                <>
+                                  <button
+                                    onClick={() => {
+                                      axiosClient
+                                        .put(
+                                          API_PUROK +
+                                            `/${update_trigger.purok_id}`,
+                                          {
+                                            purok: update_input_data.purok,
+                                          }
+                                        )
+                                        .then((res) => {
+                                          setPurok_Data(res.data);
+                                          setUpdate_trigger({
+                                            ...update_trigger,
+                                            purok_update: false,
+                                            disabled: false,
+                                            purok_id: 0,
+                                          });
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        purok_update: true,
+                                      });
+
+                                      setData_Input_Checker("");
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                  >
+                                    <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        purok_update: false,
+                                        purok_id: 0,
+                                        disabled: false,
+                                      });
+                                      setUpdate_Input_Data({
+                                        ...update_input_data,
+                                        purok: "",
+                                      });
+                                      setData_Input_Checker("");
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                  >
+                                    <FaTimesCircle />
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    type="button"
+                                    disabled={update_trigger.disabled}
+                                    onClick={() => {
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        purok_update: true,
+                                        purok_id: data.id,
+                                        disabled: true,
+                                      });
+
+                                      axiosClient
+                                        .get(API_PUROK + `/${data.id}`)
+                                        .then((res) => {
+                                          setData_Input_Checker(res.data.purok);
+                                          setUpdate_Input_Data({
+                                            ...update_input_data,
+                                            purok: res.data.purok,
+                                          });
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed  text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                  >
+                                    <FaEdit />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      axiosClient
+                                        .delete(API_PUROK + `/${data.id}`)
+                                        .then((res) => {
+                                          setPurok_Data(res.data);
+                                          setPurok_Count(res.data.length);
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                  >
+                                    <FaTrashAlt />
+                                  </button>
+                                </>
+                              )} */
+  }
+}
