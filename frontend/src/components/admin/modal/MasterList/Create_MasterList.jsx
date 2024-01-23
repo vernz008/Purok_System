@@ -26,49 +26,51 @@ const Create_MasterList = ({
     status: "",
   });
 
-  const submit_create_member = (e) => {
+  const submit_create_member = async (e) => {
     e.preventDefault();
-
-    axiosClient
-      .post(API_MEMBER, {
-        firstname: createMember_inputData.firstname,
-        middlename: createMember_inputData.middlename,
-        lastname: createMember_inputData.lastname,
-        gender: createMember_inputData.gender,
-        birthday: createMember_inputData.birthday,
-        address:
-          createMember_inputData.home_number +
-          "/" +
-          createMember_inputData.street +
-          "/" +
-          createMember_inputData.barangay,
-        org_id: createMember_inputData.org_id,
-        purok_id: createMember_inputData.purok_id,
-        group_id: createMember_inputData.group_id,
-        status: "IN",
-      })
-      .then((res) => {
-        setMasterList_Data(res.data);
-        alert("Created");
-        setCreateMember_InputData({
-          ...createMember_inputData,
-          firstname: "",
-          middlename: "",
-          lastname: "",
-          gender: "",
-          birthday: "",
-          street: "",
-          barangay: "",
-          home_number: "",
-          org_id: "",
-          purok_id: "",
-          group_id: "",
-          status: "",
+    var x = 0;
+    for (x = 0; x < 1000; x++) {
+      axiosClient
+        .post(API_MEMBER, {
+          firstname: createMember_inputData.firstname,
+          middlename: createMember_inputData.middlename,
+          lastname: createMember_inputData.lastname,
+          gender: createMember_inputData.gender,
+          birthday: createMember_inputData.birthday,
+          address:
+            createMember_inputData.home_number +
+            "/" +
+            createMember_inputData.street +
+            "/" +
+            createMember_inputData.barangay,
+          org_id: createMember_inputData.org_id,
+          purok_id: createMember_inputData.purok_id,
+          group_id: createMember_inputData.group_id,
+          status: "IN",
+        })
+        .then((res) => {
+          setMasterList_Data(res.data);
+          alert("Created");
+          setCreateMember_InputData({
+            ...createMember_inputData,
+            firstname: "",
+            middlename: "",
+            lastname: "",
+            gender: "",
+            birthday: "",
+            street: "",
+            barangay: "",
+            home_number: "",
+            org_id: "",
+            purok_id: "",
+            group_id: "",
+            status: "",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    } // end for
   };
   return (
     <div className="absolute !top-0 !left-0 w-screen h-screen z-999 bg-black/50 flex justify-center items-center overflow-hidden">
