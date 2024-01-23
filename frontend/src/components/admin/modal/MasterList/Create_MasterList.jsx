@@ -26,7 +26,7 @@ const Create_MasterList = ({
     status: "",
   });
 
-  const submit_create_member = (e) => {
+  const submit_create_member = async (e) => {
     e.preventDefault();
     // var x = 0;
     // for (x = 0; x < 100; x++) {
