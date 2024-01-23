@@ -46,11 +46,25 @@ const Assignments_Content = ({
     disabled: false,
   });
   const [data_input_cheker, setData_Input_Checker] = useState("");
+  const [modal_data, setModal_Data] = useState({
+    purok: "",
+    org: "",
+    group: "",
+  });
   const [update_input_data, setUpdate_Input_Data] = useState({
     purok: "",
     kapisanan: "",
     group: "",
   });
+  const [submit_trigger, setSubmit_Trigger] = useState({
+    loading_purok: false,
+    loading_org: false,
+    loading_group: false,
+    disable: false,
+  });
+  const [delete_purok_modal, setDelete_Purok_Modal] = useState(false);
+  const [delete_org_modal, setDelete_Org_Modal] = useState(false);
+  const [delete_group_modal, setDelete_Group_Modal] = useState(false);
 
   useEffect(() => {
     if (purok_count > 0 && org_count > 0 && group_count > 0) {
@@ -62,6 +76,12 @@ const Assignments_Content = ({
 
   const Submit_Purok = (e) => {
     e.preventDefault();
+    setSubmit_Trigger({
+      ...submit_trigger,
+      loading_purok: true,
+      disable: true,
+    });
+
     axiosClient
       .post(API_PUROK, {
         purok: assignment_input.purok,
@@ -73,6 +93,11 @@ const Assignments_Content = ({
         });
         setPurok_Data(res.data);
         setPurok_Count(res.data.length);
+        setSubmit_Trigger({
+          ...submit_trigger,
+          loading_purok: false,
+          disable: false,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -81,6 +106,12 @@ const Assignments_Content = ({
 
   const Submit_Organization = (e) => {
     e.preventDefault();
+    setSubmit_Trigger({
+      ...submit_trigger,
+      loading_org: true,
+      disable: true,
+    });
+
     axiosClient
       .post(API_ORGANIZATION, {
         kapisanan: assignment_input.organization,
@@ -92,7 +123,13 @@ const Assignments_Content = ({
         });
         setOrganization_Data(res.data);
         setOrg_Count(res.data.length);
+        setSubmit_Trigger({
+          ...submit_trigger,
+          loading_org: false,
+          disable: false,
+        });
       })
+
       .catch((error) => {
         console.log(error);
       });
@@ -100,6 +137,11 @@ const Assignments_Content = ({
 
   const Submit_Group = (e) => {
     e.preventDefault();
+    setSubmit_Trigger({
+      ...submit_trigger,
+      loading_group: true,
+      disable: true,
+    });
     axiosClient
       .post(API_GROUP, {
         group: assignment_input.group,
@@ -111,11 +153,12 @@ const Assignments_Content = ({
         });
         setGroup_Data(res.data);
         setGroup_Count(res.data.length);
+        setSubmit_Trigger({
+          ...submit_trigger,
+          loading_group: false,
+          disable: false,
+        });
       });
-  };
-
-  const Update_Submit_Purok = (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -158,32 +201,55 @@ const Assignments_Content = ({
             onSubmit={Submit_Purok}
             action=""
           >
-            <input
-              type="text"
-              placeholder="Add District / Purok"
-              required
-              value={assignment_input.purok}
-              onChange={(e) => {
-                setAssignment_Input({
-                  ...assignment_input,
-                  purok: e.target.value,
-                });
-              }}
-              className="outline-none shadow-md text-start shadow-slate-300 border-[1.5px] rounded-md
+            {submit_trigger.loading_purok === true ? (
+              <>
+                <span
+                  className="h-full animate-spin text-[20px] flex justify-center items-center
+                   monitor_md:w-[10rem]
+                "
+                >
+                  <AiOutlineLoading3Quarters />
+                </span>
+              </>
+            ) : (
+              <input
+                type="text"
+                placeholder="Add District / Purok"
+                required
+                disabled={delete_purok_modal === true ? true : false}
+                value={assignment_input.purok}
+                onChange={(e) => {
+                  setAssignment_Input({
+                    ...assignment_input,
+                    purok: e.target.value,
+                  });
+                }}
+                className="outline-none shadow-md text-start shadow-slate-300 border-[1.5px] rounded-md disabled:cursor-not-allowed
               monitor_md:w-[10rem]
               monitor_md:h-[2rem]
               monitor_md:px-3
               monitor_md:text-[14px]
               "
-            />
-
+              />
+            )}
             <button
               type="submit"
-              className="w-[2rem] h-[2rem] flex justify-center items-center ml-2 rounded-full"
+              disabled={
+                submit_trigger.disable === true
+                  ? true
+                  : false || delete_purok_modal == true
+                  ? true
+                  : false
+              }
+              className=" flex justify-center items-center ml-2 rounded-full disabled:cursor-not-allowed
+              monitor_md:w-[2rem]
+              monitor_md:h-[2rem]
+              "
             >
               <FaPlusCircle className="text-[25px] text-green-700 transition-all ease-in-out duration-300 hover:text-green-500" />
             </button>
           </form>
+
           <div
             className="w-full 
           monitor_md:mt-5
@@ -191,228 +257,303 @@ const Assignments_Content = ({
           monitor_md:p-3
           "
           >
-            <table
-              className="w-full flex flex-col justify-center items-center border-separate border-spacing-4
+            {delete_purok_modal === true ? (
+              <>
+                <div className="w-full h-full bg-black/40 rounded-md flex justify-center items-center">
+                  <div
+                    className="bg-white rounded-sm flex items-center justify-center flex-col
+                  monitor_md:w-[80%] 
+                  monitor_md:h-[50%] 
+                  "
+                  >
+                    <div
+                      className="w-full flex justify-center flex-col 
+                    monitor_md:h-[2.5rem]
+                    monitor_md:mb-3
+                    "
+                    >
+                      <h1
+                        className="font-semibold w-full flex justify-center items-start
+                      monitor_md:text-[14px]
+                      "
+                      >
+                        Plese confirm to delete
+                      </h1>
+                      <span className="flex justify-center items-center">
+                        <p className="text-[14px] font-bold">
+                          Purok: {modal_data.purok}
+                        </p>
+                      </span>
+                    </div>
+                    <div
+                      className="w-full flex justify-evenly items-center
+                    
+                    "
+                    >
+                      <button
+                        className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                        onClick={() => {
+                          axiosClient
+                            .delete(API_PUROK + `/${update_trigger.purok_id}`)
+                            .then((res) => {
+                              setPurok_Data(res.data);
+                              setPurok_Count(res.data.length);
+                              setDelete_Purok_Modal(false);
+                              setModal_Data({ ...modal_data, purok: "" });
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                        }}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                        onClick={() => {
+                          setDelete_Purok_Modal(false);
+                          setModal_Data({ ...modal_data, purok: "" });
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <table
+                className="w-full flex flex-col justify-center items-center border-separate border-spacing-4
           
             "
-            >
-              <thead className="w-full">
-                <tr className="w-full flex justify-center items-center h-[2rem] border-[1px] shadow-md">
-                  <th
-                    className="
+              >
+                <thead className="w-full">
+                  <tr className="w-full flex justify-center items-center h-[2rem] border-[1px] shadow-md">
+                    <th
+                      className="
                   monitor_md:w-[60%]"
-                  >
-                    Purok / District List
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="w-full">
-                <div
-                  className="w-full overflow-auto
+                    >
+                      Purok / District List
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="w-full">
+                  <div
+                    className="w-full overflow-auto
                 monitor_md:h-[11.5rem]
                 monitor_md:mt-2
                 "
-                >
-                  {purok_data?.map((data, index) => {
-                    return (
-                      <>
-                        <tr
-                          className="flex justify-center items-center w-full
+                  >
+                    {purok_data?.map((data, index) => {
+                      return (
+                        <>
+                          <tr
+                            className="flex justify-center items-center w-full
                   monitor_md:h-[3.5rem]
                   monitor_md:p-1
                   monitor_md:text-[14px]
                   "
-                        >
-                          {update_trigger.purok_update === true &&
-                          data.id === update_trigger.purok_id ? (
-                            <div className=" w-full h-full flex justify-center items-center border-[1px] shadow-md shadow-slate-300">
-                              <form
-                                action=""
-                                className="w-full h-full flex"
-                                onSubmit={(e) => {
-                                  e.preventDefault();
-                                  axiosClient
-                                    .put(
-                                      API_PUROK + `/${update_trigger.purok_id}`,
-                                      {
-                                        purok: update_input_data.purok,
-                                      }
-                                    )
-                                    .then((res) => {
-                                      setPurok_Data(res.data);
-                                      setUpdate_trigger({
-                                        ...update_trigger,
-                                        purok_update: false,
-                                        disabled: false,
-                                        purok_id: 0,
+                          >
+                            {update_trigger.purok_update === true &&
+                            data.id === update_trigger.purok_id ? (
+                              <div className=" w-full h-full flex justify-center items-center border-[1px] shadow-md shadow-slate-300 overflow-hidden">
+                                <form
+                                  action=""
+                                  className="w-full h-full flex bg-gray-100"
+                                  onSubmit={(e) => {
+                                    e.preventDefault();
+                                    axiosClient
+                                      .put(
+                                        API_PUROK +
+                                          `/${update_trigger.purok_id}`,
+                                        {
+                                          purok: update_input_data.purok,
+                                        }
+                                      )
+                                      .then((res) => {
+                                        setPurok_Data(res.data);
+                                        setUpdate_trigger({
+                                          ...update_trigger,
+                                          purok_update: false,
+                                          disabled: false,
+                                          purok_id: 0,
+                                        });
+                                      })
+                                      .catch((error) => {
+                                        console.log(error);
                                       });
-                                    })
-                                    .catch((error) => {
-                                      console.log(error);
+
+                                    setUpdate_trigger({
+                                      ...update_trigger,
+                                      purok_update: true,
                                     });
 
-                                  setUpdate_trigger({
-                                    ...update_trigger,
-                                    purok_update: true,
-                                  });
-
-                                  setData_Input_Checker("");
-                                }}
-                              >
-                                {update_input_data.purok === "" &&
-                                data_input_cheker === "" ? (
-                                  <>
-                                    <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
-                                      <AiOutlineLoading3Quarters />
-                                    </span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <div
-                                      className="h-full  flex justify-center items-center
+                                    setData_Input_Checker("");
+                                  }}
+                                >
+                                  {update_input_data.purok === "" &&
+                                  data_input_cheker === "" ? (
+                                    <>
+                                      <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
+                                        <AiOutlineLoading3Quarters />
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div
+                                        className="h-full  flex justify-center items-center
                                 monitor_md:w-[10%]
                                 "
-                                    >
-                                      <span
-                                        className="
-                                  monitor_md:text-[18px]
-                                  "
                                       >
-                                        {index + 1}
-                                      </span>
-                                    </div>
-                                    <div
-                                      className=" flex justify-center items-center h-full
+                                        <span
+                                          className="
+                                  monitor_md:text-[14px]
+                                  "
+                                        >
+                                          {index + 1}
+                                        </span>
+                                      </div>
+                                      <div
+                                        className=" flex justify-center items-center h-full
                                 monitor_md:w-[70%]
                                 "
-                                    >
-                                      <input
-                                        required
-                                        type="text"
-                                        disabled={
-                                          update_trigger.loading === false
-                                            ? true
-                                            : false
-                                        }
-                                        className="border-b-2 outline-none px-2 text-center h-[2rem] disabled:cursor-not-allowed"
-                                        placeholder="Enter Purok. . . ."
-                                        value={update_input_data.purok}
-                                        onChange={(e) => {
-                                          setUpdate_Input_Data({
-                                            ...update_input_data,
-                                            purok: e.target.value,
-                                          });
-                                        }}
-                                      />
-                                    </div>
-                                    <div
-                                      className="flex justify-evenly items-center
+                                      >
+                                        <input
+                                          required
+                                          type="text"
+                                          disabled={
+                                            update_trigger.loading === false
+                                              ? true
+                                              : false
+                                          }
+                                          className="border-b-2 outline-none px-2 text-center h-[2rem] disabled:cursor-not-allowed"
+                                          placeholder="Enter Purok. . . ."
+                                          value={update_input_data.purok}
+                                          onChange={(e) => {
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              purok: e.target.value,
+                                            });
+                                          }}
+                                        />
+                                      </div>
+                                      <div
+                                        className="flex justify-evenly items-center
                                 monitor_md:w-[20%]
                                 "
-                                    >
-                                      <button
-                                        type="submit"
-                                        className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
                                       >
-                                        <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
-                                      </button>
-                                      <button
-                                        onClick={() => {
-                                          setUpdate_trigger({
-                                            ...update_trigger,
-                                            purok_update: false,
-                                            purok_id: 0,
-                                            disabled: false,
-                                          });
-                                          setUpdate_Input_Data({
-                                            ...update_input_data,
-                                            purok: "",
-                                          });
-                                          setData_Input_Checker("");
-                                        }}
-                                        className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
-                                      >
-                                        <FaTimesCircle />
-                                      </button>
-                                    </div>
-                                  </>
-                                )}
-                              </form>
-                            </div>
-                          ) : (
-                            <>
-                              <td
-                                className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
+                                        <button
+                                          type="submit"
+                                          className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                        >
+                                          <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                        </button>
+                                        <button
+                                          onClick={() => {
+                                            setUpdate_trigger({
+                                              ...update_trigger,
+                                              purok_update: false,
+                                              purok_id: 0,
+                                              disabled: false,
+                                            });
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              purok: "",
+                                            });
+                                            setData_Input_Checker("");
+                                          }}
+                                          className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                        >
+                                          <FaTimesCircle />
+                                        </button>
+                                      </div>
+                                    </>
+                                  )}
+                                </form>
+                              </div>
+                            ) : (
+                              <>
+                                <td
+                                  className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
                           monitor_md:h-[3rem]
                           "
-                              >
-                                {index + 1}
-                              </td>
-                              <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
-                                <p className="w-full h-full flex justify-center items-center">
-                                  {data.purok}
-                                </p>
-                              </td>
-                              <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
-                                <div
-                                  className={`w-full h-full flex justify-evenly  items-center`}
                                 >
-                                  <button
-                                    type="button"
-                                    disabled={update_trigger.disabled}
-                                    onClick={() => {
-                                      setUpdate_trigger({
-                                        ...update_trigger,
-                                        purok_update: true,
-                                        purok_id: data.id,
-                                        disabled: true,
-                                      });
+                                  {index + 1}
+                                </td>
+                                <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
+                                  <p className="w-full h-full flex justify-center items-center">
+                                    {data.purok}
+                                  </p>
+                                </td>
+                                <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                                  <div
+                                    className={`w-full h-full flex justify-evenly  items-center`}
+                                  >
+                                    <button
+                                      type="button"
+                                      disabled={update_trigger.disabled}
+                                      onClick={() => {
+                                        setUpdate_trigger({
+                                          ...update_trigger,
+                                          purok_update: true,
+                                          purok_id: data.id,
+                                          disabled: true,
+                                        });
 
-                                      axiosClient
-                                        .get(API_PUROK + `/${data.id}`)
-                                        .then((res) => {
-                                          setData_Input_Checker(res.data.purok);
-                                          setUpdate_Input_Data({
-                                            ...update_input_data,
-                                            purok: res.data.purok,
+                                        axiosClient
+                                          .get(API_PUROK + `/${data.id}`)
+                                          .then((res) => {
+                                            setData_Input_Checker(
+                                              res.data.purok
+                                            );
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              purok: res.data.purok,
+                                            });
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
                                           });
-                                        })
-                                        .catch((error) => {
-                                          console.log(error);
+                                      }}
+                                      className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed  text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                    >
+                                      <FaEdit />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setDelete_Purok_Modal(true);
+                                        setUpdate_trigger({
+                                          ...update_trigger,
+                                          purok_id: data.id,
                                         });
-                                    }}
-                                    className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed  text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
-                                  >
-                                    <FaEdit />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      axiosClient
-                                        .delete(API_PUROK + `/${data.id}`)
-                                        .then((res) => {
-                                          setPurok_Data(res.data);
-                                          setPurok_Count(res.data.length);
-                                        })
-                                        .catch((error) => {
-                                          console.log(error);
+                                        setModal_Data({
+                                          ...modal_data,
+                                          purok: data.purok,
                                         });
-                                    }}
-                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
-                                  >
-                                    <FaTrashAlt />
-                                  </button>
-                                </div>
-                              </td>
-                            </>
-                          )}
-                        </tr>
-                      </>
-                    );
-                  })}
-                </div>
-              </tbody>
-            </table>
+                                      }}
+                                      className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                    >
+                                      <FaTrashAlt />
+                                    </button>
+                                  </div>
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </div>
+                </tbody>
+              </table>
+            )}
           </div>
         </fieldset>
 
@@ -438,25 +579,51 @@ const Assignments_Content = ({
             className="w-full px-5 mt-5 flex justify-end"
             onSubmit={Submit_Organization}
           >
-            <input
-              type="text"
-              placeholder="Add Organization"
-              required
-              value={assignment_input.organization}
-              onChange={(e) => {
-                setAssignment_Input({
-                  ...assignment_input,
-                  organization: e.target.value,
-                });
-              }}
-              className="outline-none shadow-md text-start shadow-slate-300 border-[1.5px] rounded-md
+            {submit_trigger.loading_org === true ? (
+              <>
+                <span
+                  className="h-full animate-spin text-[20px] flex justify-center items-center
+                   monitor_md:w-[10rem]
+                "
+                >
+                  <AiOutlineLoading3Quarters />
+                </span>
+              </>
+            ) : (
+              <input
+                type="text"
+                placeholder="Add Organization"
+                required
+                disabled={delete_org_modal === true ? true : false}
+                value={assignment_input.organization}
+                onChange={(e) => {
+                  setAssignment_Input({
+                    ...assignment_input,
+                    organization: e.target.value,
+                  });
+                }}
+                className="outline-none shadow-md text-start shadow-slate-300 border-[1.5px] rounded-md disabled:cursor-not-allowed
               monitor_md:w-[10rem]
               monitor_md:h-[2rem]
               monitor_md:px-3
               monitor_md:text-[14px]
               "
-            />
-            <button className="w-[2rem] h-[2rem] flex justify-center items-center ml-2 rounded-full">
+              />
+            )}
+            <button
+              type="submit"
+              disabled={
+                submit_trigger.disable === true
+                  ? true
+                  : false || delete_org_modal === true
+                  ? true
+                  : false
+              }
+              className=" flex justify-center items-center ml-2 rounded-full disabled:cursor-not-allowed
+              monitor_md:w-[2rem]
+              monitor_md:h-[2rem]
+              "
+            >
               <FaPlusCircle className="text-[25px] text-green-700 transition-all ease-in-out duration-300 hover:text-green-500" />
             </button>
           </form>
@@ -467,66 +634,136 @@ const Assignments_Content = ({
           monitor_md:p-3
           "
           >
-            <table
-              className="w-full flex flex-col justify-center items-center border-separate border-spacing-4
+            {delete_org_modal === true ? (
+              <>
+                <div className="w-full h-full bg-black/40 rounded-md flex justify-center items-center">
+                  <div
+                    className="bg-white rounded-sm flex items-center justify-center flex-col
+                  monitor_md:w-[80%] 
+                  monitor_md:h-[50%] 
+                  "
+                  >
+                    <div
+                      className="w-full flex justify-center flex-col 
+                    monitor_md:h-[2.5rem]
+                    monitor_md:mb-3
+                    "
+                    >
+                      <h1
+                        className="font-semibold w-full flex justify-center items-start
+                      monitor_md:text-[14px]
+                      "
+                      >
+                        Plese confirm to delete
+                      </h1>
+                      <span className="flex justify-center items-center">
+                        <p className="text-[14px] font-bold">
+                          Organization: {modal_data.org}
+                        </p>
+                      </span>
+                    </div>
+                    <div
+                      className="w-full flex justify-evenly items-center
+                    
+                    "
+                    >
+                      <button
+                        className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                        onClick={() => {
+                          console.log(update_trigger.org_id);
+                          axiosClient
+                            .delete(
+                              API_ORGANIZATION + `/${update_trigger.org_id}`
+                            )
+                            .then((res) => {
+                              setOrganization_Data(res.data);
+                              setOrg_Count(res.data.length);
+                              setDelete_Org_Modal(false);
+                              setModal_Data({
+                                ...modal_data,
+                                purok: "",
+                              });
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                        }}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                        onClick={() => {
+                          setDelete_Org_Modal(false);
+                          setModal_Data({
+                            ...modal_data,
+                            org: "",
+                          });
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <table
+                className="w-full flex flex-col justify-center items-center border-separate border-spacing-4
           
             "
-            >
-              <thead className="w-full">
-                <tr className="w-full flex justify-center items-center h-[2rem] border-[1px] shadow-md">
-                  <th
-                    className="
+              >
+                <thead className="w-full">
+                  <tr className="w-full flex justify-center items-center h-[2rem] border-[1px] shadow-md">
+                    <th
+                      className="
                   monitor_md:w-[55%]"
-                  >
-                    Organization List
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="w-full">
-                <div
-                  className="w-full overflow-auto
+                    >
+                      Organization List
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="w-full">
+                  <div
+                    className="w-full overflow-auto
                 monitor_md:h-[11.5rem]
                 monitor_md:mt-2
                 "
-                >
-                  {organization_data?.map((data, index) => {
-                    return (
-                      <>
-                        <tr
-                          className="flex justify-center items-center w-full
-                  monitor_md:h-[3rem]
+                  >
+                    {organization_data?.map((data, index) => {
+                      return (
+                        <>
+                          <tr
+                            className="flex justify-center items-center w-full
+                  monitor_md:h-[3.5rem]
                   monitor_md:p-1
                   monitor_md:text-[14px]
                   "
-                        >
-                          <td
-                            className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
-                          monitor_md:h-[2.5rem]
-                          "
                           >
-                            {index + 1}
-                          </td>
-                          <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
-                            {update_trigger.org_update === true &&
-                            data.id === update_trigger.org_id ? (
-                              <div className="w-full h-full flex justify-center items-center">
-                                {update_input_data.kapisanan === "" &&
-                                data_input_cheker === "" ? (
-                                  <>
-                                    <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
-                                      <AiOutlineLoading3Quarters />
-                                    </span>
-                                  </>
-                                ) : (
+                            <>
+                              {update_trigger.org_update === true &&
+                              data.id === update_trigger.org_id ? (
+                                <div className=" w-full h-full flex justify-center items-center border-[1px] shadow-md shadow-slate-300 overflow-hidden">
                                   <form
-                                    id="org"
+                                    action=""
+                                    className="w-full h-full flex bg-gray-100"
                                     onSubmit={(e) => {
                                       e.preventDefault();
                                       axiosClient
-                                        .put(API_ORGANIZATION + `/${data.id}`, {
-                                          kapisanan:
-                                            update_input_data.kapisanan,
-                                        })
+                                        .put(
+                                          API_ORGANIZATION +
+                                            `/${update_trigger.org_id}`,
+                                          {
+                                            kapisanan:
+                                              update_input_data.kapisanan,
+                                          }
+                                        )
                                         .then((res) => {
                                           setOrganization_Data(res.data);
                                           setUpdate_trigger({
@@ -544,128 +781,170 @@ const Assignments_Content = ({
                                         ...update_trigger,
                                         org_update: true,
                                       });
-                                    }}
-                                  >
-                                    <input
-                                      type="text"
-                                      disabled={
-                                        update_trigger.loading === false
-                                          ? true
-                                          : false
-                                      }
-                                      required
-                                      className="border-b-2 outline-none px-2 text-center"
-                                      placeholder="Enter Purok. . . ."
-                                      value={update_input_data.kapisanan}
-                                      onChange={(e) => {
-                                        setUpdate_Input_Data({
-                                          ...update_input_data,
-                                          kapisanan: e.target.value,
-                                        });
-                                      }}
-                                    />
-                                  </form>
-                                )}
-                              </div>
-                            ) : (
-                              <>
-                                <p className="w-full h-full flex justify-center items-center">
-                                  {data.kapisanan}
-                                </p>
-                              </>
-                            )}
-                          </td>
-                          <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
-                            <div className="w-full h-full flex justify-evenly items-center">
-                              {update_trigger.org_update === true &&
-                              data.id === update_trigger.org_id ? (
-                                <>
-                                  <button
-                                    type="submit"
-                                    form="org"
-                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
-                                  >
-                                    <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      setUpdate_trigger({
-                                        ...update_trigger,
-                                        org_update: false,
-                                        org_id: 0,
-                                        disabled: false,
-                                      });
-                                      setUpdate_Input_Data({
-                                        ...update_input_data,
-                                        kapisanan: "",
-                                      });
+
                                       setData_Input_Checker("");
                                     }}
-                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
                                   >
-                                    <FaTimesCircle />
-                                  </button>
-                                </>
+                                    {update_input_data.kapisanan === "" &&
+                                    data_input_cheker === "" ? (
+                                      <>
+                                        <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
+                                          <AiOutlineLoading3Quarters />
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <div
+                                          className="h-full  flex justify-center items-center
+                                monitor_md:w-[10%]
+                                "
+                                        >
+                                          <span
+                                            className="
+                                        monitor_md:text-[14px]
+                                  "
+                                          >
+                                            {index + 1}
+                                          </span>
+                                        </div>
+                                        <div
+                                          className=" flex justify-center items-center h-full
+                                monitor_md:w-[70%]
+                                "
+                                        >
+                                          <input
+                                            required
+                                            type="text"
+                                            disabled={
+                                              update_trigger.loading === false
+                                                ? true
+                                                : false
+                                            }
+                                            className="border-b-2 outline-none px-2 text-center h-[2rem] disabled:cursor-not-allowed"
+                                            placeholder="Enter Purok. . . ."
+                                            value={update_input_data.kapisanan}
+                                            onChange={(e) => {
+                                              setUpdate_Input_Data({
+                                                ...update_input_data,
+                                                kapisanan: e.target.value,
+                                              });
+                                            }}
+                                          />
+                                        </div>
+                                        <div
+                                          className="flex justify-evenly items-center
+                                monitor_md:w-[20%]
+                                "
+                                        >
+                                          <button
+                                            type="submit"
+                                            className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                          >
+                                            <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                          </button>
+                                          <button
+                                            onClick={() => {
+                                              setUpdate_trigger({
+                                                ...update_trigger,
+                                                org_update: false,
+                                                org_id: 0,
+                                                disabled: false,
+                                              });
+                                              setUpdate_Input_Data({
+                                                ...update_input_data,
+                                                kapisanan: "",
+                                              });
+                                              setData_Input_Checker("");
+                                            }}
+                                            className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                          >
+                                            <FaTimesCircle />
+                                          </button>
+                                        </div>
+                                      </>
+                                    )}
+                                  </form>
+                                </div>
                               ) : (
                                 <>
-                                  <button
-                                    disabled={update_trigger.disabled}
-                                    onClick={() => {
-                                      setUpdate_trigger({
-                                        ...update_trigger,
-                                        org_update: true,
-                                        org_id: data.id,
-                                        disabled: true,
-                                      });
-
-                                      axiosClient
-                                        .get(API_ORGANIZATION + `/${data.id}`)
-                                        .then((res) => {
-                                          setData_Input_Checker(
-                                            res.data.kapisanan
-                                          );
-                                          setUpdate_Input_Data({
-                                            ...update_input_data,
-                                            kapisanan: res.data.kapisanan,
+                                  <td
+                                    className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
+                          monitor_md:h-[3rem]
+                          "
+                                  >
+                                    {index + 1}
+                                  </td>
+                                  <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
+                                    <p className="w-full h-full flex justify-center items-center">
+                                      {data.kapisanan}
+                                    </p>
+                                  </td>
+                                  <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                                    <div
+                                      className={`w-full h-full flex justify-evenly  items-center`}
+                                    >
+                                      <button
+                                        type="button"
+                                        disabled={update_trigger.disabled}
+                                        onClick={() => {
+                                          setUpdate_trigger({
+                                            ...update_trigger,
+                                            org_update: true,
+                                            org_id: data.id,
+                                            disabled: true,
                                           });
-                                        })
-                                        .catch((error) => {
-                                          console.log(error);
-                                        });
-                                    }}
-                                    className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
-                                  >
-                                    <FaEdit />
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      axiosClient
-                                        .delete(
-                                          API_ORGANIZATION + `/${data.id}`
-                                        )
-                                        .then((res) => {
-                                          setOrganization_Data(res.data);
-                                          setOrg_Count(res.data.length);
-                                        })
-                                        .catch((error) => {
-                                          console.log(error);
-                                        });
-                                    }}
-                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
-                                  >
-                                    <FaTrashAlt />
-                                  </button>
+
+                                          axiosClient
+                                            .get(
+                                              API_ORGANIZATION + `/${data.id}`
+                                            )
+                                            .then((res) => {
+                                              setData_Input_Checker(
+                                                res.data.kapisanan
+                                              );
+                                              setUpdate_Input_Data({
+                                                ...update_input_data,
+                                                kapisanan: res.data.kapisanan,
+                                              });
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                            });
+                                        }}
+                                        className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed  text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                      >
+                                        <FaEdit />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setDelete_Org_Modal(true);
+                                          setUpdate_trigger({
+                                            ...update_trigger,
+                                            org_id: data.id,
+                                          });
+                                          setModal_Data({
+                                            ...modal_data,
+                                            org: data.kapisanan,
+                                          });
+                                        }}
+                                        className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                      >
+                                        <FaTrashAlt />
+                                      </button>
+                                    </div>
+                                  </td>
                                 </>
                               )}
-                            </div>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </div>
-              </tbody>
-            </table>
+                            </>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </div>
+                </tbody>
+              </table>
+            )}
           </div>
         </fieldset>
 
@@ -691,26 +970,52 @@ const Assignments_Content = ({
             className="w-full px-5 mt-5 flex justify-end"
             onSubmit={Submit_Group}
           >
-            <input
-              type="text"
-              placeholder="Add Group"
-              required
-              value={assignment_input.group}
-              onChange={(e) => {
-                setAssignment_Input({
-                  ...assignment_input,
-                  group: e.target.value,
-                });
-              }}
-              className="outline-none shadow-md text-start shadow-slate-300 border-[1.5px] rounded-md
+            {submit_trigger.loading_group === true ? (
+              <>
+                <span
+                  className="h-full animate-spin text-[20px] flex justify-center items-center
+                   monitor_md:w-[10rem]
+                "
+                >
+                  <AiOutlineLoading3Quarters />
+                </span>
+              </>
+            ) : (
+              <input
+                type="text"
+                placeholder="Add Group"
+                required
+                disabled={delete_group_modal === true ? true : false}
+                value={assignment_input.group}
+                onChange={(e) => {
+                  setAssignment_Input({
+                    ...assignment_input,
+                    group: e.target.value,
+                  });
+                }}
+                className="outline-none shadow-md text-start shadow-slate-300 border-[1.5px] rounded-md disabled:cursor-not-allowed
               monitor_md:w-[10rem]
               monitor_md:h-[2rem]
               monitor_md:px-3
               monitor_md:text-[14px]
               "
-            />
+              />
+            )}
 
-            <button className="w-[2rem] h-[2rem] flex justify-center items-center ml-2 rounded-full">
+            <button
+              type="submit"
+              disabled={
+                submit_trigger.disable === true
+                  ? true
+                  : false || delete_group_modal == true
+                  ? true
+                  : false
+              }
+              className=" flex justify-center items-center ml-2 rounded-full disabled:cursor-not-allowed
+              monitor_md:w-[2rem]
+              monitor_md:h-[2rem]
+              "
+            >
               <FaPlusCircle className="text-[25px] text-green-700 transition-all ease-in-out duration-300 hover:text-green-500" />
             </button>
           </form>
@@ -721,38 +1026,506 @@ const Assignments_Content = ({
           monitor_md:p-3
           "
           >
-            <table
-              className="w-full flex flex-col justify-center items-center border-separate border-spacing-4
+            {delete_group_modal === true ? (
+              <>
+                <div className="w-full h-full bg-black/40 rounded-md flex justify-center items-center">
+                  <div
+                    className="bg-white rounded-sm flex items-center justify-center flex-col
+                  monitor_md:w-[80%] 
+                  monitor_md:h-[50%] 
+                  "
+                  >
+                    <div
+                      className="w-full flex justify-center flex-col 
+                    monitor_md:h-[2.5rem]
+                    monitor_md:mb-3
+                    "
+                    >
+                      <h1
+                        className="font-semibold w-full flex justify-center items-start
+                      monitor_md:text-[14px]
+                      "
+                      >
+                        Plese confirm to delete
+                      </h1>
+                      <span className="flex justify-center items-center">
+                        <p className="text-[14px] font-bold">
+                          Group: {modal_data.group}
+                        </p>
+                      </span>
+                    </div>
+                    <div
+                      className="w-full flex justify-evenly items-center
+                    
+                    "
+                    >
+                      <button
+                        className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                        onClick={() => {
+                          console.log(update_trigger.group_id);
+                          // axiosClient
+                          //   .delete(API_GROUP + `/${data.id}`)
+                          //   .then((res) => {
+                          //     setGroup_Data(res.data);
+                          //     setGroup_Count(res.data.length);
+                          //   })
+                          //   .catch((error) => {
+                          //     console.log(error);
+                          //   });
+
+                          axiosClient
+                            .delete(API_GROUP + `/${update_trigger.group_id}`)
+                            .then((res) => {
+                              setGroup_Data(res.data);
+                              setGroup_Count(res.data.length);
+                              setDelete_Group_Modal(false);
+                              setModal_Data({
+                                ...modal_data,
+                                group: "",
+                              });
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                        }}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                        onClick={() => {
+                          setDelete_Group_Modal(false);
+                          setModal_Data({
+                            ...modal_data,
+                            group: "",
+                          });
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <table
+                className="w-full flex flex-col justify-center items-center border-separate border-spacing-4
           
             "
-            >
-              <thead className="w-full">
-                <tr className="w-full flex justify-center items-center h-[2rem] border-[1px] shadow-md">
-                  <th
-                    className="
+              >
+                <thead className="w-full">
+                  <tr className="w-full flex justify-center items-center h-[2rem] border-[1px] shadow-md">
+                    <th
+                      className="
                   monitor_md:w-[50%]"
-                  >
-                    Group List
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="w-full">
-                <div
-                  className="w-full overflow-auto
+                    >
+                      Group List
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="w-full">
+                  <div
+                    className="w-full overflow-auto
                 monitor_md:h-[11.5rem]
                 monitor_md:mt-2
                 "
-                >
-                  {group_data?.map((data, index) => {
-                    return (
-                      <>
-                        <tr
+                  >
+                    {group_data?.map((data, index) => {
+                      return (
+                        <>
+                          <tr
+                            className="flex justify-center items-center w-full
+                  monitor_md:h-[3.5rem]
+                  monitor_md:p-1
+                  monitor_md:text-[14px]
+                  "
+                          >
+                            {update_trigger.group_update === true &&
+                            data.id === update_trigger.group_id ? (
+                              <div className=" w-full h-full flex justify-center items-center border-[1px] shadow-md shadow-slate-300 overflow-hidden">
+                                <form
+                                  action=""
+                                  className="w-full h-full flex bg-gray-100"
+                                  onSubmit={(e) => {
+                                    e.preventDefault();
+                                    axiosClient
+                                      .put(
+                                        API_GROUP +
+                                          `/${update_trigger.group_id}`,
+                                        {
+                                          group: update_input_data.group,
+                                        }
+                                      )
+                                      .then((res) => {
+                                        setGroup_Data(res.data);
+                                        setUpdate_trigger({
+                                          ...update_trigger,
+                                          group_update: false,
+                                          disabled: false,
+                                          group_id: 0,
+                                        });
+                                      })
+                                      .catch((error) => {
+                                        console.log(error);
+                                      });
+
+                                    setUpdate_trigger({
+                                      ...update_trigger,
+                                      purok_update: true,
+                                    });
+
+                                    setData_Input_Checker("");
+                                  }}
+                                >
+                                  {update_input_data.group === "" &&
+                                  data_input_cheker === "" ? (
+                                    <>
+                                      <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
+                                        <AiOutlineLoading3Quarters />
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div
+                                        className="h-full  flex justify-center items-center
+                                monitor_md:w-[10%]
+                                "
+                                      >
+                                        <span
+                                          className="
+                                  monitor_md:text-[14px]
+                                  "
+                                        >
+                                          {index + 1}
+                                        </span>
+                                      </div>
+                                      <div
+                                        className=" flex justify-center items-center h-full
+                                monitor_md:w-[70%]
+                                "
+                                      >
+                                        <input
+                                          required
+                                          type="text"
+                                          disabled={
+                                            update_trigger.loading === false
+                                              ? true
+                                              : false
+                                          }
+                                          className="border-b-2 outline-none px-2 text-center h-[2rem] disabled:cursor-not-allowed"
+                                          placeholder="Enter Purok. . . ."
+                                          value={update_input_data.group}
+                                          onChange={(e) => {
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              group: e.target.value,
+                                            });
+                                          }}
+                                        />
+                                      </div>
+                                      <div
+                                        className="flex justify-evenly items-center
+                                monitor_md:w-[20%]
+                                "
+                                      >
+                                        <button
+                                          type="submit"
+                                          className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                        >
+                                          <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                        </button>
+                                        <button
+                                          onClick={() => {
+                                            setUpdate_trigger({
+                                              ...update_trigger,
+                                              group_update: false,
+                                              group_id: 0,
+                                              disabled: false,
+                                            });
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              group: "",
+                                            });
+                                            setData_Input_Checker("");
+                                          }}
+                                          className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                        >
+                                          <FaTimesCircle />
+                                        </button>
+                                      </div>
+                                    </>
+                                  )}
+                                </form>
+                              </div>
+                            ) : (
+                              <>
+                                <td
+                                  className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
+                          monitor_md:h-[3rem]
+                          "
+                                >
+                                  {index + 1}
+                                </td>
+                                <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
+                                  <p className="w-full h-full flex justify-center items-center">
+                                    {data.group}
+                                  </p>
+                                </td>
+                                <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                                  <div
+                                    className={`w-full h-full flex justify-evenly  items-center`}
+                                  >
+                                    <button
+                                      type="button"
+                                      disabled={update_trigger.disabled}
+                                      onClick={() => {
+                                        setUpdate_trigger({
+                                          ...update_trigger,
+                                          group_update: true,
+                                          group_id: data.id,
+                                          disabled: true,
+                                        });
+
+                                        axiosClient
+                                          .get(API_GROUP + `/${data.id}`)
+                                          .then((res) => {
+                                            setData_Input_Checker(
+                                              res.data.group
+                                            );
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              group: res.data.group,
+                                            });
+                                          })
+                                          .catch((error) => {
+                                            console.log(error);
+                                          });
+                                      }}
+                                      className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed  text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                    >
+                                      <FaEdit />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setDelete_Group_Modal(true);
+                                        setUpdate_trigger({
+                                          ...update_trigger,
+                                          group_id: data.id,
+                                        });
+                                        setModal_Data({
+                                          ...modal_data,
+                                          group: data.group,
+                                        });
+                                      }}
+                                      className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                    >
+                                      <FaTrashAlt />
+                                    </button>
+                                  </div>
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                          {/* <tr
                           className="flex justify-center items-center w-full
                   monitor_md:h-[3rem]
                   monitor_md:p-1
                   monitor_md:text-[14px]
                   "
                         >
+                          {update_trigger.group_update === true &&
+                          data.id === update_trigger.group_id ? (
+                            <>
+                              <div className=" w-full h-full flex justify-center items-center border-[1px] shadow-md shadow-slate-300 overflow-hidden">
+                                <form
+                                  action=""
+                                  className="w-full h-full flex bg-gray-100"
+                                  onSubmit={(e) => {
+                                    e.preventDefault();
+                                    axiosClient
+                                      .put(
+                                        API_PUROK +
+                                          `/${update_trigger.purok_id}`,
+                                        {
+                                          purok: update_input_data.purok,
+                                        }
+                                      )
+                                      .then((res) => {
+                                        setPurok_Data(res.data);
+                                        setUpdate_trigger({
+                                          ...update_trigger,
+                                          purok_update: false,
+                                          disabled: false,
+                                          purok_id: 0,
+                                        });
+                                      })
+                                      .catch((error) => {
+                                        console.log(error);
+                                      });
+
+                                    setUpdate_trigger({
+                                      ...update_trigger,
+                                      purok_update: true,
+                                    });
+
+                                    setData_Input_Checker("");
+                                  }}
+                                >
+                                  {update_input_data.group === "" &&
+                                  data_input_cheker === "" ? (
+                                    <>
+                                      <span className="w-full h-full animate-spin text-[20px] flex justify-center items-center">
+                                        <AiOutlineLoading3Quarters />
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div
+                                        className="h-full  flex justify-center items-center
+                                monitor_md:w-[10%]
+                                "
+                                      >
+                                        <span
+                                          className="
+                                  monitor_md:text-[14px]
+                                  "
+                                        >
+                                          {index + 1}
+                                        </span>
+                                      </div>
+                                      <div
+                                        className=" flex justify-center items-center h-full
+                                monitor_md:w-[70%]
+                                "
+                                      >
+                                        <input
+                                          required
+                                          type="text"
+                                          disabled={
+                                            update_trigger.loading === false
+                                              ? true
+                                              : false
+                                          }
+                                          className="border-b-2 outline-none px-2 text-center h-[2rem] disabled:cursor-not-allowed"
+                                          placeholder="Enter Purok. . . ."
+                                          value={update_input_data.group}
+                                          onChange={(e) => {
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              group: e.target.value,
+                                            });
+                                          }}
+                                        />
+                                      </div>
+                                      <div
+                                        className="flex justify-evenly items-center
+                                monitor_md:w-[20%]
+                                "
+                                      >
+                                        <button
+                                          type="submit"
+                                          className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                        >
+                                          <IoIosSave className="text-green-600 transition-all ease-out duration-300 hover:text-green-500" />
+                                        </button>
+                                        <button
+                                          onClick={() => {
+                                            setUpdate_trigger({
+                                              ...update_trigger,
+                                              group_update: false,
+                                              group_id: 0,
+                                              disabled: false,
+                                            });
+                                            setUpdate_Input_Data({
+                                              ...update_input_data,
+                                              group: "",
+                                            });
+                                            setData_Input_Checker("");
+                                          }}
+                                          className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                        >
+                                          <FaTimesCircle />
+                                        </button>
+                                      </div>
+                                    </>
+                                  )}
+                                </form>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <td
+                                className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
+                          monitor_md:h-[3rem]
+                          "
+                              >
+                                {index + 1}
+                              </td>
+                              <td className="w-[70%] h-full border-t-[2px] border-b-[2px]">
+                                <p className="w-full h-full flex justify-center items-center">
+                                  {data.group}
+                                </p>
+                              </td>
+                              <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
+                                <div
+                                  className={`w-full h-full flex justify-evenly  items-center`}
+                                >
+                                  <button
+                                    type="button"
+                                    disabled={update_trigger.disabled}
+                                    onClick={() => {
+                                      setUpdate_trigger({
+                                        ...update_trigger,
+                                        group_update: true,
+                                        group_id: data.id,
+                                        disabled: true,
+                                      });
+
+                                      axiosClient
+                                        .get(API_GROUP + `/${data.id}`)
+                                        .then((res) => {
+                                          setData_Input_Checker(res.data.group);
+                                          setUpdate_Input_Data({
+                                            ...update_input_data,
+                                            group: res.data.group,
+                                          });
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] disabled:cursor-not-allowed  text-[18px] text-yellow-500 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
+                                  >
+                                    <FaEdit />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      axiosClient
+                                        .delete(API_GROUP + `/${data.id}`)
+                                        .then((res) => {
+                                          setGroup_Data(res.data);
+                                          setGroup_Count(res.data.length);
+                                        })
+                                        .catch((error) => {
+                                          console.log(error);
+                                        });
+                                    }}
+                                    className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
+                                  >
+                                    <FaTrashAlt />
+                                  </button>
+                                </div>
+                              </td>
+                            </>
+                          )}
                           <td
                             className="w-[10%] flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]
                           monitor_md:h-[2.5rem]
@@ -767,20 +1540,7 @@ const Assignments_Content = ({
                           </td>
                           <td className="w-[20%] h-full border-t-[2px] border-b-[2px] border-r-[2px]">
                             <div className="w-full h-full flex justify-center items-center">
-                              <button
-                                // onClick={() => {
-                                //   axiosClient
-                                //     .delete(API_PUROK + `/${data.id}`)
-                                //     .then((res) => {
-                                //       setPurok_Data(res.data);
-                                //       setPurok_Count(res.data.length);
-                                //     })
-                                //     .catch((error) => {
-                                //       console.log(error);
-                                //     });
-                                // }}
-                                className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400"
-                              >
+                              <button className="w-[1.5rem] h-[1.5rem] text-[18px] text-yellow-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-yellow-500 hover:text-yellow-400">
                                 <FaEdit />
                               </button>
                               <button
@@ -801,13 +1561,14 @@ const Assignments_Content = ({
                               </button>
                             </div>
                           </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </div>
-              </tbody>
-            </table>
+                        </tr> */}
+                        </>
+                      );
+                    })}
+                  </div>
+                </tbody>
+              </table>
+            )}
           </div>
         </fieldset>
       </div>
