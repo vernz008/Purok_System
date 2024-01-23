@@ -90,9 +90,8 @@ class OrganizationController extends Controller
     {
         try {
             //1. Validate
-            $request->validate([
+            $fields = $request->validate([
                 'kapisanan' => "required",
-                'year' => "required",
            ]);
 
            //2. Execute the Query
@@ -100,16 +99,20 @@ class OrganizationController extends Controller
 
            //3. Process the Result
            if ($organization) {
-           $organization->kapisanan = $request->kapisanan;
-           $organization->year = $request->year;
-           $organization->save();
+          $organization->update([
+            "kapisanan" => $fields["kapisanan"]
+          ]);
            
-               $organization_all = OrganizationModel::all();
-               return response()->json($organization_all, 201);
+            $organization_all = OrganizationModel::all();
+
+               return response()->json($organization_all, 200);
+
            }else {
+
                return response()->json(['message' => 'Failed to update data'], 500);
            }
    } catch (\Throwable $error) {
+    
        throw $error;
    }
     }

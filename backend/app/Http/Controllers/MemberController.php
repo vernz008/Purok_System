@@ -153,7 +153,7 @@ class MemberController extends Controller
 
            //3. Process the Result
            if ($member) {
-        $member->update([
+            $member->update([
             'firstname' => $fields["firstname"],
             'middlename' => $fields["middlename"],
             'lastname' => $fields["lastname"],

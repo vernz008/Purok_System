@@ -34,7 +34,7 @@ Route::post("/login", [AuthenticationController::class, 'login']);
 Route::post("/users", [UserController::class, 'store']);
 Route::get("/users", [UserController::class, 'index']);
 
-// Route::group(["middleware"=>["auth:sanctum"]],function() {
+Route::group(["middleware"=>["auth:sanctum"]],function() {
 Route::get("/users/{id}", [UserController::class, 'show']);
 Route::put("/users/{id}", [UserController::class, 'update']);
 Route::delete("/users/{id}", [UserController::class, 'destroy']);
@@ -100,4 +100,4 @@ Route::put("/group/{id}", [GroupController::class, 'update']);
 Route::delete("/group/{id}", [GroupController::class, 'destroy']);
 
 Route::post("/logout", [AuthenticationController::class, 'logout']);
-// });
+});

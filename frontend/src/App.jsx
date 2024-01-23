@@ -4,6 +4,7 @@ import Login_page from "./pages/login/Login_page";
 import Admin_Dashboard from "./pages/admin/Admin_Dashboard";
 import Register_Admin from "./pages/admin/Register_Admin";
 import User_Dashboard from "./pages/user/User_Dashboard";
+import Server_Down from "./pages/error/Server_Down";
 const App = () => {
   return (
     <>
@@ -14,6 +15,9 @@ const App = () => {
             <Route path="/admin-dashboard" element={<Admin_Dashboard />} />
             <Route path="/register" element={<Register_Admin />} />
             <Route path="/user-dashboard" element={<User_Dashboard />} />
+          </Routes>
+          <Routes>
+            <Route path="/error-500" element={<Server_Down />} />
           </Routes>
         </div>
       </section>
