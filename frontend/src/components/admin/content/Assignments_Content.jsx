@@ -6,10 +6,12 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
+import { IoWarning } from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import axiosClient from "../../../utils/axios/axios-client";
 import {
   API_GROUP,
+  API_MEMBER,
   API_ORGANIZATION,
   API_PUROK,
 } from "../../../utils/urls/api_url";
@@ -50,6 +52,9 @@ const Assignments_Content = ({
     purok: "",
     org: "",
     group: "",
+    affected_count_purok: 0,
+    affected_count_org: 0,
+    affected_count_group: 0,
   });
   const [update_input_data, setUpdate_Input_Data] = useState({
     purok: "",
@@ -60,11 +65,17 @@ const Assignments_Content = ({
     loading_purok: false,
     loading_org: false,
     loading_group: false,
+    delete_loading_purok: false,
+    delete_loading_org: false,
+    delete_loading_group: false,
     disable: false,
   });
   const [delete_purok_modal, setDelete_Purok_Modal] = useState(false);
   const [delete_org_modal, setDelete_Org_Modal] = useState(false);
   const [delete_group_modal, setDelete_Group_Modal] = useState(false);
+  const [member_data, setMember_Data] = useState([]);
+
+  console.log(modal_data.affected_count_purok);
 
   useEffect(() => {
     if (purok_count > 0 && org_count > 0 && group_count > 0) {
@@ -72,6 +83,16 @@ const Assignments_Content = ({
     } else {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
     }
+
+    axiosClient
+      .get(API_MEMBER)
+      .then((res) => {
+        setMember_Data(res.data);
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
   }, [purok_count, org_count, group_count]);
 
   const Submit_Purok = (e) => {
@@ -262,68 +283,101 @@ const Assignments_Content = ({
                 <div className="w-full h-full bg-black/40 rounded-md flex justify-center items-center">
                   <div
                     className="bg-white rounded-sm flex items-center justify-center flex-col
-                  monitor_md:w-[80%] 
-                  monitor_md:h-[50%] 
+                  monitor_md:w-[85%] 
+                  monitor_md:h-[85%] 
                   "
                   >
-                    <div
-                      className="w-full flex justify-center flex-col 
-                    monitor_md:h-[2.5rem]
+                    {submit_trigger.delete_loading_purok === true ? (
+                      <>
+                        <div className="w-full h-full flex justify-center items-center bg-black/50">
+                          <AiOutlineLoading3Quarters className="animate-spin" />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="w-full flex justify-center flex-col 
+                    monitor_md:h-[6.5rem]
                     monitor_md:mb-3
                     "
-                    >
-                      <h1
-                        className="font-semibold w-full flex justify-center items-start
-                      monitor_md:text-[14px]
+                        >
+                          <span className="flex justify-center items-center">
+                            <IoWarning className="text-yellow-400 text-[2.5rem]" />
+                          </span>
+                          <h1
+                            className="font-semibold w-full text-center underline
+                      monitor_md:text-[12px]
                       "
-                      >
-                        Plese confirm to delete
-                      </h1>
-                      <span className="flex justify-center items-center">
-                        <p className="text-[14px] font-bold">
-                          Purok: {modal_data.purok}
-                        </p>
-                      </span>
-                    </div>
-                    <div
-                      className="w-full flex justify-evenly items-center
-                    
+                          >
+                            Plese confirm to delete{" "}
+                            <b>Purok: {modal_data.purok}</b>
+                          </h1>
+                          <p
+                            className="text-center
+                      monitor_md:text-[11px]
+                      monitor_md:px-[1rem]
+                      monitor_md:mt-1
+                      "
+                          >
+                            Warning! deleting this may affect{" "}
+                            <b>
+                              ( {modal_data.affected_count_purok} ) members{" "}
+                            </b>
+                            related to this data, are you sure you wish to
+                            proceed this action?
+                          </p>
+                        </div>
+                        <div
+                          className="w-full flex justify-evenly items-center
+                    monitor_md:h-[2.5rem]
                     "
-                    >
-                      <button
-                        className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
+                        >
+                          <button
+                            className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
                       monitor_md:w-[5rem]
                       monitor_md:h-[2rem]
                       "
-                        onClick={() => {
-                          axiosClient
-                            .delete(API_PUROK + `/${update_trigger.purok_id}`)
-                            .then((res) => {
-                              setPurok_Data(res.data);
-                              setPurok_Count(res.data.length);
+                            onClick={() => {
+                              setSubmit_Trigger({
+                                ...submit_trigger,
+                                delete_loading_purok: true,
+                              });
+                              axiosClient
+                                .delete(
+                                  API_PUROK + `/${update_trigger.purok_id}`
+                                )
+                                .then((res) => {
+                                  setPurok_Data(res.data);
+                                  setPurok_Count(res.data.length);
+                                  setDelete_Purok_Modal(false);
+                                  setModal_Data({ ...modal_data, purok: "" });
+                                  setSubmit_Trigger({
+                                    ...submit_trigger,
+                                    delete_loading_purok: false,
+                                  });
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            }}
+                          >
+                            Yes
+                          </button>
+                          <button
+                            className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                            onClick={() => {
                               setDelete_Purok_Modal(false);
                               setModal_Data({ ...modal_data, purok: "" });
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }}
-                      >
-                        Yes
-                      </button>
-                      <button
-                        className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
-                      monitor_md:w-[5rem]
-                      monitor_md:h-[2rem]
-                      "
-                        onClick={() => {
-                          setDelete_Purok_Modal(false);
-                          setModal_Data({ ...modal_data, purok: "" });
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </>
@@ -536,6 +590,10 @@ const Assignments_Content = ({
                                         setModal_Data({
                                           ...modal_data,
                                           purok: data.purok,
+                                          affected_count_purok:
+                                            member_data.filter(
+                                              (fil) => fil.purok === data.purok
+                                            ).length,
                                         });
                                       }}
                                       className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
@@ -639,77 +697,104 @@ const Assignments_Content = ({
                 <div className="w-full h-full bg-black/40 rounded-md flex justify-center items-center">
                   <div
                     className="bg-white rounded-sm flex items-center justify-center flex-col
-                  monitor_md:w-[80%] 
-                  monitor_md:h-[50%] 
+                    monitor_md:w-[85%] 
+                    monitor_md:h-[85%] 
                   "
                   >
-                    <div
-                      className="w-full flex justify-center flex-col 
-                    monitor_md:h-[2.5rem]
+                    {submit_trigger.delete_loading_org === true ? (
+                      <>
+                        <div className="w-full h-full flex justify-center items-center bg-black/50">
+                          <AiOutlineLoading3Quarters className="animate-spin" />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="w-full flex justify-center flex-col 
+                    monitor_md:h-[6.5rem]
                     monitor_md:mb-3
                     "
-                    >
-                      <h1
-                        className="font-semibold w-full flex justify-center items-start
-                      monitor_md:text-[14px]
+                        >
+                          <span className="flex justify-center items-center">
+                            <IoWarning className="text-yellow-400 text-[2.5rem]" />
+                          </span>
+                          <h1
+                            className="font-semibold w-full text-center underline
+                      monitor_md:text-[12px]
                       "
-                      >
-                        Plese confirm to delete
-                      </h1>
-                      <span className="flex justify-center items-center">
-                        <p className="text-[14px] font-bold">
-                          Organization: {modal_data.org}
-                        </p>
-                      </span>
-                    </div>
-                    <div
-                      className="w-full flex justify-evenly items-center
-                    
+                          >
+                            Plese confirm to delete ( <b> {modal_data.org}</b> )
+                          </h1>
+                          <p
+                            className="text-center
+                      monitor_md:text-[11px]
+                      monitor_md:px-[1rem]
+                      monitor_md:mt-1
+                      "
+                          >
+                            Warning! deleting this may affect{" "}
+                            <b>( {modal_data.affected_count_org} ) members </b>
+                            related to this data, are you sure you wish to
+                            proceed this action?
+                          </p>
+                        </div>
+                        <div
+                          className="w-full flex justify-evenly items-center
+                      monitor_md:h-[2.5rem]
                     "
-                    >
-                      <button
-                        className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
+                        >
+                          <button
+                            className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
                       monitor_md:w-[5rem]
                       monitor_md:h-[2rem]
                       "
-                        onClick={() => {
-                          console.log(update_trigger.org_id);
-                          axiosClient
-                            .delete(
-                              API_ORGANIZATION + `/${update_trigger.org_id}`
-                            )
-                            .then((res) => {
-                              setOrganization_Data(res.data);
-                              setOrg_Count(res.data.length);
+                            onClick={() => {
+                              setSubmit_Trigger({
+                                ...submit_trigger,
+                                delete_loading_org: true,
+                              });
+                              axiosClient
+                                .delete(
+                                  API_ORGANIZATION + `/${update_trigger.org_id}`
+                                )
+                                .then((res) => {
+                                  setOrganization_Data(res.data);
+                                  setOrg_Count(res.data.length);
+                                  setDelete_Org_Modal(false);
+                                  setModal_Data({
+                                    ...modal_data,
+                                    purok: "",
+                                  });
+                                  setSubmit_Trigger({
+                                    ...submit_trigger,
+                                    delete_loading_org: false,
+                                  });
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            }}
+                          >
+                            Yes
+                          </button>
+                          <button
+                            className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                            onClick={() => {
                               setDelete_Org_Modal(false);
                               setModal_Data({
                                 ...modal_data,
-                                purok: "",
+                                org: "",
                               });
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }}
-                      >
-                        Yes
-                      </button>
-                      <button
-                        className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
-                      monitor_md:w-[5rem]
-                      monitor_md:h-[2rem]
-                      "
-                        onClick={() => {
-                          setDelete_Org_Modal(false);
-                          setModal_Data({
-                            ...modal_data,
-                            org: "",
-                          });
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </>
@@ -926,6 +1011,12 @@ const Assignments_Content = ({
                                           setModal_Data({
                                             ...modal_data,
                                             org: data.kapisanan,
+                                            affected_count_org:
+                                              member_data.filter(
+                                                (fil) =>
+                                                  fil.kapisanan ===
+                                                  data.kapisanan
+                                              ).length,
                                           });
                                         }}
                                         className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
@@ -1031,85 +1122,107 @@ const Assignments_Content = ({
                 <div className="w-full h-full bg-black/40 rounded-md flex justify-center items-center">
                   <div
                     className="bg-white rounded-sm flex items-center justify-center flex-col
-                  monitor_md:w-[80%] 
-                  monitor_md:h-[50%] 
+                    monitor_md:w-[85%] 
+                    monitor_md:h-[85%] 
                   "
                   >
-                    <div
-                      className="w-full flex justify-center flex-col 
-                    monitor_md:h-[2.5rem]
+                    {submit_trigger.delete_loading_group === true ? (
+                      <>
+                        <div className="w-full h-full flex justify-center items-center bg-black/50">
+                          <AiOutlineLoading3Quarters className="animate-spin" />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="w-full flex justify-center flex-col 
+                    monitor_md:h-[6.5rem]
                     monitor_md:mb-3
                     "
-                    >
-                      <h1
-                        className="font-semibold w-full flex justify-center items-start
-                      monitor_md:text-[14px]
+                        >
+                          <span className="flex justify-center items-center">
+                            <IoWarning className="text-yellow-400 text-[2.5rem]" />
+                          </span>
+                          <h1
+                            className="font-semibold w-full text-center underline
+                      monitor_md:text-[12px]
                       "
-                      >
-                        Plese confirm to delete
-                      </h1>
-                      <span className="flex justify-center items-center">
-                        <p className="text-[14px] font-bold">
-                          Group: {modal_data.group}
-                        </p>
-                      </span>
-                    </div>
-                    <div
-                      className="w-full flex justify-evenly items-center
-                    
+                          >
+                            Plese confirm to delete{" "}
+                            <b>Group: {modal_data.affected_count_group}</b>
+                          </h1>
+                          <p
+                            className="text-center
+                      monitor_md:text-[11px]
+                      monitor_md:px-[1rem]
+                      monitor_md:mt-1
+                      "
+                          >
+                            Warning! deleting this may affect{" "}
+                            <b>
+                              ( {modal_data.affected_count_group} ) members{" "}
+                            </b>
+                            related to this data, are you sure you wish to
+                            proceed this action?
+                          </p>
+                        </div>
+                        <div
+                          className="w-full flex justify-evenly items-center
+                      monitor_md:h-[2.5rem]
                     "
-                    >
-                      <button
-                        className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
+                        >
+                          <button
+                            className="border-[1px] rounded-md bg-blue-500 text-white font-semibold text-[14px] transition-all ease-in-out duration-300 hover:bg-blue-400
                       monitor_md:w-[5rem]
                       monitor_md:h-[2rem]
                       "
-                        onClick={() => {
-                          console.log(update_trigger.group_id);
-                          // axiosClient
-                          //   .delete(API_GROUP + `/${data.id}`)
-                          //   .then((res) => {
-                          //     setGroup_Data(res.data);
-                          //     setGroup_Count(res.data.length);
-                          //   })
-                          //   .catch((error) => {
-                          //     console.log(error);
-                          //   });
-
-                          axiosClient
-                            .delete(API_GROUP + `/${update_trigger.group_id}`)
-                            .then((res) => {
-                              setGroup_Data(res.data);
-                              setGroup_Count(res.data.length);
+                            onClick={() => {
+                              setSubmit_Trigger({
+                                ...submit_trigger,
+                                delete_loading_group: true,
+                              });
+                              axiosClient
+                                .delete(
+                                  API_GROUP + `/${update_trigger.group_id}`
+                                )
+                                .then((res) => {
+                                  setGroup_Data(res.data);
+                                  setGroup_Count(res.data.length);
+                                  setDelete_Group_Modal(false);
+                                  setModal_Data({
+                                    ...modal_data,
+                                    group: "",
+                                  });
+                                  setSubmit_Trigger({
+                                    ...submit_trigger,
+                                    delete_loading_group: false,
+                                  });
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            }}
+                          >
+                            Yes
+                          </button>
+                          <button
+                            className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
+                      monitor_md:w-[5rem]
+                      monitor_md:h-[2rem]
+                      "
+                            onClick={() => {
                               setDelete_Group_Modal(false);
                               setModal_Data({
                                 ...modal_data,
                                 group: "",
                               });
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }}
-                      >
-                        Yes
-                      </button>
-                      <button
-                        className="border-[1px] rounded-md bg-red-500 text-white font-semibold text-[14px]
-                      monitor_md:w-[5rem]
-                      monitor_md:h-[2rem]
-                      "
-                        onClick={() => {
-                          setDelete_Group_Modal(false);
-                          setModal_Data({
-                            ...modal_data,
-                            group: "",
-                          });
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </>
@@ -1322,6 +1435,10 @@ const Assignments_Content = ({
                                         setModal_Data({
                                           ...modal_data,
                                           group: data.group,
+                                          affected_count_group:
+                                            member_data.filter(
+                                              (fil) => fil.group === data.group
+                                            ).length,
                                         });
                                       }}
                                       className="w-[1.5rem] h-[1.5rem] text-[18px] text-red-600 rounded-full flex justify-center items-center transition-all ease-in-out duration-300 hover:border-red-500 hover:text-red-400"
