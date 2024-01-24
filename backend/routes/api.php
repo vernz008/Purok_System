@@ -13,6 +13,8 @@ use App\Http\Controllers\MemberDutyController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\MemberActivityController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\UserImageController;
+use App\Http\Controllers\MemberImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -98,6 +100,12 @@ Route::post("/group", [GroupController::class, 'store']);
 Route::get("/group/{id}", [GroupController::class, 'show']);
 Route::put("/group/{id}", [GroupController::class, 'update']);
 Route::delete("/group/{id}", [GroupController::class, 'destroy']);
+
+// User Image Controller
+Route::post("/upload-image-user",[UserImageController::class,"upload_picture"]);
+
+// Member Image Controller
+Route::post("/upload-image-member",[MemberImageController::class,"upload_picture"]);
 
 Route::post("/logout", [AuthenticationController::class, 'logout']);
 });
