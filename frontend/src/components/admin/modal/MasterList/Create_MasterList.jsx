@@ -102,7 +102,12 @@ const Create_MasterList = ({
               Add Member
             </p>
           </span>
-          <div className="h-full w-[5%] flex justify-end items-start p-2">
+          <div
+            className="h-full  flex justify-end items-start 
+          monitor_md:w-[5%]
+          monitor_md:p-2
+          "
+          >
             <button
               className="bg-white border-[1.5px] border-red-500 rounded-full transition-all ease-in-out duration-300 text-red-500 hover:text-red-400"
               onClick={() => setMasterList_Modal(false)}
