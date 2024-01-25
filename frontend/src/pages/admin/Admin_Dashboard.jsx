@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/admin/sidebar/Sidebar";
 import Masterlist_Content from "../../components/admin/content/Masterlist_Content";
 import Assignments_Content from "../../components/admin/content/Assignments_Content";
@@ -7,6 +8,7 @@ import {
   API_MEMBER,
   API_ORGANIZATION,
   API_PUROK,
+  API_USER,
 } from "../../utils/urls/api_url";
 import axiosClient from "../../utils/axios/axios-client";
 import Loading_Screen_Big from "../../components/Loading_Screen_Big";
@@ -28,6 +30,7 @@ const Admin_Dashboard = () => {
   const [purok_count, setPurok_Count] = useState(0);
   const [org_count, setOrg_Count] = useState(0);
   const [group_count, setGroup_Count] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosClient
@@ -37,7 +40,10 @@ const Admin_Dashboard = () => {
         setPurok_Count(res.data.length);
       })
       .catch((error) => {
-        console.log(error);
+        const Auth = error.response.statusText;
+        if (Auth === "Unauthorized") {
+          navigate("/");
+        }
       });
 
     axiosClient
@@ -47,7 +53,10 @@ const Admin_Dashboard = () => {
         setOrg_Count(res.data.length);
       })
       .catch((error) => {
-        console.log(error);
+        const Auth = error.response.statusText;
+        if (Auth === "Unauthorized") {
+          navigate("/");
+        }
       });
 
     axiosClient
@@ -57,27 +66,50 @@ const Admin_Dashboard = () => {
         setGroup_Count(res.data.length);
       })
       .catch((error) => {
-        console.log(error);
+        const Auth = error.response.statusText;
+        if (Auth === "Unauthorized") {
+          navigate("/");
+        }
       });
 
     if (purok_count > 0 && org_count > 0 && group_count > 0) {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
     } else {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
+      setMasterList_Data(null);
     }
 
-    if (
-      sidebar_buttons.masterlist === false &&
-      purok_count > 0 &&
-      org_count > 0 &&
-      group_count > 0
-    ) {
-      setLoading_Screen(false); // need to fix this logic
+    if (sidebar_buttons.masterlist === false) {
+      setLoading_Screen(false);
     }
 
     if (purok_count == 0 && org_count == 0 && group_count == 0) {
       setLoading_Screen(false);
     }
+
+    axiosClient
+      .get(API_MEMBER)
+      .then((res) => {
+        setMasterList_Data(res.data);
+      })
+      .catch((error) => {
+        const Auth = error.response.statusText;
+        if (Auth === "Unauthorized") {
+          navigate("/");
+        }
+      });
+
+    axiosClient
+      .get(API_USER)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        const Auth = error.response.statusText;
+        if (Auth === "Unauthorized") {
+          navigate("/");
+        }
+      });
   }, [purok_count, org_count, group_count, sidebar_buttons.masterlist]);
 
   return (
@@ -128,6 +160,7 @@ const Admin_Dashboard = () => {
               org_count={org_count}
               setGroup_Count={setGroup_Count}
               group_count={group_count}
+              setMasterList_Data={setMasterList_Data}
             />
           ) : tabs_pages === 2 ? (
             <Masterlist_Content

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdAssignmentAdd } from "react-icons/md";
 import Profile_Pic from "../../../assets/images/testPic.jpeg";
+import Create_Attendee from "../modal/Attendance/Create_Attendee";
 
 const Attendance_Content = () => {
+  const [modal_create, setModal_Create] = useState(false);
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
       <div
@@ -20,14 +22,14 @@ const Attendance_Content = () => {
         >
           <div
             className="w-[12%] h-[3rem]
-          monitor_md:h-[2.5rem]
+          monitor_md:h-[2rem]
           monitor_md:w-[10rem]
 
           monitor_xxl:h-[2.5rem]
           "
           >
             <button
-              // onClick={() => setMasterList_Modal(true)}
+              onClick={() => setModal_Create(true)}
               className="w-full h-full flex justify-center items-center rounded-md transition-all ease-in-out duration-300 bg-green-600 text-white hover:bg-green-500"
             >
               <MdAssignmentAdd
@@ -105,6 +107,11 @@ const Attendance_Content = () => {
           </div>
         </div>
       </div>
+      {modal_create === true ? (
+        <Create_Attendee setModal_Create={setModal_Create} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

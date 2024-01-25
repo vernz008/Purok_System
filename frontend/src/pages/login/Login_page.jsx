@@ -50,7 +50,7 @@ const Login_page = () => {
   };
   return (
     <>
-      <Check_User />
+      {/* <Check_User /> */}
       <section className="h-screen w-screen bg-[#f4f3f3]">
         <div className="w-full h-full flex justify-center items-center">
           <form
