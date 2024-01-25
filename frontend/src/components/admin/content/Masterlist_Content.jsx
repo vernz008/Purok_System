@@ -31,12 +31,20 @@ const Masterlist_Content = ({
     axiosClient
       .get(API_MEMBER)
       .then((res) => {
+        console.log(res.data);
         setMasterList_Data(res.data);
         setLoading_Data(false);
       })
       .catch((error) => {
         setLoading_Data(false);
-        console.log(error);
+        const response_status = error.response.status;
+        console.log(error.response.status);
+
+        console.log(response_status);
+
+        if (response_status === 404) {
+          setMasterList_Modal(null);
+        }
       });
   }, [loading_data]);
 

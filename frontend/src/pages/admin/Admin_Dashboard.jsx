@@ -76,6 +76,7 @@ const Admin_Dashboard = () => {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
     } else {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
+      setMasterList_Data(null);
     }
 
     if (sidebar_buttons.masterlist === false) {
@@ -159,6 +160,7 @@ const Admin_Dashboard = () => {
               org_count={org_count}
               setGroup_Count={setGroup_Count}
               group_count={group_count}
+              setMasterList_Data={setMasterList_Data}
             />
           ) : tabs_pages === 2 ? (
             <Masterlist_Content
