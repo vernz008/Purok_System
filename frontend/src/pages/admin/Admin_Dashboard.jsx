@@ -101,9 +101,7 @@ const Admin_Dashboard = () => {
 
     axiosClient
       .get(API_USER)
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((error) => {
         const Auth = error.response.statusText;
         if (Auth === "Unauthorized") {
