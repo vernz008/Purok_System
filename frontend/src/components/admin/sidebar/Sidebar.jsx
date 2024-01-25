@@ -16,7 +16,9 @@ import {
   API_GROUP,
   API_ORGANIZATION,
   API_PUROK,
+  API_USER,
 } from "../../../utils/urls/api_url";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({
   sidebar_toggle,
@@ -35,10 +37,29 @@ const Sidebar = ({
   purok_count,
 }) => {
   const [sort_toggle, setSort_Toggle] = useState(false);
+  const navigate = useNavigate();
 
-  console.log(org_count);
-  console.log(group_count);
-  console.log(purok_count);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      axiosClient
+        .get(API_USER)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+          const response = error.response.status;
+          const Auth = error.response.statusText;
+          if (Auth === "Unauthorized") {
+            navigate("/");
+          } else if (response === 500) {
+            navigate("/error-500");
+          }
+        });
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col justify-between border-r-[1px] bg-blue-500 text-white">
