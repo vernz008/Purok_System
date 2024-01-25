@@ -74,6 +74,7 @@ const Admin_Dashboard = () => {
 
     if (purok_count > 0 && org_count > 0 && group_count > 0) {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: false });
+      setMasterList_Data(null);
     } else {
       setSidebar_Buttons({ ...sidebar_buttons, masterlist: true });
       setMasterList_Data(null);
@@ -85,6 +86,7 @@ const Admin_Dashboard = () => {
 
     if (purok_count == 0 && org_count == 0 && group_count == 0) {
       setLoading_Screen(false);
+      setMasterList_Data(null);
     }
 
     axiosClient
