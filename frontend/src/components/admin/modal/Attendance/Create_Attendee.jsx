@@ -38,9 +38,39 @@ const Create_Attendee = ({ setModal_Create }) => {
           </span>
         </div>
         {/* modal header */}
+
+        {/* modal body */}
+        <div>
+          <form action="">
+            <div>
+              <div>
+                <label htmlFor="">Name</label>
+                <input type="text" />
+              </div>
+            </div>
+            <div>
+              <input type="file" />
+            </div>
+          </form>
+        </div>
+        {/* modal body */}
       </div>
     </div>
   );
 };
 
 export default Create_Attendee;
+
+/*
+notes:
+
+attendance module
+
+create user folder
+fill the title
+
+in created user folder
+fill members record who attended
+
+user ownership of created folder
+*/

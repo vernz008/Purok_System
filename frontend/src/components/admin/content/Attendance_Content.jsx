@@ -22,7 +22,7 @@ const Attendance_Content = () => {
         >
           <div
             className="w-[12%] h-[3rem]
-          monitor_md:h-[2.5rem]
+          monitor_md:h-[2rem]
           monitor_md:w-[10rem]
 
           monitor_xxl:h-[2.5rem]
