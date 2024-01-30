@@ -89,6 +89,10 @@ const Admin_Dashboard = () => {
       setMasterList_Data(null);
     }
 
+    if (masterList_data?.length == 0 || !masterList_data) {
+      setMasterList_Data(null);
+    }
+
     axiosClient
       .get(API_MEMBER)
       .then((res) => {
