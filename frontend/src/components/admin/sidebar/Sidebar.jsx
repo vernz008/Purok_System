@@ -9,16 +9,22 @@ import {
   FaMapPin,
 } from "react-icons/fa";
 import { BsMenuButtonWideFill, BsFillMenuAppFill } from "react-icons/bs";
-import { IoMdArrowDropleft, IoMdArrowDropdown } from "react-icons/io";
+import {
+  IoMdArrowDropleft,
+  IoMdArrowDropdown,
+  IoMdLogOut,
+} from "react-icons/io";
 import { FaPeopleGroup } from "react-icons/fa6";
 import axiosClient from "../../../utils/axios/axios-client";
 import {
   API_GROUP,
+  API_LOGOUT,
   API_ORGANIZATION,
   API_PUROK,
   API_USER,
 } from "../../../utils/urls/api_url";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Sidebar = ({
   sidebar_toggle,
@@ -37,6 +43,11 @@ const Sidebar = ({
   purok_count,
 }) => {
   const [sort_toggle, setSort_Toggle] = useState(false);
+  const [logout_button, setLogout_Button] = useState({
+    loadinng: false,
+    disabled: false,
+    trigger: false,
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -124,7 +135,12 @@ const Sidebar = ({
       {/* Side Bar Title */}
 
       {/* Sidebar Function Buttons */}
-      <div className="w-full h-[70%]">
+      <div
+        className={`w-full 
+      monitor_md:h-[85%]
+      ${logout_button.trigger === true ? " monitor_md:h-[90%]" : ""}
+      `}
+      >
         {/* 
         
         
@@ -340,10 +356,94 @@ const Sidebar = ({
         
         */}
       </div>
+      {/* 
+      
+      
+      Logout Button 
+      
+      
+      */}
+      {logout_button.trigger === true ? (
+        <div className="w-full h-[10%] flex justify-center items-center">
+          <div
+            className={`${
+              sidebar_toggle === false
+                ? "w-[90%] h-[70%] flex justify-between items-center"
+                : "w-[90%] h-[60%] flex justify-between items-center transition ease-in-out rounded-md duration-300 hover:bg-blue-300"
+            } monitor_md:h-[80%] monitor_md:w-[80%]`}
+          >
+            <button
+              onClick={() => {
+                axiosClient
+                  .post(API_LOGOUT)
+                  .then((res) => {
+                    alert("Logout  Successfully");
+                    Cookies.remove("access_token");
+                    navigate("/");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }}
+              className={`
+              ${
+                sidebar_buttons.masterlist === true
+                  ? "rounded-md bg-gray-300 opacity-80"
+                  : ""
+              }
+              ${
+                sidebar_toggle === false
+                  ? "flex justify-center items-center w-full h-full"
+                  : "flex justify-between items-center w-full h-[2.5rem] font-extrabold"
+              } disabled:cursor-not-allowed`}
+            >
+              <span
+                className={`${
+                  sidebar_toggle === false
+                    ? "w-[80%] h-[90%] flex justify-center items-center transition ease-in-out rounded-full duration-300 hover:bg-blue-300"
+                    : "w-[20%] flex justify-center items-center h-full"
+                } `}
+              >
+                <IoMdLogOut
+                  className="text-[25px]
+              monitor_md:text-[20px]
+
+              monitor_xxl:text-[25px]
+              "
+                />
+              </span>
+              <p
+                className={`${
+                  sidebar_toggle === false
+                    ? "hidden"
+                    : " w-[75%] text-[20px] flex items-center h-full"
+                } 
+                monitor_md:text-[16px]
+                `}
+              >
+                Logout
+              </p>
+            </button>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+      {/* 
+      
+      
+      Logout Button 
+      
+      
+      */}
       {/* Sidebar Function Buttons */}
 
       {/* Sidebar Footer */}
-      <div className="w-full flex justify-center items-center h-[5rem] border-t-[2px]">
+      <div
+        className="w-full flex justify-center items-center border-t-[2px] 
+      monitor_md: h-[4rem]
+      "
+      >
         <div className="flex justify-between items-center h-full w-full">
           <div
             className={`transform transition-all ease-in-out duration-300 ${
@@ -355,7 +455,13 @@ const Sidebar = ({
             <img
               src={PurokLogoImg}
               alt=""
-              className={`${
+              onClick={() => {
+                setLogout_Button({ ...logout_button, trigger: true });
+                logout_button.trigger === true
+                  ? setLogout_Button({ ...logout_button, trigger: false })
+                  : setLogout_Button({ ...logout_button, trigger: true });
+              }}
+              className={`cursor-pointer ${
                 sidebar_toggle === false
                   ? "w-[3.5rem] bg-white rounded-full"
                   : "w-[3.5rem] bg-white rounded-full"
