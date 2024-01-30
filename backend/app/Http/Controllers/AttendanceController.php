@@ -132,7 +132,7 @@ class AttendanceController extends Controller
                 $attendance->delete();
 
                 $attendance_all = AttendanceModel::all();
-                return response()->json($product_all, 200);
+                return response()->json($attendance_all, 200);
             }else{
                 return response()->json(['message'=>'Attendance not found'],404);
             }
