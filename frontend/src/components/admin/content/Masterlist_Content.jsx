@@ -65,15 +65,18 @@ const Masterlist_Content = ({
         "
         >
           <div
-            className="w-[12%] h-[3rem]
+            className="
           monitor_md:h-[2rem]
+          monitor_md:w-[10rem]
+       
 
           monitor_xxl:h-[2.5rem]
           "
           >
             <button
               onClick={() => setMasterList_Modal(true)}
-              className="w-full h-full flex justify-center items-center rounded-md transition-all ease-in-out duration-300 bg-green-600 text-white hover:bg-green-500"
+              className="w-full h-full flex justify-center items-center rounded-md transition-all ease-in-out duration-300 bg-green-600 text-white hover:bg-green-500
+              "
             >
               <MdAssignmentAdd
                 className="mr-4 text-[20px]

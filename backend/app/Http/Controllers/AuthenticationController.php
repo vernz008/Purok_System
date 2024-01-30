@@ -30,7 +30,7 @@ class AuthenticationController extends Controller
             // Check Credentials
             if ($user->username == $request->username && $user->password == $request->password){
                 $token = $user->createToken('authentication_key_00001')->plainTextToken;
-                return response()->json(["access_token"=>$token,"user_role"=>$user->role,200]);
+                return response()->json(["access_token"=>$token,"user_role"=>$user->role,"user_id"=>$user->id,200]);
 
             }else{
 
