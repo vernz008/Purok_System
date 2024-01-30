@@ -25,9 +25,10 @@ const Login_page = () => {
       })
       .then((res) => {
         const user_role = res.data.user_role;
+        const user_id = res.data.user_id;
         const token = res.data.access_token.split("|")[1];
         Cookies.set("access_token", token);
-        console.log(user_role);
+        Cookies.set("user_id", user_id);
 
         if (user_role === "Admin") {
           navigate("/admin-dashboard");

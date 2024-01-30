@@ -43,14 +43,19 @@ const Sidebar = ({
   purok_count,
 }) => {
   const [sort_toggle, setSort_Toggle] = useState(false);
-  const [logout_button, setLogout_Button] = useState({
-    loadinng: false,
-    disabled: false,
-    trigger: false,
-  });
+  const [loggedIn_user, setLoggedIn_User] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    axiosClient
+      .get(API_USER + `/${Cookies.get("user_id")}`)
+      .then((res) => {
+        setLoggedIn_User(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     const interval = setInterval(() => {
       axiosClient
         .get(API_USER)
@@ -395,6 +400,7 @@ const Sidebar = ({
                 .then((res) => {
                   alert("Logout  Successfully");
                   Cookies.remove("access_token");
+                  Cookies.remove("user_id");
                   navigate("/");
                 })
                 .catch((error) => {
@@ -481,14 +487,14 @@ const Sidebar = ({
                 ? "hidden"
                 : "w-[70%] flex justify-start items-center px-3 font-bold text-[16px]"
             } 
-            monitor_md:text-[14px]
+            monitor_md:text-[18px]
             monitor_md:px-1
 
             monitor_xxl:text-[18px]
             monitor_xxl:font-bold
             `}
           >
-            User Admin
+            {loggedIn_user.username}
           </span>
         </div>
       </div>
