@@ -39,7 +39,7 @@ class AttendanceController extends Controller
         try {
             //1. Validate
             $request->validate([
-                'userid' => "required|numeric",
+                'userid' => "required",
                 'pamagat' => "required",
             ]);
 
