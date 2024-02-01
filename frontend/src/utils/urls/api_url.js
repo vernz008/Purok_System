@@ -6,3 +6,4 @@ export const API_MEMBER = "/member";
 export const API_LOGIN = "/login";
 export const API_LOGOUT = "/logout";
 export const API_USER = "/users";
+export const API_ATTENDANCE = "/attendance";
