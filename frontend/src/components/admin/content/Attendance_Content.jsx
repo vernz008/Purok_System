@@ -5,9 +5,11 @@ import Create_Attendee from "../modal/Attendance/Create_Attendance";
 import axiosClient from "../../../utils/axios/axios-client";
 import { API_ATTENDANCE } from "../../../utils/urls/api_url";
 import { IoEye } from "react-icons/io5";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Attendance_Content = () => {
   const [modal_create, setModal_Create] = useState(false);
+  const [laoding_data, setLoading_data] = useState(true);
   const [attendance_data, setAttendance_Data] = useState([]);
 
   useEffect(() => {
@@ -15,6 +17,7 @@ const Attendance_Content = () => {
       .get(API_ATTENDANCE)
       .then((res) => {
         setAttendance_Data(res.data);
+        setLoading_data(false);
       })
       .catch((error) => {
         console.log(error);
@@ -68,109 +71,126 @@ const Attendance_Content = () => {
         </div>
       </div>
 
-      <div
-        className="w-full h-[90%] p-2
+      {laoding_data === true ? (
+        <>
+          <div className="w-full h-full flex justify-center items-center">
+            <AiOutlineLoading3Quarters
+              className="animate-spin
+            monitor_md:text-[3.5rem]
+            "
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div
+            className="w-full h-[90%] p-2
     "
-      >
-        <h1
-          className="px-5 text-[25px] font-bold
+          >
+            <h1
+              className="px-5 text-[25px] font-bold
         monitor_md:text-[22px]
         "
-        >
-          Attendance
-        </h1>
-        <div
-          className="w-full 
+            >
+              Attendance
+            </h1>
+            <div
+              className="w-full 
         monitor_md:h-[24.5rem]
         "
-        >
-          <div
-            className="w-full h-full flex justify-center items-center
+            >
+              <div
+                className="w-full h-full flex justify-center items-center
           monitor_md:p-5
           "
-          >
-            <div
-              className="flex flex-wrap justify-evenly items-start overflow-auto
+              >
+                <div
+                  className="flex flex-wrap justify-evenly items-start overflow-auto
           monitor_md:w-[95%]
           monitor_md:h-[22rem]
           "
-            >
-              {/* Card */}
-              {attendance_data.map((data) => {
-                return (
-                  <div
-                    className="rounded-sm border-[2px] border-slate-300 shadow-lg shadow-slate-400
+                >
+                  {/* Card */}
+                  {attendance_data.map((data) => {
+                    return (
+                      <div
+                        className="rounded-sm border-[2px] border-slate-300 shadow-lg shadow-slate-400
               monitor_md:h-[16.5rem] 
               monitor_md:w-[12rem] 
               monitor_md:mt-10
               "
-                  >
-                    <div className="h-[50%] w-full bg-gray-200 ">
-                      <div className="w-full h-full flex flex-col justify-center items-center border-b-[2px]">
-                        <img
-                          src={Profile_Pic}
-                          alt=""
-                          className="rounded-full 
+                      >
+                        <div className="h-[50%] w-full bg-gray-200 ">
+                          <div className="w-full h-full flex flex-col justify-center items-center border-b-[2px]">
+                            <img
+                              src={Profile_Pic}
+                              alt=""
+                              className="rounded-full 
                       monitor_md:h-[4rem]
                       monitor_md:w-[4rem]
                       "
-                        />
-                        <span
-                          className="w-full flex flex-col justify-center items-center
+                            />
+                            <span
+                              className="w-full flex flex-col justify-center items-center
                       monitor_md:mt-3
                       "
-                        >
-                          <p className="text-[16px] font-bold">{data.userid}</p>
-                        </span>
-                      </div>
-
-                      <div
-                        className="w-full flex justify-center items-center
-                  monitor_md:mt-1
-                  "
-                      >
-                        <div
-                          className="flex flex-col w-full justify-start
-                      monitor_md:h-[8.6rem]
-                      "
-                        >
-                          <div></div>
-                          <span className="w-full flex flex-col justify-center items-center">
-                            <p className="text-[14px] font-semibold">
-                              Attendance Title
-                            </p>
-                            <p className="text-[16px] font-bold">
-                              {data.pamagat}
-                            </p>
-                          </span>
+                            >
+                              <p className="text-[16px] font-bold">
+                                {data.userid}
+                              </p>
+                            </span>
+                          </div>
 
                           <div
-                            className="w-full flex flex-col justify-center items-center
+                            className="w-full flex justify-center items-center
+                  monitor_md:mt-1
+                  "
+                          >
+                            <div
+                              className="flex flex-col w-full justify-start
+                      monitor_md:h-[8.6rem]
+                      "
+                            >
+                              <div></div>
+                              <span className="w-full flex flex-col justify-center items-center">
+                                <p className="text-[14px] font-semibold">
+                                  Attendance Title
+                                </p>
+                                <p className="text-[16px] font-bold">
+                                  {data.pamagat}
+                                </p>
+                              </span>
+
+                              <div
+                                className="w-full flex flex-col justify-center items-center
                         monitor_md:h-[2.5rem]
                         monitor_md:mt-2
                         "
-                          >
-                            <button
-                              className=" flex justify-center items-center text-[1.5rem] text-blue-500 transition-all ease-in-out duration-300 hover:text-blue-300
+                              >
+                                <button
+                                  className=" flex justify-center items-center text-[1.5rem] text-blue-500 transition-all ease-in-out duration-300 hover:text-blue-300
                         monitor_md:h-[2rem]
                         monitor_md:w-[70%]
                         "
-                            >
-                              <IoEye />
-                            </button>
+                                >
+                                  <IoEye />
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
 
-              {/* Card */}
+                  {/* Card */}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
+
       {modal_create === true ? (
         <Create_Attendee
           setModal_Create={setModal_Create}
