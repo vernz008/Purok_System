@@ -7,6 +7,7 @@ import User_Dashboard from "./pages/user/User_Dashboard";
 import Server_Down from "./pages/error/Server_Down";
 import axiosClient from "./utils/axios/axios-client";
 import { API_USER } from "./utils/urls/api_url";
+import UserProfile_Page from "./pages/UserProfile_Page";
 const App = () => {
   const navigate = useNavigate();
   useState(() => {
@@ -50,6 +51,12 @@ const App = () => {
             <Route path="/admin-dashboard" element={<Admin_Dashboard />} />
             <Route path="/register" element={<Register_Admin />} />
             <Route path="/user-dashboard" element={<User_Dashboard />} />
+
+            <Route
+              path="/user-profile/:user_id"
+              element={<UserProfile_Page />}
+            />
+
             <Route path="/error-500" element={<Server_Down />} />
           </Routes>
         </div>
