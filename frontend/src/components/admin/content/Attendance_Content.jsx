@@ -140,7 +140,15 @@ const Attendance_Content = () => {
                       "
                             >
                               <p className="text-[16px] font-bold">
-                                {data.username}
+                                <span className="m-1 text-[12px]">
+                                  {data.firstname}
+                                </span>
+                                <span className="m-1 text-[12px]">
+                                  {data.middlename}
+                                </span>
+                                <span className="m-1 text-[12px]">
+                                  {data.lastname}
+                                </span>
                               </p>
                             </span>
                           </div>
