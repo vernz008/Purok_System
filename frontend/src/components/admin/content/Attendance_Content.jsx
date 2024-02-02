@@ -6,9 +6,12 @@ import axiosClient from "../../../utils/axios/axios-client";
 import { API_ATTENDANCE } from "../../../utils/urls/api_url";
 import { IoEye } from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaTrashAlt } from "react-icons/fa";
+import Update_Attendance from "../modal/Attendance/Update_Attendance";
 
 const Attendance_Content = () => {
   const [modal_create, setModal_Create] = useState(false);
+  const [modal_update, setModal_Update] = useState({ id: 0, state: false });
   const [laoding_data, setLoading_data] = useState(true);
   const [attendance_data, setAttendance_Data] = useState([]);
 
@@ -162,19 +165,52 @@ const Attendance_Content = () => {
                               </span>
 
                               <div
-                                className="w-full flex flex-col justify-center items-center
+                                className="w-full flex justify-center items-center
                         monitor_md:h-[2.5rem]
                         monitor_md:mt-2
                         "
                               >
-                                <button
-                                  className=" flex justify-center items-center text-[1.5rem] text-blue-500 transition-all ease-in-out duration-300 hover:text-blue-300
-                        monitor_md:h-[2rem]
-                        monitor_md:w-[70%]
-                        "
+                                <div
+                                  className="flex justify-between
+                                monitor_md:w-[50%]
+                                "
                                 >
-                                  <IoEye />
-                                </button>
+                                  <button
+                                    onClick={() => {
+                                      setModal_Update({
+                                        ...modal_update,
+                                        state: true,
+                                        id: data.id,
+                                      });
+                                    }}
+                                    className=" flex justify-center items-center  text-blue-500 transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-blue-500
+                                    monitor_md:h-[2.5rem]
+                                    monitor_md:w-[43%]
+                                    monitor_md:text-[1.4rem]
+                        "
+                                  >
+                                    <IoEye />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setLoading_data(true);
+                                      axiosClient
+                                        .delete(API_ATTENDANCE + `/${data.id}`)
+                                        .then((res) => {
+                                          setAttendance_Data(res.data);
+                                          setLoading_data(false);
+                                          alert("Deleted Successfully!");
+                                        });
+                                    }}
+                                    className=" flex justify-center items-center text-red-500 transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-red-500
+                        monitor_md:h-[2.5rem]
+                        monitor_md:w-[43%]
+                        monitor_md:text-[1.2rem]
+                        "
+                                  >
+                                    <FaTrashAlt />
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -194,6 +230,15 @@ const Attendance_Content = () => {
       {modal_create === true ? (
         <Create_Attendee
           setModal_Create={setModal_Create}
+          setAttendance_Data={setAttendance_Data}
+        />
+      ) : (
+        ""
+      )}
+      {modal_update.state === true ? (
+        <Update_Attendance
+          setModal_Update={setModal_Update}
+          modal_update={modal_update}
           setAttendance_Data={setAttendance_Data}
         />
       ) : (
