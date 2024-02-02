@@ -183,7 +183,7 @@ const Attendance_Content = () => {
                                         id: data.id,
                                       });
                                     }}
-                                    className=" flex justify-center items-center  text-blue-500 transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-blue-500
+                                    className=" flex justify-center items-center border-[2px] border-blue-500 rounded-full text-blue-500 transition-all ease-in-out duration-500 hover:rounded-full hover:bg-blue-500 hover:text-white
                                     monitor_md:h-[2.5rem]
                                     monitor_md:w-[43%]
                                     monitor_md:text-[1.4rem]
@@ -202,7 +202,7 @@ const Attendance_Content = () => {
                                           alert("Deleted Successfully!");
                                         });
                                     }}
-                                    className=" flex justify-center items-center text-red-500 transition-all ease-in-out duration-100 hover:rounded-full hover:border-[2px] hover:border-red-500
+                                    className=" flex justify-center items-center border-[2px] border-red-500 rounded-full text-red-500 transition-all ease-in-out duration-500 hover:rounded-full hover:bg-red-500 hover:text-white
                         monitor_md:h-[2.5rem]
                         monitor_md:w-[43%]
                         monitor_md:text-[1.2rem]
