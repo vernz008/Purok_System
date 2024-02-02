@@ -26,6 +26,7 @@ const Attendance_Content = () => {
         console.log(error);
       });
   }, []);
+
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
       <div
@@ -139,7 +140,7 @@ const Attendance_Content = () => {
                       "
                             >
                               <p className="text-[16px] font-bold">
-                                {data.userid}
+                                {data.username}
                               </p>
                             </span>
                           </div>

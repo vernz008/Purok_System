@@ -16,7 +16,8 @@ class AttendanceController extends Controller
     public function index()
     {
         try {
-            $attendance = AttendanceModel::all();
+            // $attendance = AttendanceModel::all();
+            $attendance =AttendanceModel::with('user')->join('users', 'attendance.userid', '=', 'users.id')->select('users.id','users.username', 'attendance.pamagat')->get();
 
             if (count($attendance) > 0) {
                 return response()->json($attendance, 200);
