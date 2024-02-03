@@ -35,3 +35,14 @@ January 8 Updates = {
     registration is still WIP. Token is now required, loggin in.
     Logout function is still work in progress.
 }
+
+
+Queries For Record And Members
+
+SELECT members.id, members.firstname, members.middlename, members.lastname, 
+records.att_id, records.member_id, records.id AS "record_id",
+organizations.kapisanan
+FROM members 
+
+LEFT JOIN records ON members.id = records.member_id
+LEFT JOIN organizations ON members.org_id = organizations.id
