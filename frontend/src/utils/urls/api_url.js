@@ -8,3 +8,4 @@ export const API_LOGOUT = "/logout";
 export const API_USER = "/users";
 export const API_ATTENDANCE = "/attendance";
 export const API_RECORD = "/record";
+export const API_MEMBER_RECORDS = "/member-record";

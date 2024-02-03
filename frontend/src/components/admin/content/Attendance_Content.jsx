@@ -23,7 +23,11 @@ const Attendance_Content = () => {
         setLoading_data(false);
       })
       .catch((error) => {
-        console.log(error);
+        const status_code = error.response.status;
+
+        if (status_code === 404) {
+          setLoading_data(false);
+        }
       });
   }, []);
   return (

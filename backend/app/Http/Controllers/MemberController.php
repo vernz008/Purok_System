@@ -226,4 +226,24 @@ class MemberController extends Controller
             throw $error;
         }
     }
+
+    public function members_with_records()
+    {
+        try {
+            $members = MemberModel::select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
+             'records.att_id', 'records.member_id', 'records.id AS record_id', 
+             'organizations.kapisanan')
+            ->leftJoin('records', 'members.id', '=', 'records.member_id')
+            ->leftJoin('organizations', 'members.org_id', '=', 'organizations.id')
+            ->get();
+
+            if (count($members) > 0) {
+                return response()->json($members, 200);
+            }else {
+                return response()->json(['message' => 'No members found'], 404);
+            }
+        } catch (\Throwable $error) {
+            throw $error;
+        }
+    }
 }

@@ -142,11 +142,12 @@ const Create_Attendance = ({ setModal_Create, setAttendance_Data }) => {
                       axiosClient
                         .post(API_ATTENDANCE, {
                           pamagat: attendance_title,
-                          userid: Cookies.get("user_id"),
+                          user_id: Cookies.get("user_id"),
                         })
                         .then((res) => {
                           setAttendance_Data(res.data);
                           alert("created");
+                          setAttendance_Title("");
                         })
                         .catch((error) => {
                           console.log(error.response.status);

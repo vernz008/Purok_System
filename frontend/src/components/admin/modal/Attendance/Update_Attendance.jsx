@@ -6,6 +6,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   API_ATTENDANCE,
   API_MEMBER,
+  API_MEMBER_RECORDS,
   API_RECORD,
   API_USER,
 } from "../../../../utils/urls/api_url";
@@ -35,8 +36,6 @@ const Update_Attendance = ({
     id: 0,
   });
 
-  console.log(attendance_id);
-
   useEffect(() => {
     axiosClient
       .get(API_USER + `/${Cookies.get("user_id")}`)
@@ -59,9 +58,10 @@ const Update_Attendance = ({
       });
 
     axiosClient
-      .get(API_MEMBER)
+      .get(API_MEMBER_RECORDS)
       .then((res) => {
         setMember_Data(res.data);
+        console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -248,7 +248,7 @@ const Update_Attendance = ({
                           axiosClient
                             .put(API_ATTENDANCE + `/${modal_update.id}`, {
                               pamagat: attendance_title,
-                              userid: Cookies.get("user_id"),
+                              user_id: Cookies.get("user_id"),
                             })
                             .then((res) => {
                               setAttendance_Data(res.data);
@@ -450,6 +450,7 @@ const Update_Attendance = ({
                         "
                         >
                           {member_data.map((data, index) => {
+                            console.log(data.att_id);
                             return (
                               <tr
                                 className="flex justify-center items-center w-full
@@ -476,8 +477,44 @@ const Update_Attendance = ({
                                 </td>
                                 <td className="w-[20%] h-full flex justify-center items-center border-t-[2px] border-b-[2px] border-r-[2px]">
                                   <div>
-                                    {button_attend_member.status === false &&
-                                    button_attend_member.id === data.id ? (
+                                    {data.att_id ? (
+                                      <button
+                                        className=" rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-500 hover:bg-red-600 hover:text-white
+                                             monitor_md:h-[2rem]
+                                             monitor_md:w-[2rem]
+                                             "
+                                        onClick={() => {
+                                          setButton_Attend_Member({
+                                            ...button_attend_member,
+                                            status: false,
+                                            id: data.id,
+                                          });
+
+                                          axiosClient
+                                            .delete(
+                                              API_RECORD + `/${data.record_id}`
+                                            )
+                                            .then((res) => {
+                                              axiosClient
+                                                .get(API_MEMBER_RECORDS)
+                                                .then((res) => {
+                                                  setMember_Data(res.data);
+                                                  console.log(res.data);
+                                                })
+                                                .catch((error) => {
+                                                  console.log(error);
+                                                });
+
+                                              alert("Member Removed");
+                                            })
+                                            .catch((error) => {
+                                              console.log(error);
+                                            });
+                                        }}
+                                      >
+                                        <FaUserMinus className="monitor_md:text-[1rem]" />
+                                      </button>
+                                    ) : (
                                       <button
                                         className=" rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-500 hover:bg-green-600 hover:text-white
                                         monitor_md:h-[2rem]
@@ -486,10 +523,20 @@ const Update_Attendance = ({
                                         onClick={() => {
                                           axiosClient
                                             .post(API_RECORD, {
-                                              attid: attendance_id,
-                                              memberid: data.id,
+                                              att_id: attendance_id,
+                                              member_id: data.id,
                                             })
                                             .then((res) => {
+                                              axiosClient
+                                                .get(API_MEMBER_RECORDS)
+                                                .then((res) => {
+                                                  setMember_Data(res.data);
+                                                  console.log(res.data);
+                                                })
+                                                .catch((error) => {
+                                                  console.log(error);
+                                                });
+
                                               alert("Attended");
                                             })
                                             .catch((error) => {
@@ -498,22 +545,6 @@ const Update_Attendance = ({
                                         }}
                                       >
                                         <FaUserPlus className="monitor_md:text-[1rem]" />
-                                      </button>
-                                    ) : (
-                                      <button
-                                        className=" rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-500 hover:bg-red-600 hover:text-white
-                                      monitor_md:h-[2rem]
-                                      monitor_md:w-[2rem]
-                                      "
-                                        onClick={() => {
-                                          setButton_Attend_Member({
-                                            ...button_attend_member,
-                                            status: false,
-                                            id: data.id,
-                                          });
-                                        }}
-                                      >
-                                        <FaUserMinus className="monitor_md:text-[1rem]" />
                                       </button>
                                     )}
                                   </div>

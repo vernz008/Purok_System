@@ -36,7 +36,7 @@ Route::post("/login", [AuthenticationController::class, 'login']);
 Route::post("/users", [UserController::class, 'store']);
 Route::get("/users", [UserController::class, 'index']);
 
-Route::group(["middleware"=>["auth:sanctum"]],function() {
+// Route::group(["middleware"=>["auth:sanctum"]],function() {
 
 Route::get("/users/{id}", [UserController::class, 'show']);
 Route::put("/users/{id}", [UserController::class, 'update']);
@@ -59,6 +59,7 @@ Route::post("/member", [MemberController::class, 'store']);
 Route::get("/member/{id}", [MemberController::class, 'show']);
 Route::put("/member/{id}", [MemberController::class, 'update']);
 Route::delete("/member/{id}", [MemberController::class, 'destroy']);
+Route::get("/member-record", [MemberController::class, 'members_with_records']);
 
 Route::get("/attendance", [AttendanceController::class, 'index']);
 Route::post("/attendance", [AttendanceController::class, 'store']);
@@ -110,4 +111,4 @@ Route::post("/upload-image-member",[MemberImageController::class,"upload_picture
 
 Route::post("/logout", [AuthenticationController::class, 'logout']);
 
-});
+// });
