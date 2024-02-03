@@ -19,11 +19,13 @@ const Attendance_Content = () => {
     axiosClient
       .get(API_ATTENDANCE)
       .then((res) => {
+        console.log(res.data);
         setAttendance_Data(res.data);
         setLoading_data(false);
       })
       .catch((error) => {
-        const status_code = error.response.status;
+        console.log(error);
+        const status_code = error?.response?.status;
 
         if (status_code === 404) {
           setLoading_data(false);
@@ -193,8 +195,9 @@ const Attendance_Content = () => {
                                       setModal_Update({
                                         ...modal_update,
                                         state: true,
-                                        id: data.id,
+                                        id: data.attendance_id,
                                       });
+                                      console.log(data.id);
                                     }}
                                     className={` flex justify-center items-center border-[2px] border-blue-500 rounded-full text-blue-500 transition-all ease-in-out duration-500 hover:rounded-full hover:bg-blue-500 hover:text-white
                                     ${

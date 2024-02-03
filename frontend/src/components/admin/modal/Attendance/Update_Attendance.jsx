@@ -12,9 +12,8 @@ import {
 } from "../../../../utils/urls/api_url";
 import { MdEditDocument, MdPersonRemoveAlt1 } from "react-icons/md";
 import { IoIosSave } from "react-icons/io";
-import { FaUserCheck } from "react-icons/fa";
-import { IoPersonRemove } from "react-icons/io5";
 import { FaUserPlus, FaUserMinus } from "react-icons/fa6";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 const Update_Attendance = ({
   setModal_Update,
@@ -27,13 +26,14 @@ const Update_Attendance = ({
   const [attendance_id, setAttendance_Id] = useState(0);
   const [user_data, setUser_Data] = useState([]);
   const [member_data, setMember_Data] = useState([]);
-  const [record_data, setRecord_Data] = useState([]);
   const [update_trigger, setUpdate_Trigger] = useState(false);
   const [button_attend_member, setButton_Attend_Member] = useState({
-    disabled: false,
-    status: false,
     loading: false,
     id: 0,
+  });
+  const [record_member_data, setRecord_Member_Data] = useState({
+    member_count: 0,
+    member_attended: 0,
   });
 
   useEffect(() => {
@@ -60,22 +60,26 @@ const Update_Attendance = ({
     axiosClient
       .get(API_MEMBER_RECORDS)
       .then((res) => {
-        setMember_Data(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        const total_members_count = res.data.length;
+        const total_attendee = res.data.filter(
+          (fil) => fil.att_id !== null
+        ).length;
 
-    axiosClient
-      .get(API_RECORD)
-      .then((res) => {
-        setRecord_Data(res.data);
+        setMember_Data(res.data);
+        setRecord_Member_Data({
+          ...record_member_data,
+          member_count: total_members_count,
+          member_attended: total_attendee,
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  console.log(
+    member_data?.map((data) => data)?.filter((fil) => fil.att_id != null)
+  );
 
   return (
     <div className="bg-black/50 w-screen h-screen absolute top-0 left-0 overflow-hidden flex justify-center items-center">
@@ -145,7 +149,7 @@ const Update_Attendance = ({
                   <div
                     className="border-[1px] border-gray-300 flex flex-col items-start justify-center shadow-md shadow-slate-300
               monitor_md:px-[1rem]
-              monitor_md:h-[4.5rem]
+              monitor_md:h-[3.5rem]
               "
                   >
                     <div
@@ -194,32 +198,33 @@ const Update_Attendance = ({
                     <>
                       <div
                         className="border-[1px] border-gray-300 shadow-md shadow-slate-300 w-full flex flex-col justify-center items-center
-              monitor_md:mt-2
-              monitor_md:h-[7rem]
-              "
+                        monitor_md:mt-2
+                        monitor_md:h-[4.5rem]
+                        "
                       >
                         <div
                           className="flex flex-col 
-                monitor_md:w-[90%]
-                monitor_md:h-[4rem]
-                "
+                          monitor_md:w-[90%]
+                          monitor_md:h-[4rem]
+                          "
                         >
                           <span
                             className=" font-bold
-                  monitor_md:text-[14px] 
-                  "
+                            monitor_md:text-[14px] 
+                            "
                           >
                             <label htmlFor="">Attendance Title</label>
                           </span>
-                          <div className="w-full flex">
+                          <div className="w-full h-full flex">
                             <span
-                              className=" 
+                              className=" flex  
                             monitor_md:w-[70%]
+                            monitor_md:h-full
                             "
                             >
                               <p>{attendance_title}</p>
                             </span>
-                            <div className="w-[30%] flex justify-evenly items-center">
+                            <div className="w-[30%] flex justify-evenly ">
                               <button
                                 onClick={() => {
                                   setUpdate_Trigger(true);
@@ -260,21 +265,21 @@ const Update_Attendance = ({
                             });
                         }}
                         className="border-[1px] border-gray-300 shadow-md shadow-slate-300 w-full flex flex-col justify-center items-center
-              monitor_md:mt-2
-              monitor_md:h-[7rem]
-              "
+                        monitor_md:mt-2
+                        monitor_md:h-[4.5rem]
+                        "
                       >
                         {/* Title */}
                         <div
                           className="flex flex-col 
-                monitor_md:w-[90%]
-                monitor_md:h-[4rem]
-                "
+                          monitor_md:w-[90%]
+                          monitor_md:h-[4rem]
+                          "
                         >
                           <span
                             className=" font-bold
-                  monitor_md:text-[14px] 
-                  "
+                            monitor_md:text-[14px] 
+                            "
                           >
                             <label htmlFor="">Attendance Title</label>
                           </span>
@@ -294,23 +299,23 @@ const Update_Attendance = ({
                                 }
                                 value={attendance_title}
                                 className="border-[1px] outline-none shadow-md shadow-slate-300
-                  monitor_md:h-[2rem]
-                  monitor_md:px-2
-                  monitor_md:text-[14px]
-                  monitor_md:w-[70%]
-                  "
+                                monitor_md:h-[2rem]
+                                monitor_md:px-2
+                                monitor_md:text-[14px]
+                                monitor_md:w-[70%]
+                                "
                               />
                               <div
                                 className="w-[30%] flex justify-evenly items-center
-                            monitor_md:text-[1.2rem]
-                            "
+                                monitor_md:text-[1.2rem]
+                                "
                               >
                                 <button
                                   type="submit"
                                   className="flex justify-center items-center rounded-full border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-500 hover:bg-green-600 hover:text-white
-                              monitor_md:h-[1.8rem]
-                              monitor_md:w-[1.8rem]
-                              "
+                                  monitor_md:h-[1.8rem]
+                                  monitor_md:w-[1.8rem]
+                                  "
                                 >
                                   <IoIosSave />
                                 </button>
@@ -319,9 +324,9 @@ const Update_Attendance = ({
                                     setUpdate_Trigger(false);
                                   }}
                                   className="flex justify-center items-center rounded-full border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-500 hover:bg-red-600 hover:text-white
-                              monitor_md:h-[1.8rem]
-                              monitor_md:w-[1.8rem]
-                              "
+                                  monitor_md:h-[1.8rem]
+                                  monitor_md:w-[1.8rem]
+                                  "
                                 >
                                   <FaTimesCircle />
                                 </button>
@@ -337,21 +342,104 @@ const Update_Attendance = ({
 
                   {/* 3rd  */}
                   <div
-                    className="border-[1px] border-gray-300 flex items-center shadow-md shadow-slate-300 justify-center 
-              monitor_md:px-[1.5rem]
-              monitor_md:h-[4.5rem]
-              monitor_md:mt-2
-              "
+                    className="border-[1px] border-gray-300 flex  shadow-md shadow-slate-300  
+                    monitor_md:px-[0.5rem]
+                    monitor_md:py-[0.5rem]
+                    monitor_md:h-[17.2rem]
+                    monitor_md:mt-2
+                    "
                   >
-                    {/* <button
-                      className="bg-yellow-500 rounded-md font-bold text-white transition-all ease-in-out duration-300 hover:bg-yellow-400
-                monitor_md:w-[80%]
-                monitor_md:h-[2.5rem]
-                monitor_md:text-[16px]
-                "
-                    >
-                      Update
-                    </button> */}
+                    <div className="w-full h-full">
+                      <div
+                        className="border-[1px] flex shadow-md shadow-slate-300 rounded-md
+                      monitor_md:h-[3rem]
+                      monitor_md:w-full
+                      "
+                      >
+                        <div className="monitor_md:w-[30%] flex justify-center items-center">
+                          <span
+                            className="border-[2px] border-black rounded-full flex justify-center items-center
+                          monitor_md:w-[2.3rem]
+                          monitor_md:h-[2.2rem]
+                          "
+                          >
+                            <FaPeopleGroup className="monitor_md:text-[1.5rem]" />
+                          </span>
+                        </div>
+                        <div className="monitor_md:w-[70%] flex items-center">
+                          <span
+                            className="
+                          monitor_md:text-[12px]
+                          "
+                          >
+                            <p>Members Attended</p>
+                            <p>
+                              {record_member_data.member_attended} /{" "}
+                              {record_member_data.member_count}
+                            </p>
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Attendance Attendee Record */}
+
+                      <table
+                        className="w-full overflow-hidden justify-evenly border-separate border-spacing-1
+                      monitor_md:h-[10%]
+                      monitor_md:mt-1
+                      "
+                      >
+                        <thead>
+                          <tr
+                            className=" text-center flex justify-between items-center border-[2px] border-gray-300 shadow-md shadow-gray-300
+                              monitor_md:h-[2rem]
+                              monitor_md:text-[14px]
+                              "
+                          >
+                            <th className="w-[20%] h-full flex justify-center items-center">
+                              No.
+                            </th>
+                            <th className="w-[80%] h-full flex justify-center items-center">
+                              Attendees
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <div
+                            className="w-full h-[35rem] overflow-auto
+                        monitor_md:h-[9.5rem]
+                        "
+                          >
+                            {member_data
+                              .filter((fil) => fil.att_id != null)
+                              .map((data, index) => {
+                                return (
+                                  <>
+                                    <tr
+                                      className="flex justify-center items-center w-full
+                          monitor_md:h-[2.2rem]
+                          monitor_md:p-1
+                          monitor_md:text-[12px]
+                          "
+                                    >
+                                      <td className="w-[20%] h-full flex justify-center items-center border-l-[2px] border-t-[2px] border-b-[2px]">
+                                        {index + 1}
+                                      </td>
+                                      <td className="w-[80%] h-full flex justify-center items-center border-r-[2px] border-t-[2px] border-b-[2px]">
+                                        {data.firstname +
+                                          " " +
+                                          data.middlename +
+                                          " " +
+                                          data.lastname}
+                                      </td>
+                                    </tr>
+                                  </>
+                                );
+                              })}
+                          </div>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   {/* 3rd  */}
                 </div>
@@ -477,75 +565,126 @@ const Update_Attendance = ({
                                 </td>
                                 <td className="w-[20%] h-full flex justify-center items-center border-t-[2px] border-b-[2px] border-r-[2px]">
                                   <div>
-                                    {data.att_id ? (
-                                      <button
-                                        className=" rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-500 hover:bg-red-600 hover:text-white
+                                    {button_attend_member.loading === true &&
+                                    data.id === button_attend_member.id ? (
+                                      <div className="w-full h-full flex justify-center items-center">
+                                        <AiOutlineLoading3Quarters className="text-[30px] animate-spin" />
+                                      </div>
+                                    ) : (
+                                      <>
+                                        {data.att_id ? (
+                                          <button
+                                            className=" rounded-full flex justify-center items-center border-[2px] border-red-600 text-red-600 transition-all ease-in-out duration-500 hover:bg-red-600 hover:text-white
                                              monitor_md:h-[2rem]
                                              monitor_md:w-[2rem]
                                              "
-                                        onClick={() => {
-                                          setButton_Attend_Member({
-                                            ...button_attend_member,
-                                            status: false,
-                                            id: data.id,
-                                          });
+                                            onClick={() => {
+                                              setButton_Attend_Member({
+                                                ...button_attend_member,
+                                                loading: true,
+                                                id: data.id,
+                                              });
 
-                                          axiosClient
-                                            .delete(
-                                              API_RECORD + `/${data.record_id}`
-                                            )
-                                            .then((res) => {
                                               axiosClient
-                                                .get(API_MEMBER_RECORDS)
+                                                .delete(
+                                                  API_RECORD +
+                                                    `/${data.record_id}`
+                                                )
                                                 .then((res) => {
-                                                  setMember_Data(res.data);
-                                                  console.log(res.data);
+                                                  axiosClient
+                                                    .get(API_MEMBER_RECORDS)
+                                                    .then((res) => {
+                                                      const total_members_count =
+                                                        res.data.length;
+                                                      const total_attendee =
+                                                        res.data.filter(
+                                                          (fil) =>
+                                                            fil.att_id !== null
+                                                        ).length;
+
+                                                      setMember_Data(res.data);
+                                                      setRecord_Member_Data({
+                                                        ...record_member_data,
+                                                        member_count:
+                                                          total_members_count,
+                                                        member_attended:
+                                                          total_attendee,
+                                                      });
+                                                    })
+                                                    .catch((error) => {
+                                                      console.log(error);
+                                                    });
+                                                  alert("Member Removed");
+                                                  setButton_Attend_Member({
+                                                    ...button_attend_member,
+                                                    loading: false,
+                                                    id: 0,
+                                                  });
                                                 })
                                                 .catch((error) => {
                                                   console.log(error);
                                                 });
-
-                                              alert("Member Removed");
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                            });
-                                        }}
-                                      >
-                                        <FaUserMinus className="monitor_md:text-[1rem]" />
-                                      </button>
-                                    ) : (
-                                      <button
-                                        className=" rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-500 hover:bg-green-600 hover:text-white
+                                            }}
+                                          >
+                                            <FaUserMinus className="monitor_md:text-[1rem]" />
+                                          </button>
+                                        ) : (
+                                          <button
+                                            className=" rounded-full flex justify-center items-center border-[2px] border-green-600 text-green-600 transition-all ease-in-out duration-500 hover:bg-green-600 hover:text-white
                                         monitor_md:h-[2rem]
                                         monitor_md:w-[2rem]
                                         "
-                                        onClick={() => {
-                                          axiosClient
-                                            .post(API_RECORD, {
-                                              att_id: attendance_id,
-                                              member_id: data.id,
-                                            })
-                                            .then((res) => {
+                                            onClick={() => {
+                                              setButton_Attend_Member({
+                                                ...button_attend_member,
+                                                loading: true,
+                                                id: data.id,
+                                              });
                                               axiosClient
-                                                .get(API_MEMBER_RECORDS)
+                                                .post(API_RECORD, {
+                                                  att_id: attendance_id,
+                                                  member_id: data.id,
+                                                })
                                                 .then((res) => {
-                                                  setMember_Data(res.data);
-                                                  console.log(res.data);
+                                                  axiosClient
+                                                    .get(API_MEMBER_RECORDS)
+                                                    .then((res) => {
+                                                      const total_members_count =
+                                                        res.data.length;
+                                                      const total_attendee =
+                                                        res.data.filter(
+                                                          (fil) =>
+                                                            fil.att_id !== null
+                                                        ).length;
+
+                                                      setMember_Data(res.data);
+                                                      setRecord_Member_Data({
+                                                        ...record_member_data,
+                                                        member_count:
+                                                          total_members_count,
+                                                        member_attended:
+                                                          total_attendee,
+                                                      });
+                                                    })
+                                                    .catch((error) => {
+                                                      console.log(error);
+                                                    });
+                                                  alert("Attended");
+                                                  setButton_Attend_Member({
+                                                    ...button_attend_member,
+                                                    loading: false,
+                                                    id: 0,
+                                                  });
                                                 })
                                                 .catch((error) => {
                                                   console.log(error);
                                                 });
-
-                                              alert("Attended");
-                                            })
-                                            .catch((error) => {
-                                              console.log(error);
-                                            });
-                                        }}
-                                      >
-                                        <FaUserPlus className="monitor_md:text-[1rem]" />
-                                      </button>
+                                            }}
+                                          >
+                                            <FaUserPlus className="monitor_md:text-[1rem]" />
+                                          </button>
+                                        )}
+                                      </>
                                     )}
                                   </div>
                                 </td>

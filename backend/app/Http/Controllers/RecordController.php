@@ -62,13 +62,6 @@ class RecordController extends Controller
                 ->leftJoin('records', 'members.id', '=', 'records.member_id')
                 ->leftJoin('organizations', 'members.org_id', '=', 'organizations.id')
                 ->get(); 
-
-                
-                // $record_all = RecordModel::with("members")
-                // ->join('members', 'members.id', '=',  'records.member_id')
-                // ->select('records.id', 'records.att_id', 'records.member_id', 'members.firstname', 'members.middlename', 'members.lastname')
-                // ->get()
-                ;
                 return response()->json($record_all, 201);
             }else {
                 return response()->json(['message' => 'Failed to add data'], 500);

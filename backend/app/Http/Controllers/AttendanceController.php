@@ -17,7 +17,7 @@ class AttendanceController extends Controller
     {
         try {
             // $attendance = AttendanceModel::all();
-            $attendance =AttendanceModel::with('user')->join('users', 'attendance.userid', '=', 'users.id')->select('users.id','users.username', 'users.firstname', 'users.middlename', 'users.lastname', 'attendance.pamagat')->get();
+            $attendance =AttendanceModel::with('user')->join('users', 'attendance.user_id', '=', 'users.id')->select('users.id','users.username', 'users.firstname', 'users.middlename', 'users.lastname', 'attendance.pamagat','attendance.id AS attendance_id')->get();
 
             if (count($attendance) > 0) {
                 return response()->json($attendance, 200);
