@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('attendance', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("userid"); // foreign key from users table
+            $table->unsignedBigInteger("user_id"); // foreign key from users table
             $table->string("pamagat");
             $table->timestamps();
 
-            $table->foreign('userid')->references('id')->on('users')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 

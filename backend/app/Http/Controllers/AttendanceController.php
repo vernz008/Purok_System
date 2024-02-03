@@ -40,13 +40,13 @@ class AttendanceController extends Controller
         try {
             //1. Validate
             $request->validate([
-                'userid' => "required",
+                'user_id' => "required",
                 'pamagat' => "required",
             ]);
 
             //2. Execute the Query
             $attendance = AttendanceModel::create([
-                'userid' => $request->userid,
+                'user_id' => $request->user_id,
                 'pamagat' => $request->pamagat,
             ]);
 
@@ -95,7 +95,7 @@ class AttendanceController extends Controller
         try {
             //1. Validate
             $request->validate([
-                'userid' => "required|numeric",
+                'user_id' => "required|numeric",
                 'pamagat' => "required",
            ]);
 
@@ -104,7 +104,7 @@ class AttendanceController extends Controller
 
            //3. Process the Result
            if ($attendance) {
-           $attendance->userid = $request->userid;
+           $attendance->user_id = $request->user_id;
            $attendance->pamagat = $request->pamagat;
            $attendance->save();
            

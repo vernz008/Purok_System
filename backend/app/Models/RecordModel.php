@@ -13,17 +13,17 @@ class RecordModel extends Model
 
     protected $table = "records";
     protected $fillable = [
-        'attid',
-        'memberid',
+        'att_id',
+        'member_id',
     ];
 
     public function attendance()
     {
-        return $this->belongsTo(AttendanceModel::class,"product_id");
+        return $this->belongsTo(AttendanceModel::class,"att_id");
     }
 
-    public function member()
+    public function members()
     {
-        return $this->hasMany(MemberModel::class);
+        return $this->hasMany(MemberModel::class,"id");
     }
 }
