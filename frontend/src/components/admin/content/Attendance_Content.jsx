@@ -30,6 +30,7 @@ const Attendance_Content = () => {
         }
       });
   }, []);
+
   return (
     <div className="w-[95%] h-[90%] bg-white rounded-md shadow-md shadow-gray-400 flex flex-col justify-between items-center">
       <div
@@ -143,7 +144,15 @@ const Attendance_Content = () => {
                       "
                             >
                               <p className="text-[16px] font-bold">
-                                {data.userid}
+                                <span className="m-1 text-[12px]">
+                                  {data.firstname}
+                                </span>
+                                <span className="m-1 text-[12px]">
+                                  {data.middlename}
+                                </span>
+                                <span className="m-1 text-[12px]">
+                                  {data.lastname}
+                                </span>
                               </p>
                             </span>
                           </div>

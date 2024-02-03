@@ -61,7 +61,7 @@ Route::put("/member/{id}", [MemberController::class, 'update']);
 Route::delete("/member/{id}", [MemberController::class, 'destroy']);
 Route::get("/member-record", [MemberController::class, 'members_with_records']);
 
-Route::get("/attendance", [AttendanceController::class, 'index']);
+// Route::get("/attendance", [AttendanceController::class, 'index']);
 Route::post("/attendance", [AttendanceController::class, 'store']);
 Route::get("/attendance/{id}", [AttendanceController::class, 'show']);
 Route::put("/attendance/{id}", [AttendanceController::class, 'update']);
