@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('memberduties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("tungid");
-            $table->unsignedBigInteger("memberid");
+            $table->unsignedBigInteger("tung_id");
+            $table->unsignedBigInteger("member_id");
             $table->timestamps();
 
-            $table->foreign('tungid')->references('id')->on('tungkulin')->onDelete('cascade')->onUpdate("cascade");
-            $table->foreign('memberid')->references('id')->on('members')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('tung_id')->references('id')->on('tungkulin')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 

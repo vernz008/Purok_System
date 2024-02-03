@@ -12,13 +12,13 @@ class AttendanceModel extends Model
 
     protected $table = "attendance";
     protected $fillable = [
-        'userid',
+        'user_id',
         'pamagat',
        
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class,"userid");
+        return $this->belongsTo(User::class,"user_id");
     }
 }

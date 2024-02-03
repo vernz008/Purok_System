@@ -15,7 +15,11 @@ class RecordController extends Controller
     public function index()
     {
         try {
-            $record = RecordModel::all();
+            $record = RecordModel::with('members')
+            ->join('members', 'members.id', '=',  'records.member_id')
+            ->select('records.id', 'records.att_id', 'records.member_id', 'members.firstname', 'members.middlename', 'members.lastname')
+            ->get()
+            ;
 
             if (count($record) > 0) {
                 return response()->json($record, 200);
@@ -38,19 +42,23 @@ class RecordController extends Controller
         try {
             //1. Validate
             $request->validate([
-                'attid' => "required|numeric",
-                'memberid' => "required|numeric",
+                'att_id' => "required|numeric",
+                'member_id' => "required|numeric",
             ]);
 
             //2. Execute the Query
             $record = RecordModel::create([
-                'attid' => $request->attid,
-                'memberid' => $request->memberid,
+                'att_id' => $request->att_id,
+                'member_id' => $request->member_id,
             ]);
 
             //3. Process the Result
             if ($record) {
-                $record_all = RecordModel::all();
+                $record_all = RecordModel::with("members")
+                ->join('members', 'members.id', '=',  'records.member_id')
+                ->select('records.id', 'records.att_id', 'records.member_id', 'members.firstname', 'members.middlename', 'members.lastname')
+                ->get()
+                ;
                 return response()->json($record_all, 201);
             }else {
                 return response()->json(['message' => 'Failed to add data'], 500);
@@ -106,7 +114,11 @@ class RecordController extends Controller
            $record->memberid = $request->memberid;
            $record->save();
            
-               $record_all = RecordModel::all();
+           $record_all = RecordModel::with("members")
+           ->join('members', 'members.id', '=',  'records.member_id')
+           ->select('records.id', 'records.att_id', 'records.member_id', 'members.firstname', 'members.middlename', 'members.lastname')
+           ->get()
+           ;
                return response()->json($record_all, 201);
            }else {
                return response()->json(['message' => 'Failed to update data'], 500);
@@ -130,7 +142,11 @@ class RecordController extends Controller
             if ($record) {
                 $record->delete();
 
-                $record_all = RecordModel::all();
+                $record_all = RecordModel::with("members")
+                ->join('members', 'members.id', '=',  'records.member_id')
+                ->select('records.id', 'records.att_id', 'records.member_id', 'members.firstname', 'members.middlename', 'members.lastname')
+                ->get()
+                ;
                 return response()->json($record_all, 200);
             }else{
                 return response()->json(['message'=>'Record not found'],404);

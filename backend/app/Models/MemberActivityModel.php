@@ -11,7 +11,7 @@ class MemberActivityModel extends Model
 
     protected $table = "memberactivity";
     protected $fillable = [
-        'memberid',
+        'member_id',
         'actid',
         'notes',
     ];

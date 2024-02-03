@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('memberactivity', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("memberid");
-            $table->unsignedBigInteger("actid");
+            $table->unsignedBigInteger("member_id");
+            $table->unsignedBigInteger("act_id");
             $table->string("notes");
             $table->timestamps();
 
-            $table->foreign('memberid')->references('id')->on('members')->onDelete('cascade')->onUpdate("cascade");
-            $table->foreign('actid')->references('id')->on('activity')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade')->onUpdate("cascade");
+            $table->foreign('act_id')->references('id')->on('activity')->onDelete('cascade')->onUpdate("cascade");
         });
     }
 

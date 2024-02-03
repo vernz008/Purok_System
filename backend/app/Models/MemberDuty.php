@@ -11,7 +11,7 @@ class MemberDuty extends Model
 
     protected $table = "memberduties";
     protected $fillable = [
-        'tungid',
-        'memberid',
+        'tung_id',
+        'member_id',
     ];
 }
