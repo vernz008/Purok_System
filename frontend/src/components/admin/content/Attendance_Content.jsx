@@ -8,6 +8,7 @@ import { IoEye } from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 import Update_Attendance from "../modal/Attendance/Update_Attendance";
+import moment from "moment";
 
 const Attendance_Content = () => {
   const [modal_create, setModal_Create] = useState(false);
@@ -146,16 +147,17 @@ const Attendance_Content = () => {
                       "
                             >
                               <p className="text-[16px] font-bold">
-                                <span className="m-1 text-[12px]">
+                                <span className="m-1 text-[13px]">
                                   {data.firstname}
                                 </span>
-                                <span className="m-1 text-[12px]">
+                                <span className="m-1 text-[13px]">
                                   {data.middlename}
                                 </span>
-                                <span className="m-1 text-[12px]">
+                                <span className="m-1 text-[13px]">
                                   {data.lastname}
                                 </span>
                               </p>
+                              <p className="text-[12px] font-extrabold"></p>
                             </span>
                           </div>
 
@@ -166,13 +168,18 @@ const Attendance_Content = () => {
                           >
                             <div
                               className="flex flex-col w-full justify-start
-                      monitor_md:h-[8.6rem]
+                      monitor_md:h-[7.8rem]
                       "
                             >
-                              <div></div>
-                              <span className="w-full flex flex-col justify-center items-center">
-                                <p className="text-[14px] font-semibold">
-                                  Attendance Title
+                              <span
+                                className="w-full flex flex-col justify-center items-center
+                              monitor_md:h-[3.5rem]
+                              "
+                              >
+                                <p className="text-[11px] font-semibold">
+                                  {moment(data.schedule).format(
+                                    "MMM DD, YYYY (HH:mm)"
+                                  )}
                                 </p>
                                 <p className="text-[16px] font-bold">
                                   {data.pamagat}
@@ -206,8 +213,8 @@ const Attendance_Content = () => {
                                         ? "bg-blue-500 text-white"
                                         : ""
                                     }
-                                    monitor_md:h-[2.5rem]
-                                    monitor_md:w-[43%]
+                                    monitor_md:h-[2rem]
+                                    monitor_md:w-[2rem]
                                     monitor_md:text-[1.4rem]
                         `}
                                   >
@@ -217,7 +224,10 @@ const Attendance_Content = () => {
                                     onClick={() => {
                                       setLoading_data(true);
                                       axiosClient
-                                        .delete(API_ATTENDANCE + `/${data.id}`)
+                                        .delete(
+                                          API_ATTENDANCE +
+                                            `/${data.attendance_id}`
+                                        )
                                         .then((res) => {
                                           setAttendance_Data(res.data);
                                           setLoading_data(false);
@@ -225,10 +235,10 @@ const Attendance_Content = () => {
                                         });
                                     }}
                                     className=" flex justify-center items-center border-[2px] border-red-500 rounded-full text-red-500 transition-all ease-in-out duration-500 hover:rounded-full hover:bg-red-500 hover:text-white
-                        monitor_md:h-[2.5rem]
-                        monitor_md:w-[43%]
-                        monitor_md:text-[1.2rem]
-                        "
+                                    monitor_md:h-[2rem]
+                                    monitor_md:w-[2rem]
+                                    monitor_md:text-[1rem]
+                                    "
                                   >
                                     <FaTrashAlt />
                                   </button>

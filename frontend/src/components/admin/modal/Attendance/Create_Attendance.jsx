@@ -9,6 +9,7 @@ const Create_Attendance = ({ setModal_Create, setAttendance_Data }) => {
   const [user_data, setUser_Data] = useState([]);
   const [loading_data, setLoading_Data] = useState(true);
   const [attendance_title, setAttendance_Title] = useState("");
+  const [attendance_schedule, setAttendance_Schedule] = useState("");
 
   useEffect(() => {
     axiosClient
@@ -89,7 +90,7 @@ const Create_Attendance = ({ setModal_Create, setAttendance_Data }) => {
                   <div
                     className="border-[1px] border-gray-300 flex flex-col items-start justify-center shadow-md shadow-slate-300
               monitor_md:px-[1.5rem]
-              monitor_md:h-[4.5rem]
+              monitor_md:h-[3.5rem]
               "
                   >
                     <div
@@ -142,12 +143,15 @@ const Create_Attendance = ({ setModal_Create, setAttendance_Data }) => {
                       axiosClient
                         .post(API_ATTENDANCE, {
                           pamagat: attendance_title,
+                          schedule: attendance_schedule,
                           user_id: Cookies.get("user_id"),
                         })
                         .then((res) => {
+                          console.log(res.data);
                           setAttendance_Data(res.data);
                           alert("created");
                           setAttendance_Title("");
+                          setAttendance_Schedule("");
                         })
                         .catch((error) => {
                           console.log(error.response.status);
@@ -155,14 +159,14 @@ const Create_Attendance = ({ setModal_Create, setAttendance_Data }) => {
                     }}
                     className="border-[1px] border-gray-300 shadow-md shadow-slate-300 w-full flex flex-col justify-center items-center
               monitor_md:mt-2
-              monitor_md:h-[7rem]
+              monitor_md:h-[8rem]
               "
                   >
                     {/* Title */}
                     <div
                       className="flex flex-col 
                 monitor_md:w-[90%]
-                monitor_md:h-[4rem]
+                monitor_md:h-[3rem]
                 "
                     >
                       <span
@@ -177,6 +181,35 @@ const Create_Attendance = ({ setModal_Create, setAttendance_Data }) => {
                         required
                         onChange={(e) => setAttendance_Title(e.target.value)}
                         value={attendance_title}
+                        className="border-[1px] outline-none shadow-md shadow-slate-300
+                  monitor_md:h-[2rem]
+                  monitor_md:px-2
+                  monitor_md:text-[14px]
+                  "
+                      />
+                    </div>
+
+                    {/* Date n Time */}
+                    <div
+                      className="flex flex-col 
+                monitor_md:w-[90%]
+                monitor_md:h-[3rem]
+                monitor_md:mt-2
+                monitor_md:mb-1
+                "
+                    >
+                      <span
+                        className=" font-bold
+                  monitor_md:text-[14px] 
+                  "
+                      >
+                        <label htmlFor="">Date and Time</label>
+                      </span>
+                      <input
+                        type="datetime-local"
+                        required
+                        onChange={(e) => setAttendance_Schedule(e.target.value)}
+                        value={attendance_schedule}
                         className="border-[1px] outline-none shadow-md shadow-slate-300
                   monitor_md:h-[2rem]
                   monitor_md:px-2
