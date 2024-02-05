@@ -14,6 +14,7 @@ class AttendanceModel extends Model
     protected $fillable = [
         'user_id',
         'pamagat',
+        'schedule',
        
     ];
 

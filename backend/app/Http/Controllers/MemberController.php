@@ -16,17 +16,41 @@ class MemberController extends Controller
     public function index()
     {
         try {
-            $member = MemberModel::with('organizations', 'puroks', 'groups')
-            ->join('organizations', 'organizations.id', '=', 'members.org_id')
-            ->join('purok', 'purok.id', '=', 'members.purok_id')
-             ->join('groups', 'members.group_id', '=', 'groups.id')
-            ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-             'members.gender', 'members.birthday', 'members.address',
-             'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+            // $member = MemberModel::with('organizations', 'puroks', 'groups')
+            // ->join('organizations', 'organizations.id', '=', 'members.org_id')
+            // ->join('purok', 'purok.id', '=', 'members.purok_id')
+            //  ->join('groups', 'members.group_id', '=', 'groups.id')
+            // ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
+            //  'members.gender', 'members.birthday', 'members.address',
+            //  'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+            // ->get();
+
+            $members = MemberModel::query()
+            ->select([
+                'members.id',
+                'members.firstname',
+                'members.middlename',
+                'members.lastname',
+                'members.gender',
+                'members.birthday',
+                'organizations.kapisanan',
+                'purok.purok',
+                'groups.group',
+                'members.address',
+                'members.status',
+
+                
+            ])
+            ->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+            ->leftJoin('purok', 'purok.id', '=', 'members.purok_id')
+            ->leftJoin('groups', 'groups.id', '=', 'members.group_id')
+           
             ->get();
 
-            if (count($member) > 0) {
-                return response()->json($member, 200);
+            if (count($members) > 0) {
+
+                return response()->json($members, 200);
+
             }else {
                 return response()->json(['message' => 'No member found'], 404);
             }
@@ -74,13 +98,32 @@ class MemberController extends Controller
 
             //3. Process the Result
             if ($member) {
-                $member_all = MemberModel::with('organizations', 'puroks', 'groups')
-            ->join('organizations', 'organizations.id', '=', 'members.org_id')
-            ->join('purok', 'purok.id', '=', 'members.purok_id')
-             ->join('groups', 'members.group_id', '=', 'groups.id')
-            ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-             'members.gender', 'members.birthday', 'members.address',
-             'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+            //     $member_all = MemberModel::with('organizations', 'puroks', 'groups')
+            // ->join('organizations', 'organizations.id', '=', 'members.org_id')
+            // ->join('purok', 'purok.id', '=', 'members.purok_id')
+            //  ->join('groups', 'members.group_id', '=', 'groups.id')
+            // ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
+            //  'members.gender', 'members.birthday', 'members.address',
+            //  'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+            // ->get();
+
+            $member_all = MemberModel::query()
+            ->select([
+                'members.id',
+                'members.firstname',
+                'members.middlename',
+                'members.lastname',
+                'members.gender',
+                'members.birthday',
+                'organizations.kapisanan',
+                'purok.purok',
+                'groups.group',
+                'members.address',
+                'members.status',
+            ])
+            ->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+            ->leftJoin('purok', 'purok.id', '=', 'members.purok_id')
+            ->leftJoin('groups', 'groups.id', '=', 'members.group_id')
             ->get();
 
                 return response()->json($member_all, 201);
@@ -101,21 +144,31 @@ class MemberController extends Controller
     public function show($id)
     {
         try {
-            // $member = MemberModel::find($id);
-            $member = MemberModel::with('organizations', 'puroks', 'groups')
-            ->join('organizations', 'organizations.id', '=', 'members.org_id')
-            ->join('purok', 'purok.id', '=', 'members.purok_id')
-             ->join('groups', 'members.group_id', '=', 'groups.id')
-            ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-             'members.gender', 'members.birthday', 'members.address',
-             'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+           
+            $member = MemberModel::query()
+            ->select([
+                'members.id',
+                'members.firstname',
+                'members.middlename',
+                'members.lastname',
+                'members.gender',
+                'members.birthday',
+                'organizations.kapisanan',
+                'purok.purok',
+                'groups.group',
+                'members.address',
+                'members.status',
+            ])
+            ->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+            ->leftJoin('purok', 'purok.id', '=', 'members.purok_id')
+            ->leftJoin('groups', 'groups.id', '=', 'members.group_id')
             ->find($id);
 
-            $member_raw = MemberModel::find($id);
+          
 
             if ($member) {
                
-                return response()->json(["member_info"=>$member,"member_info_raw"=>$member_raw, 200]);
+                return response()->json($member, 200);
             }else{
                 return response()->json(['message' => 'Member Not Found'], 404);
             }
@@ -166,28 +219,28 @@ class MemberController extends Controller
             'status' => $fields["status"],
         ]);
 
-        $member_all = MemberModel::with('organizations', 'puroks', 'groups')
-        ->join('organizations', 'organizations.id', '=', 'members.org_id')
-        ->join('purok', 'purok.id', '=', 'members.purok_id')
-         ->join('groups', 'members.group_id', '=', 'groups.id')
-        ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-         'members.gender', 'members.birthday', 'members.address',
-         'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+      
+
+        $member_all = MemberModel::select([
+            'members.id AS Member_Id',
+            'attendance.id AS Attendance_Id',
+            'records.id AS Record_Id',
+            'records.att_id AS Record_Attendance_Id',
+            'records.member_id AS Record_Member_Id',
+            'attendance.pamagat AS Attendance_Title',
+            'attendance.schedule AS Attendance_Date',
+            'members.firstname AS Given_Name',
+            'members.middlename AS Middle_Initials',
+            'members.lastname AS Surname',
+            'organizations.kapisanan AS Organization'
+        ])
+        ->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+        ->leftJoin('records', 'records.member_id', '=', 'members.id')
+        ->leftJoin('attendance', 'attendance.id', '=', 'records.att_id')
         ->find($id);
 
-        $member_raw = MemberModel::find($id);
 
-        $member_list = MemberModel::with('organizations', 'puroks', 'groups')
-        ->join('organizations', 'organizations.id', '=', 'members.org_id')
-        ->join('purok', 'purok.id', '=', 'members.purok_id')
-         ->join('groups', 'members.group_id', '=', 'groups.id')
-        ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-         'members.gender', 'members.birthday', 'members.address',
-         'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
-        ->get();
-
-
-            return response()->json(["member_info"=>$member_all,"member_info_raw"=>$member_raw,"masterList_data"=>$member_list, 200]);
+            return response()->json($member_all ,200);
            }else {
                return response()->json(['message' => 'Failed to update data'], 500);
            }
@@ -208,17 +261,28 @@ class MemberController extends Controller
             $member = MemberModel::find($id);
 
             if ($member) {
+                
                 $member->delete();
 
-                $member_all = MemberModel::with('organization', 'purok')
-                ->join('organizations', 'organizations.id', '=', 'members.org_id')
-                ->join('purok', 'purok.id', '=', 'members.purok_id')
-                 ->join('groups', 'members.group_id', '=', 'groups.id')
-                ->select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-                 'members.gender', 'members.birthday', 'members.address',
-                 'organizations.kapisanan', 'purok.purok', 'groups.group', 'members.status')
+                $members = MemberModel::select([
+                    'members.id AS Member_Id',
+                    'attendance.id AS Attendance_Id',
+                    'records.id AS Record_Id',
+                    'records.att_id AS Record_Attendance_Id',
+                    'records.member_id AS Record_Member_Id',
+                    'attendance.pamagat AS Attendance_Title',
+                    'attendance.schedule AS Attendance_Date',
+                    'members.firstname AS Given_Name',
+                    'members.middlename AS Middle_Initials',
+                    'members.lastname AS Surname',
+                    'organizations.kapisanan AS Organization'
+                ])
+                ->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+                ->leftJoin('records', 'records.member_id', '=', 'members.id')
+                ->leftJoin('attendance', 'attendance.id', '=', 'records.att_id')
                 ->get();
-                return response()->json($member_all, 200);
+
+                return response()->json($members, 200);
             }else{
                 return response()->json(['message'=>'Member not found'],404);
             }
@@ -230,20 +294,160 @@ class MemberController extends Controller
     public function members_with_records()
     {
         try {
-            $members = MemberModel::select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
-             'records.att_id', 'records.member_id', 'records.id AS record_id', 
-             'organizations.kapisanan')
-            ->leftJoin('records', 'members.id', '=', 'records.member_id')
-            ->leftJoin('organizations', 'members.org_id', '=', 'organizations.id')
+
+            $members = MemberModel::select([
+                'members.id AS Member_Id',
+                'attendance.id AS Attendance_Id',
+                'records.id AS Record_Id',
+                'records.att_id AS Record_Attendance_Id',
+                'records.member_id AS Record_Member_Id',
+                'attendance.pamagat AS Attendance_Title',
+                'attendance.schedule AS Attendance_Date',
+                'members.firstname AS Given_Name',
+                'members.middlename AS Middle_Initials',
+                'members.lastname AS Surname',
+                'organizations.kapisanan AS Organization'
+            ])
+            ->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+            ->leftJoin('records', 'records.member_id', '=', 'members.id')
+            ->leftJoin('attendance', 'attendance.id', '=', 'records.att_id')
             ->get();
 
             if (count($members) > 0) {
+
                 return response()->json($members, 200);
+
             }else {
+                
                 return response()->json(['message' => 'No members found'], 404);
+
             }
+
         } catch (\Throwable $error) {
+
             throw $error;
+
         }
     }
 }
+
+/*
+
+Need For Attendance List Module
+
+- Members (Main TBL)
+    id
+    firstname
+    middlename
+    lastname
+    org_id
+
+- Organizations
+    kapisanan
+
+- Attendance
+    id
+    pamagat
+    schedule
+    
+
+- Record
+    id
+    att_id
+    member_id
+
+
+Query from Database
+
+SELECT 
+
+members.id AS Member_Id, 
+attendance.id AS Attendance_Id,
+records.id AS Record_Id,
+
+records.att_id,
+records.member_id,
+
+attendance.pamagat AS Attendance_Title,
+attendance.schedule AS Attendance_Date,
+
+
+members.firstname AS Given_Name, 
+members.middlename AS Middle_Initials, 
+members.lastname AS Surname,
+organizations.kapisanan AS Organization
+
+FROM members
+
+LEFT JOIN organizations ON
+organizations.id = members.org_id
+
+LEFT JOIN records ON
+records.member_id = members.id
+
+LEFT JOIN attendance ON
+attendance.id = records.att_id
+
+
+
+
+
+Eloquent Query converted
+
+$members = Member::select([
+    'members.id AS Member_Id',
+    'attendance.id AS Attendance_Id',
+    'records.id AS Record_Id',
+    'records.att_id AS Record_Attendance_Id',
+    'records.member_id',
+    'attendance.pamagat AS Attendance_Title',
+    'attendance.schedule AS Attendance_Date',
+    'members.firstname AS Given_Name',
+    'members.middlename AS Middle_Initials',
+    'members.lastname AS Surname',
+    'organizations.kapisanan AS Organization'
+])
+->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+->leftJoin('records', 'records.member_id', '=', 'members.id')
+->leftJoin('attendance', 'attendance.id', '=', 'records.att_id')
+->get();
+
+
+
+*/
+
+
+
+/*
+
+
+Convert this to Eloquent query
+
+SELECT members.id AS member_id, members.firstname, members.middlename ,members.lastname, 
+attendance.id AS attendance_id, attendance.pamagat, attendance.schedule,
+records.att_id AS recordattendance_id,
+organizations.kapisanan
+
+FROM members 
+
+LEFT JOIN records ON records.member_id = members.id
+LEFT JOIN attendance ON attendance.id = records.att_id
+LEFT JOIN organizations ON organizations.id = members.org_id
+
+
+
+
+
+
+
+
+
+Need to fix logic when adding record on multiple attendance 
+Need to remake the logic on the frontend where adding members to the Attendance
+Need to Create Record and store them independently when adding member on multiple Attendance
+
+
+
+
+
+*/

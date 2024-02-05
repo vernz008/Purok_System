@@ -36,7 +36,7 @@ Route::post("/login", [AuthenticationController::class, 'login']);
 Route::post("/users", [UserController::class, 'store']);
 Route::get("/users", [UserController::class, 'index']);
 
-Route::group(["middleware"=>["auth:sanctum"]],function() {
+// Route::group(["middleware"=>["auth:sanctum"]],function() {
 
 Route::get("/users/{id}", [UserController::class, 'show']);
 Route::put("/users/{id}", [UserController::class, 'update']);
@@ -111,4 +111,4 @@ Route::post("/upload-image-member",[MemberImageController::class,"upload_picture
 
 Route::post("/logout", [AuthenticationController::class, 'logout']);
 
-});
+// });
