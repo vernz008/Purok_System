@@ -6,6 +6,7 @@ import axiosClient from "../../../utils/axios/axios-client";
 import { API_ATTENDANCE } from "../../../utils/urls/api_url";
 import { IoEye } from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { MdFormatListBulletedAdd } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
 import Update_Attendance from "../modal/Attendance/Update_Attendance";
 import moment from "moment";
@@ -194,9 +195,35 @@ const Attendance_Content = () => {
                               >
                                 <div
                                   className="flex justify-between
-                                monitor_md:w-[50%]
+                                monitor_md:w-[65%]
                                 "
                                 >
+                                  {/* Attendance */}
+                                  <button
+                                    // onClick={() => {
+                                    //   setModal_Update({
+                                    //     ...modal_update,
+                                    //     state: true,
+                                    //     id: data.attendance_id,
+                                    //   });
+                                    //   console.log(data.id);
+                                    // }}
+                                    className={` flex justify-center items-center border-[2px] border-green-600 rounded-full text-green-600 transition-all ease-in-out duration-500 hover:rounded-full hover:bg-green-600 hover:text-white
+                                    ${
+                                      modal_update.state === true &&
+                                      data.id === modal_update.id
+                                        ? "bg-blue-500 text-white"
+                                        : ""
+                                    }
+                                    monitor_md:h-[2rem]
+                                    monitor_md:w-[2rem]
+                                    monitor_md:text-[1.4rem]
+                                    `}
+                                  >
+                                    <MdFormatListBulletedAdd />
+                                  </button>
+                                  {/* Attendance */}
+
                                   <button
                                     onClick={() => {
                                       setModal_Update({
@@ -216,10 +243,11 @@ const Attendance_Content = () => {
                                     monitor_md:h-[2rem]
                                     monitor_md:w-[2rem]
                                     monitor_md:text-[1.4rem]
-                        `}
+                                    `}
                                   >
                                     <IoEye />
                                   </button>
+
                                   <button
                                     onClick={() => {
                                       setLoading_data(true);
