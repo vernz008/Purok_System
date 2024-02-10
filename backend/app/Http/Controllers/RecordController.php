@@ -48,9 +48,9 @@ class RecordController extends Controller
                 'members.lastname AS Surname',
                 'organizations.kapisanan AS Organization'
             ])
-            ->join('organizations', 'organizations.id', '=', 'members.org_id')
-            ->join('records', 'records.member_id', '=', 'members.id')
-            ->join('attendance', 'attendance.id', '=', 'records.att_id')
+            ->leftJoin('organizations', 'organizations.id', '=', 'members.org_id')
+            ->leftJoin('records', 'records.member_id', '=', 'members.id')
+            ->leftJoin('attendance', 'attendance.id', '=', 'records.att_id')
             ->get();
 
         //     $record = RecordModel::select('members.id', 'members.firstname', 'members.middlename', 'members.lastname',
